@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114471648038408498}
   m_Layer: 0
   m_Name: Knife
-  m_TagString: Player
+  m_TagString: Knife
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.7453125}
+  m_Offset: {x: 0, y: -0.5817174}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -86,7 +86,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.41, y: 0.9980525}
+  m_Size: {x: 0.52, y: 1.33654}
   m_EdgeRadius: 0
 --- !u!114 &114471648038408498
 MonoBehaviour:
@@ -99,7 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a66b614ad157537419997955be44d646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 100
+  _speed: 50
+  _mass: 1
+  _torque: 10
+  _forceMultiplier: 1000
 --- !u!212 &212497685248526654
 SpriteRenderer:
   m_ObjectHideFlags: 1

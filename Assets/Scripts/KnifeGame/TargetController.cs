@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
 namespace KnifeGame
 {
     public class TargetController : MonoBehaviour
     {
-        private const string PLAYER_TAG = "Player";
-
         [SerializeField] private float _stopTimeMin = 2;
         [SerializeField] private float _stopTimeMax = 5;
         [SerializeField] [Range(0, 1)] private float _directionChance;
@@ -21,15 +18,11 @@ namespace KnifeGame
         private int _direction = 1;
         private float _speed;
         private float _stopTimeVar;
-        
-        
-        private void Awake()
-        {
-        }
+
 
         void Start()
         {
-            _timeToStop = Random.Range(_stopTimeMin, _stopTimeMax);
+            _timeToStop = Random.Range(_stopTimeMin, _stopTimeMax/2);
             _speed = _rotationSpeed;
             _stopTimeVar = _stopTime;
         }
@@ -85,21 +78,9 @@ namespace KnifeGame
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.CompareTag(PLAYER_TAG))
-            {
-                PlayShakeAnimation();
-//                GameManager.Instance.ActiveNextKnife();
-                other.transform.parent = transform;
-                Destroy(other.gameObject.GetComponent<KnifeController>());
-            }
-        }
-
-        void PlayShakeAnimation()
+        public void PlayHitImpact()
         {
             transform.DOPunchScale(new Vector3(1, 1, 1), 0.2f, 5, 10).SetEase(Ease.InElastic);
         }
-
     }
 }
