@@ -6,7 +6,6 @@ namespace KnifeGame
     public class PlayerInput : MonoBehaviour
     {
         public static Action PausePress;
-//        public static Action AnyKeyPress;
         public static bool Touched;
 
         void Start()
@@ -33,11 +32,11 @@ namespace KnifeGame
 
         private void HandleInputPlaying()
         {
-#if DEBUG
-            Touched = Input.GetMouseButtonDown(0);
-#else
-            Touched = Input.touchCount > 0;
-#endif
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+                Touched = Input.GetMouseButtonDown(0);
+
+            if (Application.platform == RuntimePlatform.Android)
+                Touched = Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
         }
 
         private void HandleInputPause()
@@ -45,13 +44,5 @@ namespace KnifeGame
             if (Input.GetKeyDown(KeyCode.Escape))
                 PausePress();
         }
-
-//        private void HandleInputGameOver()
-//        {
-//            if (Input.anyKeyDown)
-//            {
-//                AnyKeyPress();
-//            }
-//        }
     }
 }

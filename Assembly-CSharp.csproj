@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\Destroyer.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\GameManager.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\GameState.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\KnifeController.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Assets\Scripts\KnifeGame\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\Singleton.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\TargetController.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\TargetFlyAppart.cs" />
     <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
     <None Include="Assets\Demigiant\DemiLib\Core\DemiLib.xml" />
     <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />

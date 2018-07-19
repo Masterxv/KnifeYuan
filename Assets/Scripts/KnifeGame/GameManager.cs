@@ -11,11 +11,16 @@ namespace KnifeGame
     {
         [SerializeField] private Text PauseText;
         [SerializeField] private Text AppleText;
+        [SerializeField] private Text ScoreText;
         [SerializeField] private Image _backgroundFade;
         [SerializeField] private GameObject knifePrefab;
+        [SerializeField] private Transform _hitTargetPrefab;
+        [SerializeField] private Transform _hitApplePrefab;
         [SerializeField] private Transform spawnPosition;
         [SerializeField] private int _knifeRemain;
         [SerializeField] private KnifeRemainController _knifeRemainController;
+        [SerializeField] private GameObject _seperatedTargetPrefab;
+        [SerializeField] private GameObject _seperatedApplePrefab;
         [SerializeField] private float _nextStageDelay;
         [SerializeField] private float _gameOverDelay;
         [SerializeField] private Button _restartButton;
@@ -26,10 +31,11 @@ namespace KnifeGame
         private GameObject _target;
         private TargetController _targetController;
         private int _currentKnifeIndex = 0;
-        private bool _isReady = true;
-        private int _score;
+        private bool _isReady = false;
+        private static int _score;
         private static int _apple = 0;
         private static GameManager _instance;
+        private ParticleSystem _particle;
 
         public static GameManager Instance { get { return _instance; } }
 
@@ -40,15 +46,19 @@ namespace KnifeGame
             else
                 _instance = this;
 
-//            SceneManager.LoadScene(1, LoadSceneMode.Additive); // for second idea about load game
-
             _knifeRemainController.KnifeNumber = _knifeRemain;
             SpawnKnife();
             AppleText.text = _apple.ToString();
+            ScoreText.text = _score.ToString();
+            
             _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
             
             _target = GameObject.FindGameObjectWithTag("Target");
             _targetController = _target.GetComponent<TargetController>();
+            
+            _hitTargetPrefab = Instantiate(_hitTargetPrefab);
+            _particle = _hitTargetPrefab.GetComponent<ParticleSystem>();
+            
         }
 
         void Start()
@@ -60,14 +70,17 @@ namespace KnifeGame
             _restartButton.onClick.AddListener(RestartLevel);
             _restartButton.gameObject.SetActive(false);
             
-            
         }
 
-        void FadeBackground()
+        private void FadeBackground()
         {
-            _backgroundFade.DOFade(0, 0.5f).SetEase(Ease.InQuart);
+            _backgroundFade.DOFade(0, 0.5f).SetEase(Ease.InQuart).OnComplete(SetGameToReady);
         }
 
+        private void SetGameToReady()
+        {
+            _isReady = true;
+        }
         private void SpawnKnife()
         {
             for (var i = 0; i < _knifeRemain; i++)
@@ -90,21 +103,26 @@ namespace KnifeGame
                     _knifeControllers[_currentKnifeIndex].OnHit -= OnKnifeHit;
                     if (_knifeRemain == 0)
                     {
+                        ShakerCamera();
+                        AnimateTarget();
                         StartCoroutine(LoadNextStageRoutine());
                         return;
                     }
-
+                    _targetController.KnifeHitTarget();
                     _knifes[_currentKnifeIndex].SetParent(_target.transform);
                     _currentKnifeIndex++;
                     _knifes[_currentKnifeIndex].gameObject.SetActive(true); // active next knife
                     _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
                     // update score
-
+                    UpdateScore();
+                    _hitTargetPrefab.position = new Vector3(0, 0.6f, 0);
+                    _particle.Play();
                     _isReady = true;
                     break;
                 case "Apple":
-                    // update apple
-                    UpdateApple();
+                    Instantiate(_hitApplePrefab, hitTransform.position, Quaternion.identity);
+                    Instantiate(_seperatedApplePrefab, hitTransform.position, Quaternion.identity);
+                    UpdateApple(); // update for apple text
                     hitTransform.gameObject.SetActive(false);
                     break;
                 case "Knife":
@@ -113,6 +131,7 @@ namespace KnifeGame
                     // play hit effect
                     _targetController.enabled = false;
                     _knifeControllers[_currentKnifeIndex].KnifeBound();
+                    
                     // start coroutine game over
                     StartCoroutine(GameOverRoutine());
                     break;
@@ -144,7 +163,6 @@ namespace KnifeGame
 
         private void Restart()
         {
-            _score = 0;
             SceneManager.LoadScene(0);
         }
 
@@ -173,6 +191,12 @@ namespace KnifeGame
         {
             _apple++;
             AppleText.text = _apple.ToString();
+        }
+
+        private void UpdateScore()
+        {
+            _score++;
+            ScoreText.text = _score.ToString();
         }
 
         private void OnEnable()
@@ -219,6 +243,17 @@ namespace KnifeGame
             {
                 GameState.SetGameState(State.Playing);
             }
+        }
+        private void ShakerCamera()
+        {
+            Camera.main.DOShakePosition(duration: 0.2f, strength: 1, vibrato: 30, randomness: 90.0f)
+                .SetEase(Ease.OutQuart);
+        }
+
+        private void AnimateTarget()
+        {
+            _target.gameObject.SetActive(false);
+            Instantiate(_seperatedTargetPrefab, _target.transform.position, _target.transform.rotation); // instantiate seperated target object
         }
     }
 }

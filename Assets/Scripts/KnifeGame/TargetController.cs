@@ -1,5 +1,7 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace KnifeGame
 {
@@ -22,7 +24,7 @@ namespace KnifeGame
 
         void Start()
         {
-            _timeToStop = Random.Range(_stopTimeMin, _stopTimeMax/2);
+            _timeToStop = Random.Range(_stopTimeMin, _stopTimeMax / 2);
             _speed = _rotationSpeed;
             _stopTimeVar = _stopTime;
         }
@@ -81,6 +83,12 @@ namespace KnifeGame
         public void PlayHitImpact()
         {
             transform.DOPunchScale(new Vector3(1, 1, 1), 0.2f, 5, 10).SetEase(Ease.InElastic);
+        }
+
+        public void KnifeHitTarget()
+        {
+            transform.DOShakeScale(duration: 0.1f, strength: 0.5f, vibrato: 50, randomness: 1, fadeOut: true)
+                .SetEase(Ease.InSine);
         }
     }
 }

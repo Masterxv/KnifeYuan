@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace KnifeGame
@@ -14,6 +16,7 @@ namespace KnifeGame
         private Rigidbody2D _rigidbody;
         private BoxCollider2D _collider;
         private Transform centerOfTarget;
+        private readonly string APPLE_TAG = "Apple";
 
         void Start()
         {
@@ -29,7 +32,7 @@ namespace KnifeGame
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.gameObject.CompareTag("Apple"))
+            if (!APPLE_TAG.Equals(other.gameObject.tag, StringComparison.Ordinal))
             {
                 _rigidbody.velocity = Vector2.zero;
                 _collider.isTrigger = true;
