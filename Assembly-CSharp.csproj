@@ -62,6 +62,11 @@
     <Compile Include="Assets\Scripts\KnifeGame\Singleton.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\TargetController.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\TargetFlyAppart.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\TargetFrameRate.cs" />
+    <Compile Include="Assets\Scripts\ObjectPooling\CakeController.cs" />
+    <Compile Include="Assets\Scripts\ObjectPooling\K.cs" />
+    <Compile Include="Assets\Scripts\ObjectPooling\Manager.cs" />
+    <Compile Include="Assets\Scripts\ObjectPooling\ObjectPooler.cs" />
     <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
     <None Include="Assets\Demigiant\DemiLib\Core\DemiLib.xml" />
     <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />

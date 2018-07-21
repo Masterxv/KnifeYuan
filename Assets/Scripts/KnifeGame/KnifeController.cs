@@ -13,15 +13,15 @@ namespace KnifeGame
         [SerializeField] private float _forceMultiplier;
 
         public event Action<Transform> OnHit;
-        private Rigidbody2D _rigidbody;
-        private BoxCollider2D _collider;
+        [SerializeField] private Rigidbody2D _rigidbody;
+        [SerializeField] private BoxCollider2D _collider;
         private Transform centerOfTarget;
         private readonly string APPLE_TAG = "Apple";
 
         void Start()
         {
-            _rigidbody = GetComponent<Rigidbody2D>();
-            _collider = GetComponent<BoxCollider2D>();
+//            _rigidbody = GetComponent<Rigidbody2D>();
+//            _collider = GetComponent<BoxCollider2D>();
             centerOfTarget = GameObject.FindGameObjectWithTag("CenterOfTarget").transform;
         }
 
@@ -63,6 +63,11 @@ namespace KnifeGame
             _rigidbody.mass = _mass;
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);
+        }
+
+        private void OnBecameInvisible()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

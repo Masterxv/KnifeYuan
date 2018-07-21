@@ -30,5 +30,15 @@ namespace KnifeGame
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);
         }
+
+        private void OnBecameVisible()
+        {
+            gameObject.SetActive(true);
+        }
+
+        private void OnBecameInvisible()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

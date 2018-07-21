@@ -108,7 +108,7 @@ namespace KnifeGame
                         StartCoroutine(LoadNextStageRoutine());
                         return;
                     }
-                    _targetController.KnifeHitTarget();
+                    _targetController.KnifeHitTarget(); // play shake animation
                     _knifes[_currentKnifeIndex].SetParent(_target.transform);
                     _currentKnifeIndex++;
                     _knifes[_currentKnifeIndex].gameObject.SetActive(true); // active next knife
