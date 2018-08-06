@@ -9,6 +9,7 @@ namespace KnifeGame
 {
     public class GameManager : MonoBehaviour
     {
+//        [SerializeField] private Text swipeText;
         [SerializeField] private Text PauseText;
         [SerializeField] private Text AppleText;
         [SerializeField] private Text ScoreText;
@@ -25,6 +26,8 @@ namespace KnifeGame
         [SerializeField] private float _gameOverDelay;
         [SerializeField] private Button _restartButton;
 
+//        [SerializeField] List<Sprite> _knifeSprites = new List<Sprite>(16);
+//        private List<SpriteRenderer> _knifeSpriteRenderers = new List<SpriteRenderer>(16);
         private List<Transform> _knifes = new List<Transform>(16);
         List<KnifeController> _knifeControllers = new List<KnifeController>(16);
 
@@ -34,10 +37,14 @@ namespace KnifeGame
         private bool _isReady = false;
         private static int _score;
         private static int _apple = 0;
+//        private int _selectedKnifeSpriteIndex;
         private static GameManager _instance;
         private ParticleSystem _particle;
 
-        public static GameManager Instance { get { return _instance; } }
+        public static GameManager Instance // Singleton
+        {
+            get { return _instance; }
+        }
 
         private void Awake()
         {
@@ -46,19 +53,19 @@ namespace KnifeGame
             else
                 _instance = this;
 
-            _knifeRemainController.KnifeNumber = _knifeRemain;
-            SpawnKnife();
             AppleText.text = _apple.ToString();
             ScoreText.text = _score.ToString();
-            
+
+            _knifeRemainController.KnifeNumber = _knifeRemain;
+            SpawnKnifeAndGetComponent();
             _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
-            
+
             _target = GameObject.FindGameObjectWithTag("Target");
             _targetController = _target.GetComponent<TargetController>();
-            
+
             _hitTargetPrefab = Instantiate(_hitTargetPrefab);
             _particle = _hitTargetPrefab.GetComponent<ParticleSystem>();
-            
+//            swipeText.gameObject.SetActive(false);
         }
 
         void Start()
@@ -69,7 +76,6 @@ namespace KnifeGame
             GameState.SetGameState(State.Playing);
             _restartButton.onClick.AddListener(RestartLevel);
             _restartButton.gameObject.SetActive(false);
-            
         }
 
         private void FadeBackground()
@@ -81,7 +87,8 @@ namespace KnifeGame
         {
             _isReady = true;
         }
-        private void SpawnKnife()
+
+        private void SpawnKnifeAndGetComponent()
         {
             for (var i = 0; i < _knifeRemain; i++)
             {
@@ -90,6 +97,7 @@ namespace KnifeGame
 
                 _knifes.Add(knife.transform);
                 _knifeControllers.Add(knife.GetComponent<KnifeController>());
+//                _knifeSpriteRenderers.Add(knife.GetComponent<SpriteRenderer>());
             }
 
             _knifes[_currentKnifeIndex].gameObject.SetActive(true);
@@ -108,6 +116,7 @@ namespace KnifeGame
                         StartCoroutine(LoadNextStageRoutine());
                         return;
                     }
+
                     _targetController.KnifeHitTarget(); // play shake animation
                     _knifes[_currentKnifeIndex].SetParent(_target.transform);
                     _currentKnifeIndex++;
@@ -131,7 +140,7 @@ namespace KnifeGame
                     // play hit effect
                     _targetController.enabled = false;
                     _knifeControllers[_currentKnifeIndex].KnifeBound();
-                    
+
                     // start coroutine game over
                     StartCoroutine(GameOverRoutine());
                     break;
@@ -148,8 +157,10 @@ namespace KnifeGame
             }
 
             yield return new WaitForSeconds(_nextStageDelay);
-            if (SceneManager.GetActiveScene().buildIndex + 1 <= SceneManager.sceneCount)
+            if (SceneManager.GetActiveScene().buildIndex + 1 <= SceneManager.sceneCountInBuildSettings - 1)
+            {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
             else
                 Restart();
         }
@@ -185,6 +196,8 @@ namespace KnifeGame
                     _isReady = false;
                 }
             }
+//            if (PlayerInput.Swiped)
+//                NextKnife();
         }
 
         private void UpdateApple()
@@ -244,6 +257,7 @@ namespace KnifeGame
                 GameState.SetGameState(State.Playing);
             }
         }
+
         private void ShakerCamera()
         {
             Camera.main.DOShakePosition(duration: 0.2f, strength: 1, vibrato: 30, randomness: 90.0f)
@@ -253,7 +267,32 @@ namespace KnifeGame
         private void AnimateTarget()
         {
             _target.gameObject.SetActive(false);
-            Instantiate(_seperatedTargetPrefab, _target.transform.position, _target.transform.rotation); // instantiate seperated target object
+            Instantiate(_seperatedTargetPrefab, _target.transform.position,
+                _target.transform.rotation); // instantiate seperated target object
+        }
+
+        private void NextKnife()
+        {
+//            if (_selectedKnifeSpriteIndex + 1 >= _knifeSprites.Count)
+//            {
+//                _selectedKnifeSpriteIndex = 0;
+//                PlayerInput.Swiped = false;
+//            }
+//            else
+//            {
+//                _selectedKnifeSpriteIndex++;
+//                PlayerInput.Swiped = false;
+//            }
+//
+//            UpdateKnifes();
+        }
+
+        private void UpdateKnifes()
+        {
+//            foreach (var knife in _knifeSpriteRenderers)
+//            {
+//                knife.sprite = _knifeSprites[_selectedKnifeSpriteIndex];
+//            }
         }
     }
 }

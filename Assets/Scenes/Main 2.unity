@@ -1266,7 +1266,7 @@ MonoBehaviour:
   _hitApplePrefab: {fileID: 4850846331586164, guid: a7fd002fdf76e6a46a84338c7e0c7d0a,
     type: 2}
   spawnPosition: {fileID: 1420465149}
-  _knifeRemain: 10
+  _knifeRemain: 3
   _knifeRemainController: {fileID: 841346517}
   _seperatedTargetPrefab: {fileID: 1908785733927898, guid: a353f0bf45dd77e4489c85c35e997a8c,
     type: 2}
@@ -1275,6 +1275,7 @@ MonoBehaviour:
   _nextStageDelay: 1
   _gameOverDelay: 0.5
   _restartButton: {fileID: 2043704437}
+  _knifeSprites: []
 --- !u!114 &1708012430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1691,7 +1692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

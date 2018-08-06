@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 namespace ObjectPooling
@@ -10,9 +11,14 @@ namespace ObjectPooling
         
         [SerializeField] private List<GameObject> activeTurret;
         [SerializeField] private int currentTurretState;
-
+        static readonly int material_Color = Shader.PropertyToID("_Color");
+        static readonly int anim_Attack = Animator.StringToHash("attack");
+        private Material _material;
+        private Animator _animator;
         void Start()
         {
+            _material.SetColor(material_Color, Color.white);
+            _animator.SetTrigger(anim_Attack);
             UpgradeTurret();
         }
 
