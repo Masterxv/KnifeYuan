@@ -15,28 +15,26 @@ namespace KnifeGame
         public event Action<Transform> OnHit;
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private BoxCollider2D _collider;
-        private Transform centerOfTarget;
-        private readonly string APPLE_TAG = "Apple";
+        private Transform _centerOfTarget;
 
         void Start()
         {
-//            _rigidbody = GetComponent<Rigidbody2D>();
-//            _collider = GetComponent<BoxCollider2D>();
-            centerOfTarget = GameObject.FindGameObjectWithTag("CenterOfTarget").transform;
+            _centerOfTarget = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_TARGET).transform;
         }
 
         public void Throw()
         {
-            _rigidbody.velocity = Vector2.up * _speed;
+            _rigidbody.velocity = transform.up * _speed;
+//            _rigidbody.AddForce(transform.forward * _speed);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!APPLE_TAG.Equals(other.gameObject.tag, StringComparison.Ordinal))
+            if (!other.gameObject.CompareTag(TagAndString.APPLE_TAG)) // hit the target
             {
                 _rigidbody.velocity = Vector2.zero;
                 _collider.isTrigger = true;
-                _collider.size = new Vector2(_collider.size.x, 1.06f);
+                _collider.size = new Vector2(_collider.size.x, 1.3f);
                 _collider.offset = new Vector2(0, -0.7f);
             }
 
@@ -47,7 +45,7 @@ namespace KnifeGame
         {
             _collider.enabled = false;
             _rigidbody.bodyType = RigidbodyType2D.Dynamic;
-            var direction = transform.position - centerOfTarget.position;
+            var direction = transform.position - _centerOfTarget.position;
             _rigidbody.mass = _mass;
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);
@@ -59,7 +57,8 @@ namespace KnifeGame
             _rigidbody.bodyType = RigidbodyType2D.Dynamic;
 
             transform.SetParent(null);
-            var direction = transform.position - centerOfTarget.position;
+            gameObject.SetActive(true);
+            var direction = transform.position - _centerOfTarget.position;
             _rigidbody.mass = _mass;
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);

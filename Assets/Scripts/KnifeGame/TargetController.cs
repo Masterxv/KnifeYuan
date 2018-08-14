@@ -81,13 +81,12 @@ namespace KnifeGame
 
         public void PlayHitImpact()
         {
-            transform.DOPunchScale(new Vector3(1, 1, 1), 0.2f, 5, 10).SetEase(Ease.InElastic);
+            transform.DOPunchScale(new Vector3(1, 1, 1), 0.2f, 5, 1).SetEase(Ease.InElastic);
         }
 
         public void KnifeHitTarget()
         {
-            transform.DOShakeScale(duration: 0.1f, strength: 0.5f, vibrato: 50, randomness: 1, fadeOut: true)
-                .SetEase(Ease.InSine);
+            transform.DOShakeScale(duration: 0.1f, strength: 0.1f, vibrato: 10, randomness: 1, fadeOut: true).SetEase(Ease.InSine);
         }
     }
 }
