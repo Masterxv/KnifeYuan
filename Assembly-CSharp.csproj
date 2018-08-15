@@ -55,19 +55,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\AnimCameraColor.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\CanvasManager.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\ChangeMaterialColor.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\ChooseLevelController.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\Constant.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\Destroyer.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\GameManager.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\GameManagerA.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\GameState.cs" />
-    <Compile Include="Assets\Scripts\KnifeGame\HUDManager.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\InputTouch.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\KnifeController.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\KnifeRemainController.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\LevelManager.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\MainMenuController.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\MonoBehaviourHelper.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\PoolSystem.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\RotateBackgroundRandom.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\TagAndString.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\TargetController.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\TargetFlyAppart.cs" />
-    <Compile Include="Assets\Scripts\KnifeGame\TargetFrameRate.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\Util.cs" />
     <Compile Include="Assets\Scripts\ObjectPooling\CakeController.cs" />
     <Compile Include="Assets\Scripts\ObjectPooling\K.cs" />
     <Compile Include="Assets\Scripts\ObjectPooling\Manager.cs" />
@@ -78,6 +87,7 @@
     <None Include="Assets\Demigiant\DemiLib\Core\DemiLib.xml" />
     <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\Shaders\GradientNo TextureDiamondTwo ColorsRegular UVAlpha Blend.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\Demigiant\DOTween\DOTween46.xml" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
@@ -85,9 +95,11 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Demigiant\DOTween\readme.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\Shaders\GradientNo TextureRadialTwo ColorsRegular UVAlpha Blend.shader" />
     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Shaders\GradientNo TextureHorizontalTwo ColorsAlpha Blend.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

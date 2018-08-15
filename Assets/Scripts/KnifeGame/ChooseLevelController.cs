@@ -15,7 +15,7 @@ namespace KnifeGame
 
         public void GoToLevel(int level) // start from 0
         {
-            PlayerPrefs.SetInt(TagAndString.Level, level);
+            Util.SetLastLevelPlayed(level);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }

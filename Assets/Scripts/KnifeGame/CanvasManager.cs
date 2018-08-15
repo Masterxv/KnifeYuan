@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace KnifeGame
 {
-    public class HUDManager : MonoBehaviour
+    public class CanvasManager : MonoBehaviour
     {
         public Text PauseText;
         public Text AppleText;
@@ -12,9 +12,9 @@ namespace KnifeGame
         [SerializeField] private Image _backgroundFade;
         public Button RestartButton;
 
-        private static HUDManager _instance;
+        private static CanvasManager _instance;
 
-        public static HUDManager Instance
+        public static CanvasManager Instance
         {
             get { return _instance; }
         }
@@ -34,8 +34,8 @@ namespace KnifeGame
             RestartButton.gameObject.SetActive(false);
             FadeBackground();
 
-            AppleText.text = GameManager.Instance.Apple.ToString();
-            ScoreText.text = GameManager.Instance.Score.ToString();
+            AppleText.text = GameManagerA.Instance.Apple.ToString();
+            ScoreText.text = GameManagerA.Instance.Score.ToString();
         }
 
         void Update()
@@ -58,7 +58,7 @@ namespace KnifeGame
 
         private void FadeOut() // mo dan
         {
-            _backgroundFade.DOFade(0, 0.5f).SetEase(Ease.InQuart).OnComplete(GameManager.Instance.SetGameToReady);
+            _backgroundFade.DOFade(0, 0.5f).SetEase(Ease.InQuart).OnComplete(GameManagerA.Instance.SetGameToReady);
         }
 
         private void FadeIn()
