@@ -61,8 +61,8 @@
     <Compile Include="Assets\Scripts\KnifeGame\ChooseLevelController.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\Constant.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\Destroyer.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\DotManager.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\GameManager.cs" />
-    <Compile Include="Assets\Scripts\KnifeGame\GameManagerA.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\GameState.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\InputTouch.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\KnifeController.cs" />

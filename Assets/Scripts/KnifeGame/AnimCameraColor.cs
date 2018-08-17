@@ -12,6 +12,8 @@ namespace KnifeGame
 
         void AnimColor()
         {
+            DOTween.Kill(Camera.main);
+            
             var c = constant.RandomBrightColor();
             Camera.main.DOColor(c, Random.Range(3, 10)).OnComplete(AnimColor);
         }

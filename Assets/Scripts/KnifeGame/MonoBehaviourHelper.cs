@@ -6,7 +6,7 @@ namespace KnifeGame
     {
         private PoolSystem _poolSystem;
 
-        public PoolSystem PoolSystem
+        public PoolSystem poolSystem
         {
             get
             {
@@ -21,7 +21,7 @@ namespace KnifeGame
 
         private GameManager _gameManager;
 
-        public GameManager gameManager
+        protected GameManager gameManager
         {
             get
             {
@@ -61,6 +61,21 @@ namespace KnifeGame
                 }
 
                 return _constant;
+            }
+        }
+
+        private LevelManager _levelManager;
+
+        protected LevelManager levelManager
+        {
+            get
+            {
+                if (_levelManager == null)
+                {
+                    _levelManager = FindObjectOfType<LevelManager>();
+                }
+
+                return _levelManager;
             }
         }
     }

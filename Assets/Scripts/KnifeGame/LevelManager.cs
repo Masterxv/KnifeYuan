@@ -29,17 +29,14 @@ namespace KnifeGame
         private static int maxLevel = 100;
         private int levelNumber = 0;
         public float rotateDelay = 8f;
-        public int numberDotsOnCircle = 0; // number of obstacles
         public Ease rotateEaseType = Ease.Linear;
         public LoopType rotateLoopType = LoopType.Incremental;
-        public float sizeRayonRation = 0.25f; // position of obstacles
 
         public Level(int level)
         {
             levelNumber = level;
             rotateEaseType = Ease.Linear;
             rotateLoopType = LoopType.Incremental;
-            sizeRayonRation = .25f;
             rotateDelay = 20 - (level % 10);
             if (level % 2 > 1)
             {
@@ -66,16 +63,20 @@ namespace KnifeGame
                 rotateEaseType = (Ease) (enumNumber);
             }
 
-            numberDotsOnCircle = 10 + level % 35;
+            var numberDotsOnCircle = 10 + level % 35;
 
-            if (level < 12)
-                numberDotsOnCircle = 5;
-
-            if (level == 1)
+            if (level == 1 /*|| level == 0*/)
+            {
                 numberDotsOnCircle = 1;
-
-            if (level == 2)
+            }
+            else if (level == 2)
+            {
                 numberDotsOnCircle = 2;
+            }
+            else if (level > 12)
+            {
+                numberDotsOnCircle = 5;
+            }
 
             if (level > maxLevel)
             {

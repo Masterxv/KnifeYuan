@@ -4,42 +4,24 @@ using UnityEngine.UI;
 
 namespace KnifeGame
 {
-    public class CanvasManager : MonoBehaviour
+    public class CanvasManager : MonoBehaviourHelper
     {
         public Text PauseText;
         public Text AppleText;
         public Text ScoreText;
         [SerializeField] private Image _backgroundFade;
-        public Button RestartButton;
-
-        private static CanvasManager _instance;
-
-        public static CanvasManager Instance
-        {
-            get { return _instance; }
-        }
 
         private void Awake()
         {
-            if (_instance != null && _instance != this)
-                Destroy(gameObject);
-            else
-                _instance = this;
         }
 
-        void Start()
+       private void Start()
         {
             PauseText.gameObject.SetActive(false);
-            // add function to restart button at Inspector
-            RestartButton.gameObject.SetActive(false);
             FadeBackground();
 
-            AppleText.text = GameManagerA.Instance.Apple.ToString();
-            ScoreText.text = GameManagerA.Instance.Score.ToString();
-        }
-
-        void Update()
-        {
+            AppleText.text = gameManager.Apple.ToString();
+            ScoreText.text = gameManager.Score.ToString();
         }
 
         public void FadeBackground()
@@ -50,20 +32,19 @@ namespace KnifeGame
             }
             else
             {
-                print("fade in");
-
                 FadeIn();
             }
         }
 
         private void FadeOut() // mo dan
         {
-            _backgroundFade.DOFade(0, 0.5f).SetEase(Ease.InQuart).OnComplete(GameManagerA.Instance.SetGameToReady);
+            _backgroundFade.DOFade(0, 0.5f).SetEase(Ease.InQuart);
         }
 
         private void FadeIn()
         {
-            _backgroundFade.DOFade(1, 1f).SetEase(Ease.InQuart).OnComplete(FadeOut)/*.OnComplete(GameManager.Instance.SetGameToReady)*/;
+            _backgroundFade.DOFade(1, 1f).SetEase(Ease.InQuart).OnComplete(FadeOut)
+                .OnComplete(gameManager.SetGameToReady);
         }
     }
 }
