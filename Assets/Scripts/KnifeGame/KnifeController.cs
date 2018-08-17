@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace KnifeGame
 {
-    public class KnifeController : MonoBehaviour
+    public class KnifeController : MonoBehaviourHelper
     {
         [SerializeField] private float _speed;
         [SerializeField] private float _mass;
@@ -20,12 +21,12 @@ namespace KnifeGame
         void Start()
         {
             _centerOfTarget = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_TARGET).transform;
+            print("knife started");
         }
 
         public void Throw()
         {
             _rigidbody.velocity = transform.up * _speed;
-//            _rigidbody.AddForce(transform.forward * _speed);
         }
 
         private void OnTriggerEnter2D(Collider2D other)

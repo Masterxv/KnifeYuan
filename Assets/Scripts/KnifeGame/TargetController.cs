@@ -62,7 +62,6 @@ namespace KnifeGame
 
         private void LaunchTheRotation()
         {
-            gameManager.SetGameToReady(); // set the game to ready
             DOTween.Kill(transform); // kill tween from doScale
 
             switch (_rotateType)

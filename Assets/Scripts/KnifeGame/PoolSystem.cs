@@ -16,7 +16,7 @@ namespace KnifeGame
 
         private void Awake()
         {
-            PreparePools();
+//            PreparePools();
         }
 
         private void PreparePools()

@@ -12,36 +12,41 @@ namespace KnifeGame
     public class GameManager : MonoBehaviourHelper
     {
         public GameObject[] AllLevels;
+        public int[] KnifeNumEveryLevel;
         [SerializeField] private GameObject[] _allKnifePrefab;
         [SerializeField] private Transform _knifeSpawnPos;
-
         [SerializeField] private Transform _targetSpawnPos;
 
 //        [SerializeField] private Transform _knifeParent;
         [SerializeField] private Transform _hitTargetPrefab;
         [SerializeField] private Transform _hitApplePrefab;
-
-        [SerializeField] [Tooltip("Number of knife in each level")]
-        private int _knifeRemain;
-
         [SerializeField] private KnifeRemainController _knifeRemainController;
         [SerializeField] private GameObject _seperatedTargetPrefab;
+
         [SerializeField] private GameObject _seperatedApplePrefab;
+
+//        [SerializeField] [Tooltip("Number of knife in each level")]
+//        private int _knifeRemain;
         [SerializeField] private float _nextStageDelay;
         [SerializeField] private float _gameOverDelay;
 
         private List<Transform> _knifes = new List<Transform>(16);
         private List<KnifeController> _knifeControllers = new List<KnifeController>(16);
 
+        private int _levelIndex;
+        private int _knifeRemain;
         private GameObject _target;
         private TargetController _targetController;
         private int _currentKnifeIndex = 0;
+
         private bool _isReady = false;
+
+        /*[HideInInspector] */
+        public bool winLevel = true; // use this to change the color of fill-level image
         [HideInInspector] public int Score = 0;
         [HideInInspector] public int Apple = 0;
 
         private ParticleSystem _particle;
-
 
         private void Awake()
         {
@@ -51,23 +56,20 @@ namespace KnifeGame
 
         void Start()
         {
-            GameState.SetGameState(State.Playing);
-
-            StartALevel();
+            
         }
 
-        public void SetGameToReady()
-        {
-            _isReady = true;
-        }
-
-        private void StartALevel()
+        public void CreateGame()
         {
             // instance the level prefab from Choose Level Controller
 //            var level = Util.GetLastLevelPlayed();
-            var level = 1;
-            var rot = Quaternion.Euler(0, 0, Random.Range(0, 61));
-            Instantiate(AllLevels[level], _targetSpawnPos.position, rot);
+            _levelIndex = 1; // level should begin from 0
+            _knifeRemain = _levelIndex;
+            _isReady = true;
+            GameState.SetGameState(State.Playing);
+            
+            var rot = Quaternion.Euler(0, 0, Random.Range(0, 30));
+            Instantiate(AllLevels[_levelIndex], _targetSpawnPos.position, rot);
             Camera.main.orthographicSize = 7f;
 
             SpawnKnifeAndGetComponent();
@@ -84,7 +86,7 @@ namespace KnifeGame
 
         private void SpawnKnifeAndGetComponent()
         {
-            for (var i = 0; i < _knifeRemain; i++)
+            for (var i = 0; i < KnifeNumEveryLevel[_levelIndex]; i++)
             {
                 var knife = Instantiate(_allKnifePrefab[0], _knifeSpawnPos.position, _knifeSpawnPos.rotation);
                 knife.SetActive(false);
@@ -166,7 +168,6 @@ namespace KnifeGame
             }
 
             yield return new WaitForSeconds(_nextStageDelay);
-            canvasManager.FadeBackground();
         }
 
         private IEnumerator GameOverRoutine()

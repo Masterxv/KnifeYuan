@@ -436,6 +436,7 @@ RectTransform:
   - {fileID: 2043704436}
   - {fileID: 1203351264}
   - {fileID: 1408075798}
+  - {fileID: 997591851}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -459,6 +460,7 @@ MonoBehaviour:
   AppleText: {fileID: 1992664176}
   ScoreText: {fileID: 2071596779}
   _backgroundFade: {fileID: 1808013377}
+  _fillTheScene: {fileID: 997591852}
 --- !u!1 &307448025
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,6 +696,7 @@ GameObject:
   - component: {fileID: 836117616}
   - component: {fileID: 836117618}
   - component: {fileID: 836117617}
+  - component: {fileID: 836117619}
   m_Layer: 5
   m_Name: Pause Text
   m_TagString: Untagged
@@ -716,8 +719,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000076293945, y: 0.0000019073486}
-  m_SizeDelta: {x: 436.12, y: 152.52}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 397.77777, y: 106.666664}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &836117617
 MonoBehaviour:
@@ -740,11 +743,11 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 93
+    m_FontSize: 96
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 93
+    m_MaxSize: 103
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -759,6 +762,19 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 836117615}
   m_CullTransparentMesh: 0
+--- !u!114 &836117619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 836117615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1 &841346516
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,7 +825,7 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
 --- !u!224 &841346519
@@ -827,8 +843,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 69.95001, y: 491.2}
-  m_SizeDelta: {x: 139.9, y: 410.5}
+  m_AnchoredPosition: {x: 69.95001, y: 468.4}
+  m_SizeDelta: {x: 139.9, y: 936.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &918236153
 GameObject:
@@ -1066,6 +1082,75 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 976969616}
+  m_CullTransparentMesh: 0
+--- !u!1 &997591850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 997591851}
+  - component: {fileID: 997591853}
+  - component: {fileID: 997591852}
+  m_Layer: 5
+  m_Name: Fill The Scene Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &997591851
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 997591850}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 286855879}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -844, y: -1134}
+  m_SizeDelta: {x: 700, y: 700}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &997591852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 997591850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: c2eea139166412a4aaaa5b4b7506b12c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &997591853
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 997591850}
   m_CullTransparentMesh: 0
 --- !u!1 &1014325093
 GameObject:
@@ -1411,6 +1496,7 @@ MonoBehaviour:
   - {fileID: 1992356901033934, guid: 9f7983ee94f5b6d4d91765e6b1022468, type: 2}
   - {fileID: 1992356901033934, guid: ec6ed8fc0cc664a4fb4d28b68c19f397, type: 2}
   - {fileID: 1992356901033934, guid: e10b2e866e22b1a46a52fcf83a7bb236, type: 2}
+  KnifeNumEveryLevel: 03000000040000000500000006000000070000000800000008000000080000000800000008000000
   _allKnifePrefab:
   - {fileID: 1523591878055596, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
   _knifeSpawnPos: {fileID: 1420465149}
@@ -1419,7 +1505,6 @@ MonoBehaviour:
     type: 2}
   _hitApplePrefab: {fileID: 4850846331586164, guid: a7fd002fdf76e6a46a84338c7e0c7d0a,
     type: 2}
-  _knifeRemain: 10
   _knifeRemainController: {fileID: 841346517}
   _seperatedTargetPrefab: {fileID: 1908785733927898, guid: a353f0bf45dd77e4489c85c35e997a8c,
     type: 2}
@@ -1427,6 +1512,7 @@ MonoBehaviour:
     type: 2}
   _nextStageDelay: 1
   _gameOverDelay: 0.2
+  winLevel: 1
   Score: 0
   Apple: 0
 --- !u!114 &1708012431
@@ -1603,7 +1689,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1808013376
 RectTransform:
   m_ObjectHideFlags: 0
