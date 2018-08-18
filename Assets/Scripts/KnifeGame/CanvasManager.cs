@@ -9,9 +9,13 @@ namespace KnifeGame
         public Text PauseText;
         public Text AppleText;
         public Text ScoreText;
-        [SerializeField] private Image _backgroundFade;
         [SerializeField] private Image _fillTheScene;
+        [SerializeField] private Image _blinkBackground;
         private Sequence _sequence;
+        public Color BlinkStartColor;
+        public Color BlinkEndColor;
+        private Sequence _blinkSequence;
+        private int _blink = 0; // use this to end blink function
 
         private void Awake()
         {
@@ -20,47 +24,52 @@ namespace KnifeGame
         private void Start()
         {
             PauseText.gameObject.SetActive(false);
-            FadeBackground();
+//            FadeBackground();
 
             AppleText.text = gameManager.Apple.ToString();
             ScoreText.text = gameManager.Score.ToString();
 
             // animate the fill-level image
-//            MovePositionImage();
             ZoomImageIn();
+            
+            // blink background image
+            _blinkBackground.color = new Color(0,0,0,0);
         }
 
-        public void FadeBackground()
-        {
-            if (_backgroundFade.color.a > 0)
-            {
-                FadeOut();
-            }
-            else
-            {
-                FadeIn();
-            }
-        }
+//        public void FadeBackground()
+//        {
+//            if (_backgroundFade.color.a > 0)
+//            {
+//                FadeOut();
+//            }
+//            else
+//            {
+//                FadeIn();
+//            }
+//        }
 
-        private void FadeOut() // mo dan
-        {
-            _backgroundFade.DOFade(0, 0.5f).SetEase(Ease.InQuart);
-        }
-
-        private void FadeIn()
-        {
-            _backgroundFade.DOFade(1, 1f).SetEase(Ease.InQuart).OnComplete(FadeOut);
-        }
+//        private void FadeOut() // mo dan
+//        {
+//            _backgroundFade.DOFade(0, 0.5f).SetEase(Ease.InQuart);
+//        }
+//
+//        private void FadeIn()
+//        {
+//            _backgroundFade.DOFade(1, 1f).SetEase(Ease.InQuart).OnComplete(FadeOut);
+//        }
 
         private void ZoomImageIn()
         {
+            _blinkBackground.color = new Color(0,0,0,0); // set blick background's color to 0
+            
             var endColor = Color.white;
             var startColor = constant.RandomBrightColor();
             startColor.a = 1;
 
             _fillTheScene.color = gameManager.winLevel ? startColor : Color.black;
-            
+
             _sequence?.Kill();
+            _blinkSequence?.Kill();
             _sequence = DOTween.Sequence();
             _sequence.Append(_fillTheScene.rectTransform.DOScale(transform.localScale * 5, 0.7f).SetEase(Ease.InCirc));
             _sequence.SetLoops(1);
@@ -80,5 +89,43 @@ namespace KnifeGame
             _sequence.OnStepComplete(gameManager.CreateGame);
             _sequence.Play();
         }
+
+        public void BlinkBackground()
+        {
+            enabled = false;
+            // check a condition to stop 
+            _blink++;
+            _blinkSequence?.Kill();
+            _blinkSequence = DOTween.Sequence();
+            _blinkSequence.Append(_blinkBackground.DOColor(BlinkStartColor, 0.2f).SetEase(Ease.InCirc));
+            _blinkSequence.SetLoops(1, LoopType.Incremental);
+            _blinkSequence.OnComplete(BlinkBackgroundEnd);
+        }
+
+        private void BlinkBackgroundEnd()
+        {
+            _blink++;
+            _blinkSequence?.Kill();
+            _blinkSequence = DOTween.Sequence();
+            _blinkSequence.Append(_blinkBackground.DOColor(BlinkEndColor, 0.4f).SetEase(Ease.InCirc));
+            _blinkSequence.SetLoops(1, LoopType.Incremental);
+            if (_blink > 6)
+            {
+                _blinkSequence.OnComplete(ZoomImageIn);
+            }
+            else
+            {
+                _blinkSequence.OnComplete(BlinkBackground);
+            }
+        }
+
+//        public void DeleteGameObject()
+//        {
+//            var targetFlyAparts = FindObjectsOfType<HalfAppleGroup>();
+//            if(targetFlyAparts ==null) return;
+//            foreach (var tfa in targetFlyAparts)
+//                Destroy(tfa.gameObject);
+//            print("deleted");
+//        }
     }
 }

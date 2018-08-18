@@ -64,34 +64,19 @@ namespace KnifeGame
             }
         }
 
-        private LevelManager _levelManager;
-
-        protected LevelManager levelManager
-        {
-            get
-            {
-                if (_levelManager == null)
-                {
-                    _levelManager = FindObjectOfType<LevelManager>();
-                }
-
-                return _levelManager;
-            }
-        }
-
-        private Transform _targetCenter;
-
-        protected Transform targetCenter
-        {
-            get
-            {
-                if (_targetCenter == null)
-                {
-                    _targetCenter = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_TARGET).transform;
-                }
-
-                return _targetCenter;
-            }
-        }
+//        private Transform _targetCenter;
+//
+//        protected Transform targetCenter
+//        {
+//            get
+//            {
+//                if (_targetCenter == null)
+//                {
+//                    _targetCenter = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_TARGET).transform;
+//                }
+//
+//                return _targetCenter;
+//            }
+//        }
     }
 }

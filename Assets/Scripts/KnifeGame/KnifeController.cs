@@ -16,12 +16,11 @@ namespace KnifeGame
         public event Action<Transform> OnHit;
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private BoxCollider2D _collider;
-        private Transform _centerOfTarget;
+        [HideInInspector] public Transform CenterOfTarget;
 
         void Start()
         {
-            _centerOfTarget = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_TARGET).transform;
-            print("knife started");
+//            CenterOfTarget = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_TARGET).transform;
         }
 
         public void Throw()
@@ -46,7 +45,7 @@ namespace KnifeGame
         {
             _collider.enabled = false;
             _rigidbody.bodyType = RigidbodyType2D.Dynamic;
-            var direction = transform.position - _centerOfTarget.position;
+            var direction = transform.position - CenterOfTarget.position;
             _rigidbody.mass = _mass;
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);
@@ -59,10 +58,12 @@ namespace KnifeGame
 
             transform.SetParent(null);
             gameObject.SetActive(true);
-            var direction = transform.position - _centerOfTarget.position;
+            var direction = transform.position - CenterOfTarget.position;
             _rigidbody.mass = _mass;
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);
+            Destroy(GetComponent<KnifeController>());
+            gameObject.AddComponent<KnifeAfterFly>();
         }
 
         private void OnBecameInvisible()

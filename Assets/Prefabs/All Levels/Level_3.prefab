@@ -303,11 +303,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stopTimeMin: 3
   _stopTimeMax: 10
-  _delayTime: 1.2
-  rotateType: 1
-  easeType: 13
-  loopType: 1
-  circleEaseType: 21
+  _velocity: 0.7
+  _delayTime: 1
+  _rotateType: 1
+  _easeType: 1
+  _loopType: 2
+  _circleEaseType: 30
 --- !u!212 &212104595318785096
 SpriteRenderer:
   m_ObjectHideFlags: 1

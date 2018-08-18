@@ -18,11 +18,9 @@ namespace KnifeGame
     {
         [SerializeField] private float _stopTimeMin = 2;
         [SerializeField] private float _stopTimeMax = 5;
-
         [SerializeField]
         [Tooltip("The velocity of rotation, fast or slow, this * 360 degrees, should set from 0.5 to 1.2")]
         private float _velocity;
-
 
         [SerializeField] private float _delayTime;
         [SerializeField] private RotateType _rotateType = RotateType.LEFT;
@@ -31,7 +29,6 @@ namespace KnifeGame
 
         [Tooltip("The circle appears with this type")] [SerializeField]
         private Ease _circleEaseType = Ease.OutBounce;
-
 
         /// <summary>
         /// private parameters, variables
@@ -56,8 +53,13 @@ namespace KnifeGame
         private void Awake()
         {
             transform.localScale *= 0.5f;
+            _sequence?.Kill();
+            _sequence = DOTween.Sequence();
 
-            transform.DOScale(Vector3.one, 1f).SetDelay(0.5f).SetEase(_circleEaseType).OnComplete(LaunchTheRotation);
+            _sequence.Append(transform.DOScale(Vector3.one, 1f).SetDelay(0.5f).SetEase(_circleEaseType));
+            _sequence.SetLoops(1, _loopType);
+            _sequence.OnStepComplete(LaunchTheRotation);
+            _sequence.Play();
         }
 
         private void LaunchTheRotation()
@@ -167,7 +169,7 @@ namespace KnifeGame
 
         private void ConfigureShake()
         {
-            if (GameState.GetGameState() == State.Paused)
+            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
                 return;
             _sequence?.Kill();
             _sequence = DOTween.Sequence();
@@ -220,7 +222,7 @@ namespace KnifeGame
 
         private void ConfigureRotate()
         {
-            if (GameState.GetGameState() == State.Paused)
+            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
                 return;
             DOTween.Kill(transform);
             _sequence?.Kill();
@@ -230,14 +232,6 @@ namespace KnifeGame
             _angle = 360f * _velocity * _timeToStop;
             _angle += Random.Range(0f, 30f);
             _interval = Random.Range(0, _delayTime);
-        }
-
-        void Start()
-        {
-        }
-
-        void Update()
-        {
         }
 
         void RotateTarget()
@@ -303,6 +297,7 @@ namespace KnifeGame
         private void OnDestroy()
         {
             _sequence.Kill();
+            DOTween.Kill(transform);
         }
     }
 }

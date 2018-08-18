@@ -64,10 +64,12 @@
     <Compile Include="Assets\Scripts\KnifeGame\DotManager.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\GameManager.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\GameState.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\HalfAppleGroup.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\InputTouch.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\KnifeAfterFly.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\KnifeController.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\KnifeImpactTarget.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\KnifeRemainController.cs" />
-    <Compile Include="Assets\Scripts\KnifeGame\LevelManager.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\MainMenuController.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\MonoBehaviourHelper.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\PlayerInput.cs" />
