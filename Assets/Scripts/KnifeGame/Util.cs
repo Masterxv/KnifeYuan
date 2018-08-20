@@ -55,7 +55,7 @@ namespace KnifeGame
 
         public static bool ActiveButtonNext()
         {
-            int currentLevel = GetLastLevelPlayed();
+            var currentLevel = GetLastLevelPlayed();
 
             int max = GetMaxLevelUnlock();
             bool canUnlock = false;

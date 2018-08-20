@@ -9,12 +9,13 @@ namespace KnifeGame
         [SerializeField] private Transform _knifeIcon;
         public int KnifeNumber { private get; set; }
         [SerializeField] [Range(0, 1)] private float _colorShift;
-        private readonly List<Transform> _knifes = new List<Transform>(16);
+        private /*readonly*/ List<Transform> _knifes = new List<Transform>(16);
 
         private int _currentKnifeIndex;
 
         public void CreateKnifeRemain()
         {
+            ResetKnife();
             for (var i = 0; i < KnifeNumber; i++)
             {
                 var instance = Instantiate(_knifeIcon);
@@ -22,6 +23,8 @@ namespace KnifeGame
 
                 _knifes.Add(instance);
             }
+
+            ResetColor();
         }
 
         public void ChangeKnifeIconColor()
@@ -31,6 +34,26 @@ namespace KnifeGame
 
             image.color = new Color(color.r - _colorShift, color.g - _colorShift, color.b - _colorShift, color.a);
             _currentKnifeIndex++;
+        }
+
+        private void ResetKnife()
+        {
+            _knifes.Clear();
+            _currentKnifeIndex = 0;
+            var childs = transform.childCount;
+            for (var i = 0; i < childs; i++)
+            {
+                Destroy(transform.GetChild(i).gameObject); // remove from UI
+            }
+        }
+
+        private void ResetColor()
+        {
+            for (var i = 0; i < KnifeNumber; i++)
+            {
+                var image = _knifes[i].GetComponent<Image>();
+                image.color = Color.white;
+            }
         }
     }
 }

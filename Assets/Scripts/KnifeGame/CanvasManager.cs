@@ -11,11 +11,12 @@ namespace KnifeGame
         public Text ScoreText;
         [SerializeField] private Image _fillTheScene;
         [SerializeField] private Image _blinkBackground;
+        [SerializeField] private GameObject _levelAndButtonGroup;
         private Sequence _sequence;
         public Color BlinkStartColor;
         public Color BlinkEndColor;
         private Sequence _blinkSequence;
-        private int _blink = 0; // use this to end blink function
+        [HideInInspector] public int _blink = 0; // use this to end blink function
 
         private void Awake()
         {
@@ -23,6 +24,7 @@ namespace KnifeGame
 
         private void Start()
         {
+            _levelAndButtonGroup.SetActive(false);
             PauseText.gameObject.SetActive(false);
 //            FadeBackground();
 
@@ -31,9 +33,9 @@ namespace KnifeGame
 
             // animate the fill-level image
             ZoomImageIn();
-            
+
             // blink background image
-            _blinkBackground.color = new Color(0,0,0,0);
+            _blinkBackground.color = new Color(0, 0, 0, 0);
         }
 
 //        public void FadeBackground()
@@ -58,10 +60,10 @@ namespace KnifeGame
 //            _backgroundFade.DOFade(1, 1f).SetEase(Ease.InQuart).OnComplete(FadeOut);
 //        }
 
-        private void ZoomImageIn()
+        public void ZoomImageIn()
         {
-            _blinkBackground.color = new Color(0,0,0,0); // set blick background's color to 0
-            
+            _blinkBackground.color = new Color(0, 0, 0, 0); // set blick background's color to 0
+
             var endColor = Color.white;
             var startColor = constant.RandomBrightColor();
             startColor.a = 1;
@@ -90,9 +92,8 @@ namespace KnifeGame
             _sequence.Play();
         }
 
-        public void BlinkBackground()
+        public void BlinkBackground() // blink use for game over
         {
-            enabled = false;
             // check a condition to stop 
             _blink++;
             _blinkSequence?.Kill();
@@ -111,6 +112,7 @@ namespace KnifeGame
             _blinkSequence.SetLoops(1, LoopType.Incremental);
             if (_blink > 6)
             {
+                gameManager.GarbageCollect();
                 _blinkSequence.OnComplete(ZoomImageIn);
             }
             else
@@ -119,13 +121,23 @@ namespace KnifeGame
             }
         }
 
-//        public void DeleteGameObject()
-//        {
-//            var targetFlyAparts = FindObjectsOfType<HalfAppleGroup>();
-//            if(targetFlyAparts ==null) return;
-//            foreach (var tfa in targetFlyAparts)
-//                Destroy(tfa.gameObject);
-//            print("deleted");
-//        }
+        public void ResetBlink()
+        {
+            _blink = 0;
+        }
+        public void ShowLevel()
+        {
+            _levelAndButtonGroup.SetActive(true);
+        }
+
+        private void SetLevelName()
+        {
+        }
+
+        private void OnDestroy()
+        {
+            _blinkSequence.Kill();
+            _sequence.Kill();
+        }
     }
 }

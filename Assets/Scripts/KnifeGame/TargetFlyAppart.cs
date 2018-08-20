@@ -31,14 +31,10 @@ namespace KnifeGame
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);
         }
 
-        private void OnBecameVisible()
-        {
-            gameObject.SetActive(true);
-        }
-
         private void OnBecameInvisible()
         {
-            gameObject.SetActive(false);
+            _rigidbody.bodyType = RigidbodyType2D.Static;
+            gameObject.transform.position = new Vector3(1000, 1000, 0);
         }
     }
 }

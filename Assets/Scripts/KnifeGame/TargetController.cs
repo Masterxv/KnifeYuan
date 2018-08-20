@@ -18,6 +18,7 @@ namespace KnifeGame
     {
         [SerializeField] private float _stopTimeMin = 2;
         [SerializeField] private float _stopTimeMax = 5;
+
         [SerializeField]
         [Tooltip("The velocity of rotation, fast or slow, this * 360 degrees, should set from 0.5 to 1.2")]
         private float _velocity;
@@ -30,6 +31,7 @@ namespace KnifeGame
         [Tooltip("The circle appears with this type")] [SerializeField]
         private Ease _circleEaseType = Ease.OutBounce;
 
+//        public Transform CenterOfTarget;
         /// <summary>
         /// private parameters, variables
         /// </summary>
@@ -65,7 +67,7 @@ namespace KnifeGame
         private void LaunchTheRotation()
         {
             DOTween.Kill(transform); // kill tween from doScale
-
+            gameManager.SetGameReady();
             switch (_rotateType)
             {
                 case RotateType.LEFT:

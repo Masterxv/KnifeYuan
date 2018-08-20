@@ -102,7 +102,7 @@ MonoBehaviour:
   _speed: 50
   _mass: 1
   _torque: 10
-  _forceMultiplier: 1000
+  _forceMultiplier: 250
   _rigidbody: {fileID: 50839619998730990}
   _collider: {fileID: 61561779316852112}
 --- !u!212 &212497685248526654

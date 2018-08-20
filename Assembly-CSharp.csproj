@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\AnimCameraColor.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\AppleImpact.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\CanvasManager.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\ChangeMaterialColor.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\ChooseLevelController.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="Assets\Scripts\KnifeGame\GameState.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\HalfAppleGroup.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\InputTouch.cs" />
-    <Compile Include="Assets\Scripts\KnifeGame\KnifeAfterFly.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\KnifeController.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\KnifeImpactTarget.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\KnifeRemainController.cs" />
@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\KnifeGame\TagAndString.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\TargetController.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\TargetFlyAppart.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\TargetSeperated.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\Util.cs" />
     <Compile Include="Assets\Scripts\ObjectPooling\CakeController.cs" />
     <Compile Include="Assets\Scripts\ObjectPooling\K.cs" />

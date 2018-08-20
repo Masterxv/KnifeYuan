@@ -59,7 +59,7 @@ GameObject:
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1418862503862752
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,15 +311,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ed3921d8d15c940a9283f7f0a461aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stopTimeMin: 3
-  _stopTimeMax: 8
-  _delayTime: 1
-  rotateType: 1
-  easeType: 19
-  loopType: 1
-  circleEaseType: 21
-  randomAngle: 1
-  fixedAngle: 520
+  _stopTimeMin: 2
+  _stopTimeMax: 4
+  _velocity: 0.7
+  _delayTime: 1.2
+  _rotateType: 0
+  _easeType: 21
+  _loopType: 2
+  _circleEaseType: 30
 --- !u!212 &212087105650529478
 SpriteRenderer:
   m_ObjectHideFlags: 1

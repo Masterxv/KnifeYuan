@@ -27,29 +27,27 @@ namespace KnifeGame
         [SerializeField] private GameObject _seperatedTargetPrefab;
 
         [SerializeField] private GameObject _seperatedApplePrefab;
-
-//        [SerializeField] [Tooltip("Number of knife in each level")]
-//        private int _knifeRemain;
         [SerializeField] private float _nextStageDelay;
-        [SerializeField] private float _gameOverDelay;
 
         private List<Transform> _knifes = new List<Transform>(16);
         private List<KnifeController> _knifeControllers = new List<KnifeController>(16);
 
         private int _levelIndex; // start from 0
+
         private int _knifeRemain;
-        private GameObject _target;
+
+//        private GameObject _target;
         private TargetController _targetController;
         private int _currentKnifeIndex = 0;
 
         private bool _isReady = false;
 
-        /*[HideInInspector] */
-        public bool winLevel = true; // use this to change the color of fill-level image
+        [HideInInspector] public bool winLevel = true; // use this to change the color of fill-level image
         [HideInInspector] public int Score = 0;
         [HideInInspector] public int Apple = 0;
 
         private ParticleSystem _particle;
+        private GameObject _targetAtLevel;
 
         private void Awake()
         {
@@ -63,16 +61,19 @@ namespace KnifeGame
 
         public void CreateGame()
         {
-            // instance the level prefab from Choose Level Controller
-//            var level = Util.GetLastLevelPlayed();
-            _levelIndex = 1; // level should begin from 0
+            // garbage collect
+            GarbageCollect();
+            canvasManager.ShowLevel();
+
+            _levelIndex = Util.GetLastLevelPlayed(); // _leveIndex should start from 0
             _knifeRemain = KnifeNumEveryLevel[_levelIndex];
-            _isReady = true;
+            _isReady = false;
+
+            Camera.main.orthographicSize = 7f;
             GameState.SetGameState(State.Playing);
 
-            var rot = Quaternion.Euler(0, 0, Random.Range(0, 30));
-            Instantiate(AllLevels[_levelIndex], _targetSpawnPos.position, rot);
-            Camera.main.orthographicSize = 7f;
+            var rot = Quaternion.Euler(0, 0, Random.Range(0, 180f));
+            _targetAtLevel = Instantiate(AllLevels[_levelIndex], _targetSpawnPos.position, rot);
 
             SpawnKnifeAndGetComponent();
 
@@ -80,28 +81,39 @@ namespace KnifeGame
             _knifeRemainController.CreateKnifeRemain();
 
             _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
-            _target = GameObject.FindGameObjectWithTag(TagAndString.TARGET_TAG);
-            _targetController = _target.GetComponent<TargetController>();
-            _hitTargetPrefab = Instantiate(_hitTargetPrefab);
-            _particle = _hitTargetPrefab.GetComponent<ParticleSystem>();
+            _targetController = _targetAtLevel.GetComponent<TargetController>();
+            var hit = Instantiate(_hitTargetPrefab);
+            _particle = hit.GetComponent<ParticleSystem>();
+        }
+
+        public void SetGameReady()
+        {
+            _isReady = true;
         }
 
         private void SpawnKnifeAndGetComponent()
         {
+            ResetKnife();
             for (var i = 0; i < KnifeNumEveryLevel[_levelIndex]; i++)
             {
                 var knife = Instantiate(_allKnifePrefab[0], _knifeSpawnPos.position, _knifeSpawnPos.rotation);
                 knife.SetActive(false);
                 var kc = knife.GetComponent<KnifeController>();
-//                knife.transform.SetParent(_knifeParent);
+                knife.transform.SetParent(transform);
 
                 _knifes.Add(knife.transform);
                 _knifeControllers.Add(kc);
-                kc.CenterOfTarget = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_TARGET).transform;
 //                _knifeSpriteRenderers.Add(knife.GetComponent<SpriteRenderer>());
             }
 
             _knifes[_currentKnifeIndex].gameObject.SetActive(true);
+        }
+
+        private void ResetKnife()
+        {
+            _currentKnifeIndex = 0;
+            _knifes.Clear();
+            _knifeControllers.Clear();
         }
 
         private void OnKnifeHit(Transform hitTransform)
@@ -132,22 +144,20 @@ namespace KnifeGame
             _targetController.enabled = false;
             _knifeControllers[_currentKnifeIndex].KnifeBound();
 
+            winLevel = false;
             // set game start to GAME OVER
             GameState.SetGameState(State.GameOver);
-//            StartCoroutine(GameOverRoutine());
         }
 
         private void KnifeHitBlackApple(Component hitTransform)
         {
-            print("hit the black apple");
-            _targetController.enabled = false;
             _targetController.PlayHitImpact();
             hitTransform.gameObject.SetActive(false);
             _knifeControllers[_currentKnifeIndex].KnifeBound();
 
+            winLevel = false;
             // set game start to GAME OVER
             GameState.SetGameState(State.GameOver);
-//            StartCoroutine(GameOverRoutine());
         }
 
         private void KnifeHitApple(Transform hitTransform)
@@ -164,19 +174,19 @@ namespace KnifeGame
             if (_knifeRemain == 0)
             {
                 ShakerCamera();
-                SeperateTarget(); // disable target and instantiate many pieces
 
-                _knifes[_currentKnifeIndex].SetParent(_target.transform);
+                _knifes[_currentKnifeIndex].SetParent(_targetAtLevel.transform);
                 UpdateScore();
                 _hitTargetPrefab.position = new Vector3(0, 1.0f, 0);
                 _particle.Play();
                 // go to next level
                 StartCoroutine(LoadNextStageRoutine());
+                winLevel = true;
                 return;
             }
 
             _targetController.KnifeHitTarget(); // play shake animation
-            _knifes[_currentKnifeIndex].SetParent(_target.transform);
+            _knifes[_currentKnifeIndex].SetParent(_targetAtLevel.transform);
             _currentKnifeIndex++;
             _knifes[_currentKnifeIndex].gameObject.SetActive(true); // active next knife
             _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
@@ -190,24 +200,26 @@ namespace KnifeGame
 
         private IEnumerator LoadNextStageRoutine()
         {
+            var tempPos = _targetAtLevel.transform.position;
+            Instantiate(_seperatedTargetPrefab, tempPos, Quaternion.identity);
             foreach (var knife in _knifeControllers)
             {
                 knife.KnifeFlyAppart();
             }
 
+            _targetAtLevel.SetActive(false);
             yield return new WaitForSeconds(_nextStageDelay);
+            _targetAtLevel.transform.position = new Vector3(1000, 1000, 0);
+            _targetAtLevel.SetActive(true);
+
+            _levelIndex++;
+
+            Util.SetLastLevelPlayed(_levelIndex);
+            canvasManager.ZoomImageIn();
         }
 
-        private void GameOverRoutine()
-        {
-//            GameState.SetGameState(State.GameOver);
-//            GarbageCollect();
-//            yield return new WaitForSeconds(_gameOverDelay);
-//            enabled = false;
-        }
 
-
-        void AddTouchListener()
+        private void AddTouchListener()
         {
             InputTouch.onTouchDown += delegate(Vector3 pos)
             {
@@ -257,8 +269,8 @@ namespace KnifeGame
 
         private void GameOver()
         {
+            canvasManager.ResetBlink();
             canvasManager.BlinkBackground();
-            GarbageCollect();
         }
 
         private void Paused()
@@ -294,42 +306,6 @@ namespace KnifeGame
                 .SetEase(Ease.OutQuart);
         }
 
-        private void SeperateTarget()
-        {
-            _target.gameObject.SetActive(false);
-            Instantiate(_seperatedTargetPrefab, _target.transform.position,
-                _target.transform.rotation); // instantiate seperated target object
-        }
-
-        private void GarbageCollect()
-        {
-            var knifeImpacts = FindObjectsOfType<KnifeImpactTarget>();
-            if (knifeImpacts == null) return;
-            foreach (var ki in knifeImpacts)
-                Destroy(ki.gameObject);
-
-            var knifeAfterFlies = FindObjectsOfType<KnifeAfterFly>();
-            if (knifeAfterFlies == null) return;
-            foreach (var kaf in knifeAfterFlies)
-                Destroy(kaf.gameObject);
-
-            var targetFlyAparts = FindObjectsOfType<TargetFlyAppart>();
-            if (targetFlyAparts == null) return;
-            foreach (var tfa in targetFlyAparts)
-                Destroy(tfa.gameObject);
-
-            var halfAppleGroups = FindObjectsOfType<HalfAppleGroup>();
-            if (halfAppleGroups == null) return;
-            foreach (var hag in halfAppleGroups)
-                Destroy(hag.gameObject);
-
-            // target controller
-            var targetControllers = FindObjectsOfType<TargetController>();
-            if (targetControllers == null) return;
-            foreach (var tc in targetControllers)
-                Destroy(tc.gameObject);
-        }
-
         private void NextKnife()
         {
 //            if (_selectedKnifeSpriteIndex + 1 >= _knifeSprites.Count)
@@ -346,12 +322,66 @@ namespace KnifeGame
 //            UpdateKnifes();
         }
 
-        private void UpdateKnifes()
+        public void GarbageCollect() // call from Canvas Manager, when blinking background is completed
         {
-//            foreach (var knife in _knifeSpriteRenderers)
-//            {
-//                knife.sprite = _knifeSprites[_selectedKnifeSpriteIndex];
-//            }
+            var targetController = FindObjectOfType<TargetController>();
+            if (targetController != null)
+            {
+                Destroy(targetController.gameObject);
+            }
+
+            var knifeImpact = FindObjectOfType<KnifeImpactTarget>();
+            if (knifeImpact != null)
+            {
+                Destroy(knifeImpact.gameObject);
+            }
+
+            var appleImpact = FindObjectOfType<AppleImpact>();
+            if (appleImpact != null)
+            {
+                Destroy(appleImpact.gameObject);
+            }
+
+
+            // if game over and there are some knives still remain, knives can throw, they are child of game manager
+            var children = transform.childCount;
+            if (children > 0)
+            {
+                for (var i = 0; i < children; i++)
+                {
+                    Destroy(transform.GetChild(i).gameObject);
+                }
+            }
+
+            var knifeControllers = FindObjectsOfType<KnifeController>();
+            if (knifeControllers != null)
+            {
+                foreach (var kc in knifeControllers)
+                    Destroy(kc.gameObject);
+            }
+
+            var targetSeperated = FindObjectsOfType<TargetSeperated>();
+            if (targetSeperated != null)
+            {
+                foreach (var ts in targetSeperated)
+                    Destroy(ts.gameObject);
+            }
+
+            var targetFlyAparts = FindObjectsOfType<TargetFlyAppart>();
+            if (targetFlyAparts != null)
+            {
+                foreach (var tfa in targetFlyAparts)
+                {
+                    Destroy(tfa.gameObject);
+                }
+            }
+
+            var halfAppleGroups = FindObjectsOfType<HalfAppleGroup>();
+            if (halfAppleGroups != null)
+            {
+                foreach (var hag in halfAppleGroups)
+                    Destroy(hag.gameObject);
+            }
         }
     }
 }

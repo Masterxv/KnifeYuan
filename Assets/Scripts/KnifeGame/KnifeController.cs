@@ -8,19 +8,23 @@ namespace KnifeGame
 {
     public class KnifeController : MonoBehaviourHelper
     {
-        [SerializeField] private float _speed;
+        [Tooltip("Speed of throwing of knife")] [SerializeField]
+        private float _speed;
+
         [SerializeField] private float _mass;
         [SerializeField] private float _torque;
-        [SerializeField] private float _forceMultiplier;
+
+        [Tooltip("Force to add to knife when it's bounding or flying apart")] [SerializeField]
+        private float _forceMultiplier;
 
         public event Action<Transform> OnHit;
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private BoxCollider2D _collider;
-        [HideInInspector] public Transform CenterOfTarget;
+        private Transform _centerOfTarget;
 
         void Start()
         {
-//            CenterOfTarget = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_TARGET).transform;
+            _centerOfTarget = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_TARGET).transform;
         }
 
         public void Throw()
@@ -45,7 +49,7 @@ namespace KnifeGame
         {
             _collider.enabled = false;
             _rigidbody.bodyType = RigidbodyType2D.Dynamic;
-            var direction = transform.position - CenterOfTarget.position;
+            var direction = transform.position - _centerOfTarget.position;
             _rigidbody.mass = _mass;
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);
@@ -58,17 +62,16 @@ namespace KnifeGame
 
             transform.SetParent(null);
             gameObject.SetActive(true);
-            var direction = transform.position - CenterOfTarget.position;
+            var direction = transform.position - _centerOfTarget.position;
             _rigidbody.mass = _mass;
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);
-            Destroy(GetComponent<KnifeController>());
-            gameObject.AddComponent<KnifeAfterFly>();
         }
 
         private void OnBecameInvisible()
         {
-            gameObject.SetActive(false);
+            _rigidbody.bodyType = RigidbodyType2D.Static;
+            gameObject.transform.position = new Vector3(1000, 1000, 0);
         }
     }
 }
