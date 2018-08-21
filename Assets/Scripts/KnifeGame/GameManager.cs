@@ -2,9 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using UnityEditor.IMGUI.Controls;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace KnifeGame
@@ -19,35 +17,30 @@ namespace KnifeGame
         [SerializeField] private GameObject[] _allKnifePrefab;
         [SerializeField] private Transform _knifeSpawnPos;
         [SerializeField] private Transform _targetSpawnPos;
-
-//        [SerializeField] private Transform _knifeParent;
         [SerializeField] private Transform _hitTargetPrefab;
         [SerializeField] private Transform _hitApplePrefab;
         [SerializeField] private KnifeRemainController _knifeRemainController;
         [SerializeField] private GameObject _seperatedTargetPrefab;
-
         [SerializeField] private GameObject _seperatedApplePrefab;
         [SerializeField] private float _nextStageDelay;
 
         private List<Transform> _knifes = new List<Transform>(16);
         private List<KnifeController> _knifeControllers = new List<KnifeController>(16);
-
-        private int _levelIndex; // start from 0
-
+        private int _levelIndex;
         private int _knifeRemain;
-
-//        private GameObject _target;
         private TargetController _targetController;
         private int _currentKnifeIndex = 0;
-
-        private bool _isReady = false;
-
+        private bool _isReady;
         [HideInInspector] public bool winLevel = true; // use this to change the color of fill-level image
-        [HideInInspector] public int Score = 0;
-        [HideInInspector] public int Apple = 0;
-
+        private int _score;
+        private int _apple;
         private ParticleSystem _particle;
         private GameObject _targetAtLevel;
+
+        public int LevelIndex
+        {
+            get { return _levelIndex; }
+        }
 
         private void Awake()
         {
@@ -61,13 +54,17 @@ namespace KnifeGame
 
         public void CreateGame()
         {
-            // garbage collect
             GarbageCollect();
-            canvasManager.ShowLevel();
 
-            _levelIndex = Util.GetLastLevelPlayed(); // _leveIndex should start from 0
+//            LevelIndex = Util.GetLastLevelPlayed(); // _leveIndex should start from 0
+            _levelIndex = Util.ChooseLevelBool ? Util.GetLevelByChoosing() : Util.GetLastLevelPlayed();
+
+            canvasManager.ShowGroup(true);
+            canvasManager.CheckToShowButton();
+            
             _knifeRemain = KnifeNumEveryLevel[_levelIndex];
             _isReady = false;
+            _apple = Util.GetApplePlayerGet();
 
             Camera.main.orthographicSize = 7f;
             GameState.SetGameState(State.Playing);
@@ -208,13 +205,16 @@ namespace KnifeGame
             }
 
             _targetAtLevel.SetActive(false);
+            canvasManager.ShowGroup(false);
             yield return new WaitForSeconds(_nextStageDelay);
             _targetAtLevel.transform.position = new Vector3(1000, 1000, 0);
             _targetAtLevel.SetActive(true);
 
-            _levelIndex++;
-
-            Util.SetLastLevelPlayed(_levelIndex);
+            Util.ChooseLevelBool = false;
+            _levelIndex++; //3 
+            
+            Util.GetLastLevelPlayed(); // 2
+            Util.SetMaxLevelUnlock(_levelIndex); // we have compare function inside
             canvasManager.ZoomImageIn();
         }
 
@@ -223,7 +223,7 @@ namespace KnifeGame
         {
             InputTouch.onTouchDown += delegate(Vector3 pos)
             {
-                if (pos.x < Screen.width && pos.y < Screen.height)
+                if (pos.x < Screen.width && pos.y < Screen.height * 0.9f)
                 {
                     if (_knifeRemain > 0 && _isReady)
                     {
@@ -238,14 +238,15 @@ namespace KnifeGame
 
         private void UpdateApple()
         {
-            Apple++;
-            canvasManager.AppleText.text = Apple.ToString();
+            _apple++;
+            canvasManager.AppleText.text = _apple.ToString();
+            Util.SetApplePlayerGet(_apple);
         }
 
         private void UpdateScore()
         {
-            Score++;
-            canvasManager.ScoreText.text = Score.ToString();
+            _score++;
+            canvasManager.ScoreText.text = _score.ToString();
         }
 
         private void OnEnable()
@@ -269,8 +270,17 @@ namespace KnifeGame
 
         private void GameOver()
         {
-            canvasManager.ResetBlink();
-            canvasManager.BlinkBackground();
+            // try to set best score
+            Util.SetBestScore(_score);
+
+            Util.SetLastLevelPlayed(_levelIndex);
+            // reset score
+            _score = 0;
+            canvasManager.ResetScoreText();
+            // save the apple
+            Util.SetApplePlayerGet(_apple);
+            canvasManager.BlinkBackGround();
+            canvasManager.ShowGroup(false);
         }
 
         private void Paused()
@@ -304,22 +314,6 @@ namespace KnifeGame
         {
             Camera.main.DOShakePosition(duration: 0.2f, strength: 0.1f, vibrato: 1, randomness: 2.0f)
                 .SetEase(Ease.OutQuart);
-        }
-
-        private void NextKnife()
-        {
-//            if (_selectedKnifeSpriteIndex + 1 >= _knifeSprites.Count)
-//            {
-//                _selectedKnifeSpriteIndex = 0;
-//                PlayerInput.Swiped = false;
-//            }
-//            else
-//            {
-//                _selectedKnifeSpriteIndex++;
-//                PlayerInput.Swiped = false;
-//            }
-//
-//            UpdateKnifes();
         }
 
         public void GarbageCollect() // call from Canvas Manager, when blinking background is completed

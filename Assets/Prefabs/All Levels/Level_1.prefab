@@ -318,7 +318,7 @@ MonoBehaviour:
   _rotateType: 0
   _easeType: 21
   _loopType: 2
-  _circleEaseType: 30
+  _circleEaseType: 27
 --- !u!212 &212087105650529478
 SpriteRenderer:
   m_ObjectHideFlags: 1

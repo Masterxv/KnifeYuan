@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace KnifeGame
 {
-    public class ChooseLevelController : MonoBehaviour
+    public class ChooseLevelController : MonoBehaviourHelper
     {
         void Start()
         {
@@ -15,7 +15,8 @@ namespace KnifeGame
 
         public void GoToLevel(int level) // start from 0
         {
-            Util.SetLastLevelPlayed(level);
+            Util.ChooseLevelBool = true;
+            Util.SetLevelByChoosing(level);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }

@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace KnifeGame
 {
-    public class MainMenuController : MonoBehaviour
+    public class MainMenuController : MonoBehaviourHelper
     {
         [SerializeField] private GameObject _chooseLevelPrefab;
         [SerializeField] private GameObject _mainMenuGroup;
@@ -18,6 +18,7 @@ namespace KnifeGame
 
         public void PlayGame()
         {
+            Util.ChooseLevelBool = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 

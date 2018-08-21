@@ -277,7 +277,7 @@ MonoBehaviour:
   _velocity: 0.7
   _delayTime: 1
   _rotateType: 1
-  _easeType: 1
+  _easeType: 9
   _loopType: 2
   _circleEaseType: 30
 --- !u!212 &212104595318785096

@@ -39,6 +39,7 @@ namespace KnifeGame
 
         private Ease _shakeEaseType;
         private Sequence _sequence;
+        private Sequence _sequenceImpact;
         private float _angle;
         private float _timeToStop; // this is MAIN parameter to rotate the target
         private Vector3 _rotateVector = new Vector3(0, 0, 1);
@@ -67,7 +68,7 @@ namespace KnifeGame
         private void LaunchTheRotation()
         {
             DOTween.Kill(transform); // kill tween from doScale
-            gameManager.SetGameReady();
+            canvasManager.ShowReadyText();
             switch (_rotateType)
             {
                 case RotateType.LEFT:
@@ -88,6 +89,7 @@ namespace KnifeGame
                 case RotateType.LEFT_RIGHT_SHAKE:
                     RotateLRShake();
                     break;
+                default: break;
             }
         }
 
@@ -226,7 +228,6 @@ namespace KnifeGame
         {
             if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
                 return;
-            DOTween.Kill(transform);
             _sequence?.Kill();
             _sequence = DOTween.Sequence();
 
@@ -287,19 +288,27 @@ namespace KnifeGame
 
         public void PlayHitImpact()
         {
-            transform.DOPunchScale(new Vector3(1, 1, 1), 0.2f, 5, 1).SetEase(Ease.InElastic);
+            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
+                return;
+            _sequenceImpact?.Kill();
+            _sequenceImpact = DOTween.Sequence();
+            _sequenceImpact.Append(transform.DOPunchScale(new Vector3(1, 1, 1), 0.2f, 5, 1).SetEase(Ease.InElastic));
         }
 
         public void KnifeHitTarget()
         {
-            transform.DOShakeScale(duration: 0.1f, strength: 0.1f, vibrato: 10, randomness: 1, fadeOut: true)
-                .SetEase(Ease.InSine);
+            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
+                return;
+            _sequenceImpact?.Kill();
+            _sequenceImpact = DOTween.Sequence();
+            _sequenceImpact.Append(transform.DOShakeScale(duration: 0.1f, strength: 0.1f, vibrato: 10, randomness: 1, fadeOut: true)
+                .SetEase(Ease.InSine));
         }
 
         private void OnDestroy()
         {
             _sequence.Kill();
-            DOTween.Kill(transform);
+            _sequenceImpact.Kill();
         }
     }
 }
