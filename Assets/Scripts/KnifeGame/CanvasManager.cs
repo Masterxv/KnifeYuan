@@ -19,11 +19,10 @@ namespace KnifeGame
         public TextMeshProUGUI ReadyText;
         public Color ReadyTextStartColor;
         public Color ReadyTextEndColor;
-
         public Text LevelName;
         public Button PreviousButton;
         public Button NextButton;
-
+        public Image HeadBackground;
         private Sequence _sequence;
         private Sequence _blinkSequence;
 
@@ -42,9 +41,9 @@ namespace KnifeGame
             BlinkBackground.color = new Color(0, 0, 0, 0);
 
             ReadyText.gameObject.SetActive(false);
-            PreviousButton.gameObject.SetActive(false);
-            NextButton.gameObject.SetActive(false);
-            
+            PreviousButton.GetComponent<Image>().enabled = false;
+            NextButton.GetComponent<Image>().enabled = false;
+
             AddButtonListener();
         }
 
@@ -141,6 +140,7 @@ namespace KnifeGame
         {
             LevelAndButtonGroup.SetActive(value);
             ScoreAndAppleGroup.SetActive(value);
+            HeadBackground.gameObject.SetActive(value);
             SetLevelName();
         }
 
@@ -151,9 +151,8 @@ namespace KnifeGame
 
         public void CheckToShowButton()
         {
-            PreviousButton.gameObject.SetActive(Util.ActiveButtonPrevious());
-
-            NextButton.gameObject.SetActive(Util.ActiveButtonNext());
+            PreviousButton.GetComponent<Image>().enabled = Util.ActiveButtonPrevious();
+            NextButton.GetComponent<Image>().enabled = Util.ActiveButtonNext();
         }
 
         private void AddButtonListener()
@@ -164,12 +163,22 @@ namespace KnifeGame
 
         private void NextPress()
         {
-            print("next");
+            var level = Util.GetLastLevelPlayed();
+            level++;
+            Util.SetLastLevelPlayed(level);
+            gameManager.winLevel = true;
+            canvasManager.ShowGroup(false);
+            canvasManager.ZoomImageIn();
         }
 
         private void PreviousPress()
         {
-            print("previous");
+            var level = Util.GetLastLevelPlayed();
+            level--;
+            Util.SetLastLevelPlayed(level);
+            gameManager.winLevel = true;
+            canvasManager.ShowGroup(false);
+            canvasManager.ZoomImageIn();
         }
 
         private void OnDestroy()

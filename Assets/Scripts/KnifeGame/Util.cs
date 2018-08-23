@@ -4,15 +4,15 @@ namespace KnifeGame
 {
     public static class Util
     {
-        private static int _maxLevel = 6;
+        public static bool ChooseLevelBool = true;
+        private static int _maxLevel = 100;
         private static string LEVEL_UNLOCKED = "LEVEL";
         private static string CHOOSE_LEVEL = "CHOOSE_LEVEL";
         private static string APPLE = "APPLE";
         private static string BEST_SCORE = "BEST_SCORE";
-        private static string COUNT_GAMEOVER = "COUNTGAMEOVER";
         private static string LAST_LEVEL_PLAYED = "LEVEL_PLAYED";
         private static string NUMBER_LEVEL_PLAYED = "NUMBEROFLEVELPLAYED";
-        public static bool ChooseLevelBool = true;
+//        private static string COUNT_GAMEOVER = "COUNTGAMEOVER";
 
         #region LEVEL UNLOCK
 
@@ -27,7 +27,7 @@ namespace KnifeGame
             PlayerPrefs.Save();
         }
 
-        private static int GetMaxLevelUnlock()
+        public static int GetMaxLevelUnlock()
         {
             return PlayerPrefs.GetInt(LEVEL_UNLOCKED, 1);
         }
@@ -88,10 +88,9 @@ namespace KnifeGame
 
         public static void SetLastLevelPlayed(int num)
         {
-            var lastLevelPlayed = GetLastLevelPlayed(); // 2
-            if (num >= lastLevelPlayed)
-                PlayerPrefs.SetInt(LAST_LEVEL_PLAYED, num);
+            if (num > _maxLevel) return;
 
+            PlayerPrefs.SetInt(LAST_LEVEL_PLAYED, num);
             PlayerPrefs.Save();
         }
 
@@ -139,11 +138,11 @@ namespace KnifeGame
         #endregion
 
 
-        public static void SetCountGameOver(int count)
-        {
-            PlayerPrefs.SetInt(COUNT_GAMEOVER, count);
-            PlayerPrefs.Save();
-        }
+//        public static void SetCountGameOver(int count)
+//        {
+//            PlayerPrefs.SetInt(COUNT_GAMEOVER, count);
+//            PlayerPrefs.Save();
+//        }
 
         // SetSound()
         // SetSoundOn()

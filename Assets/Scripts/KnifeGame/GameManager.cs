@@ -56,12 +56,9 @@ namespace KnifeGame
         {
             GarbageCollect();
 
-//            LevelIndex = Util.GetLastLevelPlayed(); // _leveIndex should start from 0
             _levelIndex = Util.ChooseLevelBool ? Util.GetLevelByChoosing() : Util.GetLastLevelPlayed();
-
-            canvasManager.ShowGroup(true);
-            canvasManager.CheckToShowButton();
-            
+            Util.SetLastLevelPlayed(_levelIndex);
+         
             _knifeRemain = KnifeNumEveryLevel[_levelIndex];
             _isReady = false;
             _apple = Util.GetApplePlayerGet();
@@ -86,6 +83,8 @@ namespace KnifeGame
         public void SetGameReady()
         {
             _isReady = true;
+            canvasManager.ShowGroup(true);
+            canvasManager.CheckToShowButton();
         }
 
         private void SpawnKnifeAndGetComponent()
@@ -100,7 +99,6 @@ namespace KnifeGame
 
                 _knifes.Add(knife.transform);
                 _knifeControllers.Add(kc);
-//                _knifeSpriteRenderers.Add(knife.GetComponent<SpriteRenderer>());
             }
 
             _knifes[_currentKnifeIndex].gameObject.SetActive(true);
@@ -211,9 +209,9 @@ namespace KnifeGame
             _targetAtLevel.SetActive(true);
 
             Util.ChooseLevelBool = false;
-            _levelIndex++; //3 
+            _levelIndex++;
             
-            Util.GetLastLevelPlayed(); // 2
+            Util.SetLastLevelPlayed(_levelIndex);
             Util.SetMaxLevelUnlock(_levelIndex); // we have compare function inside
             canvasManager.ZoomImageIn();
         }

@@ -31,28 +31,17 @@ namespace KnifeGame
         [Tooltip("The circle appears with this type")] [SerializeField]
         private Ease _circleEaseType = Ease.OutBounce;
 
-//        public Transform CenterOfTarget;
         /// <summary>
         /// private parameters, variables
         /// </summary>
         private float _interval; // time to add between tween loop
-
         private Ease _shakeEaseType;
         private Sequence _sequence;
         private Sequence _sequenceImpact;
         private float _angle;
         private float _timeToStop; // this is MAIN parameter to rotate the target
         private Vector3 _rotateVector = new Vector3(0, 0, 1);
-
-//        [SerializeField] [Range(0, 1)] private float _directionChance;
-//        [SerializeField] private float _speedUp = 0.1f;
-//        [SerializeField] private float _slowdownSpeed = 2f;
-//        [SerializeField] private float _rotationSpeed = 5;
-//        [SerializeField] private float _stopTime;
-//        private bool _IsSpeedUp;
-//        private int _direction = 1;
-//        private float _speed;
-//        private float _stopTimeVar;
+        
         private void Awake()
         {
             transform.localScale *= 0.5f;
@@ -235,55 +224,6 @@ namespace KnifeGame
             _angle = 360f * _velocity * _timeToStop;
             _angle += Random.Range(0f, 30f);
             _interval = Random.Range(0, _delayTime);
-        }
-
-        void RotateTarget()
-        {
-//            if (Time.timeSinceLevelLoad < _delayTime)
-//            {
-//                return;
-//            }
-//
-//            if (_IsSpeedUp)
-//            {
-//                _speed += _speedUp * Time.deltaTime;
-//                transform.Rotate(Vector3.forward * _direction * _speed * Time.deltaTime);
-//                if (_speed > _rotationSpeed)
-//                {
-//                    _speed = _rotationSpeed;
-//                    _IsSpeedUp = false;
-//                }
-//
-//                return;
-//            }
-//
-//            if (_timeToStop <= 0.0f)
-//            {
-//                if (_speed <= 0.1f)
-//                {
-//                    if (_stopTimeVar <= 0)
-//                    {
-//                        _timeToStop = Random.Range(_stopTimeMin, _stopTimeMax);
-//                        _stopTimeVar = _stopTime;
-//                        _speed += _speedUp * Time.deltaTime;
-//                        if (Random.value <= _directionChance) _direction = -_direction;
-//                        transform.Rotate(Vector3.forward * _direction * _speed * Time.deltaTime);
-//                        _IsSpeedUp = true;
-//                    }
-//                    else
-//                        _stopTimeVar -= Time.deltaTime;
-//                }
-//                else
-//                {
-//                    _speed -= _slowdownSpeed * Time.deltaTime;
-//                    transform.Rotate(Vector3.forward * _direction * _speed * Time.deltaTime);
-//                }
-//            }
-//            else
-//            {
-//                _timeToStop -= Time.deltaTime;
-//                transform.Rotate(Vector3.forward * _direction * _rotationSpeed * Time.deltaTime);
-//            }
         }
 
         public void PlayHitImpact()

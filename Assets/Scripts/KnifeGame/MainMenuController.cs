@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace KnifeGame
 {
@@ -10,6 +11,7 @@ namespace KnifeGame
 
         void Start()
         {
+            
         }
 
         void Update()
