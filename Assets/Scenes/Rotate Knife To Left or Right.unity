@@ -295,6 +295,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &357885956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 357885958}
+  - component: {fileID: 357885957}
+  m_Layer: 0
+  m_Name: Level manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &357885957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 357885956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e89c953288b4516ad223798dbb26d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelIndex: 0
+  KnifeDir: 2
+--- !u!4 &357885958
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 357885956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &517274229
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,6 +605,10 @@ Prefab:
       propertyPath: m_SleepingMode
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1523591878055596, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
+      propertyPath: m_Name
+      value: KnifeRotateLeftSide
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114471648038408498, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
@@ -612,6 +658,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Point: {fileID: 747078704}
+  SetToLeft: 1
+  _rotateSpeed: 100
 --- !u!4 &1048474672 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4726757187298090, guid: c8e4e4702c4fd7e43824e62fde520503,

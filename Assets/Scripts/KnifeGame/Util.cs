@@ -30,7 +30,7 @@ namespace KnifeGame
 
         public static int GetMaxLevelUnlock()
         {
-            return PlayerPrefs.GetInt(LEVEL_UNLOCKED, 1);
+            return PlayerPrefs.GetInt(LEVEL_UNLOCKED, 0);
         }
 
         #endregion
@@ -71,7 +71,7 @@ namespace KnifeGame
         {
             var currentBest = GetBestScore();
             if (newScore < currentBest) return;
-                PlayerPrefs.SetInt(BEST_SCORE, newScore);
+            PlayerPrefs.SetInt(BEST_SCORE, newScore);
             PlayerPrefs.Save();
         }
 
@@ -86,15 +86,14 @@ namespace KnifeGame
 
         public static void SetLastLevelPlayed(int num)
         {
-            if (num > MaxLevel) return;
-
+//            if (num > MaxLevel) return;
             PlayerPrefs.SetInt(LAST_LEVEL_PLAYED, num);
             PlayerPrefs.Save();
         }
 
         public static int GetLastLevelPlayed()
         {
-            return PlayerPrefs.GetInt(LAST_LEVEL_PLAYED);
+            return PlayerPrefs.GetInt(LAST_LEVEL_PLAYED, 0);
         }
 
         #endregion
@@ -128,7 +127,7 @@ namespace KnifeGame
         public static bool ActiveButtonPrevious()
         {
             var currentLevel = GetLastLevelPlayed();
-            var canUnlock = currentLevel > 1;
+            var canUnlock = currentLevel > 0;
 
             return canUnlock;
         }

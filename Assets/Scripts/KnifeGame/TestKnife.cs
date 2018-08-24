@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace KnifeGame
 {
     public class TestKnife : MonoBehaviour
     {
         public Transform Point;
+        public bool SetToLeft;
+        [SerializeField] private float _rotateSpeed;
+        
+        private Transform _rightSideConfigure;
         private Rigidbody2D _rigid;
         private Vector3 _localForward;
         private float _angle;
@@ -17,6 +22,14 @@ namespace KnifeGame
             _rigid = GetComponent<Rigidbody2D>();
             _rigid.bodyType = RigidbodyType2D.Static;
             _rigid.freezeRotation = true;
+
+            if (SetToLeft)
+            {
+//                _rightSideConfigure.position = new Vector3(-0.8406528f, -4.042425f, 0f);
+//                _rightSideConfigure.rotation = Quaternion.Euler(0, 0, 31.472f);
+//                transform.position = _rightSideConfigure.position;
+//                transform.rotation = _rightSideConfigure.rotation;
+            }
         }
 
         private void Update()
@@ -29,53 +42,54 @@ namespace KnifeGame
             }
 
             var axis = new Vector3(0, 0, 1);
-
             var zE = transform.eulerAngles.z;
 
-            #region Right side
+            if (SetToLeft)
+                KnifeRotateLeftSide(zE);
+            else
+                KnifeRotateRightSide(zE);
 
-//            if (zE < 330f)
-//                if (_reverse)
-//                    _rotDirection = -100; // chieu kim dong ho
-//
-//            if (zE < 230f)
-//            {
-//                _reverse = false;
-//                _rotDirection = 100;
-//            }
-//
-//            if (zE > 330.1f)
-//            {
-//                _reverse = true;
-//                _rotDirection = -100;
-//            }
+            transform.RotateAround(Point.position, axis, Time.deltaTime * _rotDirection);
+        }
 
-            #endregion
-
-            #region Left Side
-
+        private void KnifeRotateLeftSide(float zE)
+        {
             if (zE > 30f)
             {
                 if (_reverse)
-                    _rotDirection = 100; // chieu nguoc kim dong ho
+                    _rotDirection = _rotateSpeed; // chieu nguoc kim dong ho
             }
 
-            if (zE > -245f)
+            if (zE > 130f)
             {
                 _reverse = false;
-                _rotDirection = -100;
+                _rotDirection = -_rotateSpeed;
             }
 
-//            if (zE < 29f)
-//            {
-//                _reverse = true;
-//                _rotDirection = 100;
-//            }
+            if (zE < 29.9f)
+            {
+                _reverse = true;
+                _rotDirection = _rotateSpeed;
+            }
+        }
 
-            #endregion
+        private void KnifeRotateRightSide(float zE)
+        {
+            if (zE < 330f)
+                if (_reverse)
+                    _rotDirection = -_rotateSpeed; // chieu kim dong ho
 
+            if (zE < 230f)
+            {
+                _reverse = false;
+                _rotDirection = _rotateSpeed;
+            }
 
-            transform.RotateAround(Point.position, axis, Time.deltaTime * _rotDirection);
+            if (zE > 330.1f)
+            {
+                _reverse = true;
+                _rotDirection = -_rotateSpeed;
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D other)

@@ -68,21 +68,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1500654000518074
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4571688057946658}
-  m_Layer: 0
-  m_Name: Center Of Target
-  m_TagString: Untagged
-  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1542504658251352
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,7 +135,7 @@ GameObject:
   - component: {fileID: 4097461961515066}
   - component: {fileID: 114888519663151294}
   m_Layer: 0
-  m_Name: TargetSeperate_Level2
+  m_Name: Seperated_Circle_Level1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,7 +152,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4097461961515066}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -110}
 --- !u!4 &4012767247868328
 Transform:
@@ -180,7 +165,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4097461961515066}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4097461961515066
 Transform:
@@ -192,7 +177,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 4.6, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
-  - {fileID: 4571688057946658}
   - {fileID: 4792285762886464}
   - {fileID: 4012767247868328}
   - {fileID: 4795294017478154}
@@ -200,19 +184,6 @@ Transform:
   - {fileID: 4978434324032954}
   - {fileID: 4011273465138692}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4571688057946658
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1500654000518074}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.014, y: -0.602, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4097461961515066}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4629413721055088
@@ -226,7 +197,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4097461961515066}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 109.91}
 --- !u!4 &4792285762886464
 Transform:
@@ -239,7 +210,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4097461961515066}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 12.0130005}
 --- !u!4 &4795294017478154
 Transform:
@@ -252,7 +223,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4097461961515066}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30.000002}
 --- !u!4 &4978434324032954
 Transform:
@@ -265,7 +236,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4097461961515066}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.3}
 --- !u!50 &50289781800306628
 Rigidbody2D:
@@ -548,7 +519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _centerOfTarget: {fileID: 4571688057946658}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200
@@ -563,7 +533,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _centerOfTarget: {fileID: 4571688057946658}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200
@@ -578,7 +547,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _centerOfTarget: {fileID: 4571688057946658}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200
@@ -593,7 +561,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _centerOfTarget: {fileID: 4571688057946658}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200
@@ -608,7 +575,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _centerOfTarget: {fileID: 4571688057946658}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200
@@ -623,7 +589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _centerOfTarget: {fileID: 4571688057946658}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200

@@ -2,9 +2,9 @@
 
 namespace KnifeGame
 {
-    public class TargetFlyAppart : MonoBehaviour
+    public class CircleFlyAppart : MonoBehaviour
     {
-        [SerializeField] private Transform _centerOfTarget;
+        [SerializeField] private Transform _centerOfCircle;
         [SerializeField] private float _mass;
         [SerializeField] private float _torque;
         [SerializeField] private float _forceMultiplier;
@@ -13,6 +13,8 @@ namespace KnifeGame
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            if (_centerOfCircle == null)
+                _centerOfCircle = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_CIRCLE).transform;
         }
 
         private void Start()
@@ -25,7 +27,7 @@ namespace KnifeGame
         {
             _rigidbody.bodyType = RigidbodyType2D.Dynamic;
             transform.SetParent(null);
-            var direction = transform.position - _centerOfTarget.position;
+            var direction = transform.position - _centerOfCircle.position;
             _rigidbody.mass = _mass;
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);

@@ -4,20 +4,20 @@ namespace KnifeGame
 {
     public class MonoBehaviourHelper : MonoBehaviour
     {
-        private PoolSystem _poolSystem;
-
-        public PoolSystem poolSystem
-        {
-            get
-            {
-                if (_poolSystem == null)
-                {
-                    _poolSystem = FindObjectOfType<PoolSystem>();
-                }
-
-                return _poolSystem;
-            }
-        }
+//        private PoolSystem _poolSystem;
+//
+//        public PoolSystem poolSystem
+//        {
+//            get
+//            {
+//                if (_poolSystem == null)
+//                {
+//                    _poolSystem = FindObjectOfType<PoolSystem>();
+//                }
+//
+//                return _poolSystem;
+//            }
+//        }
 
         private GameManager _gameManager;
 
@@ -36,7 +36,7 @@ namespace KnifeGame
 
         private CanvasManager _canvasManager;
 
-        public CanvasManager canvasManager
+        protected CanvasManager canvasManager
         {
             get
             {
@@ -66,7 +66,7 @@ namespace KnifeGame
 
         private ChooseLevelController _chooseLevelController;
 
-        public ChooseLevelController chooseLevelController
+        protected ChooseLevelController chooseLevelController
         {
             get
             {
@@ -78,7 +78,7 @@ namespace KnifeGame
 
         private MainMenuController _mainMenu;
 
-        public MainMenuController mainMenuController
+        protected MainMenuController mainMenuController
         {
             get
             {

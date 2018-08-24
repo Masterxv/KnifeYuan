@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace KnifeGame
@@ -21,10 +19,10 @@ namespace KnifeGame
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private BoxCollider2D _collider;
         private Transform _centerOfTarget;
-
-        void Start()
+        private bool _gotChild = true;
+        private void Awake()
         {
-            _centerOfTarget = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_TARGET).transform;
+            _centerOfTarget = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_CIRCLE).transform;
         }
 
         public void Throw()
@@ -34,14 +32,23 @@ namespace KnifeGame
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.gameObject.CompareTag(TagAndString.APPLE_TAG)) // hit the target
+            if (!other.gameObject.CompareTag(TagAndString.APPLE_TAG))
             {
-                _rigidbody.velocity = Vector2.zero;
+                if (other.gameObject.CompareTag(TagAndString.CIRCLE_TAG))
+                    transform.parent = other.transform;
+
+                _rigidbody.bodyType = RigidbodyType2D.Static;
                 _collider.isTrigger = true;
-                _collider.size = new Vector2(_collider.size.x, 1.3f);
-                _collider.offset = new Vector2(0, -0.7f);
+                if (_gotChild)
+                {
+                    var localForward = transform.TransformDirection(Vector3.up);
+                    transform.position += localForward * 0.8f;
+                    _gotChild = false;
+                }
             }
 
+            if (other.gameObject.CompareTag(TagAndString.APPLE_TAG))
+                other.gameObject.SetActive(false);
             OnHit?.Invoke(other.transform);
         }
 

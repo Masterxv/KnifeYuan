@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 199796411062807462}
   - component: {fileID: 114630767690438662}
   m_Layer: 0
-  m_Name: AppleImpact
+  m_Name: Hit Apple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -23,6 +23,7 @@ namespace KnifeGame
         public Button PreviousButton;
         public Button NextButton;
         public Image HeadBackground;
+
         private Sequence _sequence;
         private Sequence _blinkSequence;
 
@@ -146,7 +147,7 @@ namespace KnifeGame
 
         private void SetLevelName()
         {
-            LevelName.text = "Level " + gameManager.LevelIndex;
+            LevelName.text = "Level " + (gameManager.LevelIndex + 1);
         }
 
         public void CheckToShowButton()

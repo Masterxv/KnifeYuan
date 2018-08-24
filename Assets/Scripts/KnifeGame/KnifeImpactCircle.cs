@@ -2,7 +2,7 @@
 
 namespace KnifeGame
 {
-    public class KnifeImpactTarget : MonoBehaviour
+    public class KnifeImpactCircle : MonoBehaviour
     {
         
     }

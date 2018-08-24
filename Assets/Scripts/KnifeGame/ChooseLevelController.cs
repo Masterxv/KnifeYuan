@@ -52,7 +52,7 @@ namespace KnifeGame
                 _levelText = (i + 1).ToString();
                 _levelControls[i].Label.text = _levelText;
                 _levelControls[i].LButton.interactable = true;
-                _levelControls[i].LevelByUser = (i + 1);
+                _levelControls[i].LevelByUser = i;
             }
         }
 

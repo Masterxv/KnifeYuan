@@ -14,7 +14,7 @@ namespace KnifeGame
         LEFT_RIGHT_SHAKE
     }
 
-    public class TargetController : MonoBehaviourHelper
+    public class CircleController : MonoBehaviourHelper
     {
         [SerializeField] private float _stopTimeMin = 2;
         [SerializeField] private float _stopTimeMax = 5;
@@ -235,7 +235,7 @@ namespace KnifeGame
             _sequenceImpact.Append(transform.DOPunchScale(new Vector3(1, 1, 1), 0.2f, 5, 1).SetEase(Ease.InElastic));
         }
 
-        public void KnifeHitTarget()
+        public void PlayKnifeHitTarget()
         {
             if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
                 return;

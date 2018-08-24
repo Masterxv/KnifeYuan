@@ -91,8 +91,8 @@ GameObject:
   - component: {fileID: 58650699956022000}
   - component: {fileID: 114908616218064320}
   m_Layer: 0
-  m_Name: Level_3
-  m_TagString: Target
+  m_Name: Circle_4
+  m_TagString: Circle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -272,12 +272,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ed3921d8d15c940a9283f7f0a461aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stopTimeMin: 3
-  _stopTimeMax: 10
+  _stopTimeMin: 2
+  _stopTimeMax: 5
   _velocity: 0.7
   _delayTime: 1
-  _rotateType: 1
-  _easeType: 9
+  _rotateType: 3
+  _easeType: 12
   _loopType: 2
   _circleEaseType: 30
 --- !u!212 &212104595318785096

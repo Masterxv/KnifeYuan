@@ -39,7 +39,8 @@ namespace KnifeGame
             {
                 if (Input.GetMouseButtonDown(0)) 
                 {
-//                    onTouchDown(Input.mousePosition);
+//                    if (onTouchDown != null)
+//                        onTouchDown(Input.mousePosition);
                     onTouchDown?.Invoke(Input.mousePosition);
                 }
             }

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50166450262738408}
   - component: {fileID: 61937486473792040}
   - component: {fileID: 114199703690159094}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HalfApple (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 50228107602885464}
   - component: {fileID: 61567476876343364}
   - component: {fileID: 114783986017647570}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HalfApple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,10 +236,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _centerOfTarget: {fileID: 4123250192411810}
+  _centerOfCircle: {fileID: 4123250192411810}
   _mass: 0.8
   _torque: 10
-  _forceMultiplier: 400
+  _forceMultiplier: 220
 --- !u!114 &114783986017647570
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -251,10 +251,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _centerOfTarget: {fileID: 4123250192411810}
+  _centerOfCircle: {fileID: 4123250192411810}
   _mass: 0.8
   _torque: 10
-  _forceMultiplier: 400
+  _forceMultiplier: 220
 --- !u!114 &114949007506319256
 MonoBehaviour:
   m_ObjectHideFlags: 1

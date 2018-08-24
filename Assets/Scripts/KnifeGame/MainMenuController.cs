@@ -7,7 +7,7 @@ namespace KnifeGame
     public class MainMenuController : MonoBehaviourHelper
     {
         public GameObject ChooseLevelPrefab;
-        public GameObject MainMenuGroup;
+        public GameObject MainMenuCanvas;
 
         public Button PlayButton;
         public Button ChooseButton;
@@ -39,7 +39,7 @@ namespace KnifeGame
             else
                 _chooseLevelObject.gameObject.SetActive(true);
 
-            MainMenuGroup.SetActive(false);
+            MainMenuCanvas.SetActive(false);
         }
 
         private void ButtonAddListener()
@@ -63,7 +63,7 @@ namespace KnifeGame
         public void HomePressed()
         {
             _chooseLevelObject.SetActive(false);
-            MainMenuGroup.SetActive(true);
+            MainMenuCanvas.SetActive(true);
         }
 
         void Update()

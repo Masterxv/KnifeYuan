@@ -91,8 +91,8 @@ GameObject:
   - component: {fileID: 58650699956022000}
   - component: {fileID: 114908616218064320}
   m_Layer: 0
-  m_Name: Level_7
-  m_TagString: Target
+  m_Name: Circle_6
+  m_TagString: Circle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -272,14 +272,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ed3921d8d15c940a9283f7f0a461aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stopTimeMin: 2
-  _stopTimeMax: 8
-  _velocity: 0.5
-  _delayTime: 1.2
-  _rotateType: 0
-  _easeType: 19
-  _loopType: 1
-  _circleEaseType: 27
+  _stopTimeMin: 3
+  _stopTimeMax: 10
+  _velocity: 0.65
+  _delayTime: 1.5
+  _rotateType: 5
+  _easeType: 18
+  _loopType: 2
+  _circleEaseType: 30
 --- !u!212 &212104595318785096
 SpriteRenderer:
   m_ObjectHideFlags: 1
