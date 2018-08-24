@@ -45,11 +45,12 @@ namespace KnifeGame
         private void Awake()
         {
             GC.Collect();
-            AddTouchListener();
+            Application.targetFrameRate = Application.isMobilePlatform ? 30 : 60;
         }
 
         void Start()
         {
+            AddTouchListener();
         }
 
         public void CreateGame()
@@ -63,7 +64,7 @@ namespace KnifeGame
             _isReady = false;
             _apple = Util.GetApplePlayerGet();
 
-            Camera.main.orthographicSize = 7f;
+            Camera.main.orthographicSize = 7.5f;
             GameState.SetGameState(State.Playing);
 
             var rot = Quaternion.Euler(0, 0, Random.Range(0, 180f));
@@ -92,7 +93,8 @@ namespace KnifeGame
             ResetKnife();
             for (var i = 0; i < KnifeNumEveryLevel[_levelIndex]; i++)
             {
-                var knife = Instantiate(_allKnifePrefab[0], _knifeSpawnPos.position, _knifeSpawnPos.rotation);
+                // set to shopKnifeIndex
+                var knife = Instantiate(_allKnifePrefab[0], _knifeSpawnPos.position, _knifeSpawnPos.rotation); 
                 knife.SetActive(false);
                 var kc = knife.GetComponent<KnifeController>();
                 knife.transform.SetParent(transform);

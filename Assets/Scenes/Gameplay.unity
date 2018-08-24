@@ -314,7 +314,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 13
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1814,6 +1814,10 @@ MonoBehaviour:
   - {fileID: 1992356901033934, guid: ec6ed8fc0cc664a4fb4d28b68c19f397, type: 2}
   - {fileID: 1992356901033934, guid: 76291d06bbabaa24aa131664ca67685c, type: 2}
   - {fileID: 1992356901033934, guid: 4ffe11f541e104046b37ff5854082272, type: 2}
+  - {fileID: 1992356901033934, guid: 306650f1b5027ed43986c9d5a5664597, type: 2}
+  - {fileID: 1992356901033934, guid: 306650f1b5027ed43986c9d5a5664597, type: 2}
+  - {fileID: 1992356901033934, guid: 306650f1b5027ed43986c9d5a5664597, type: 2}
+  - {fileID: 1992356901033934, guid: 306650f1b5027ed43986c9d5a5664597, type: 2}
   - {fileID: 1992356901033934, guid: 306650f1b5027ed43986c9d5a5664597, type: 2}
   KnifeNumEveryLevel: 03000000040000000500000006000000070000000800000008000000080000000800000008000000
   _allKnifePrefab:

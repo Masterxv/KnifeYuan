@@ -8,39 +8,72 @@ namespace KnifeGame
     public class ChooseLevelController : MonoBehaviourHelper
     {
         public Transform GridView;
-        private List<LevelControl> _levelControls = new List<LevelControl>(100);
-
         public Sprite Unlocked;
         public Sprite Locked;
+        public Button HomeButton;
+        public Button ShopButton;
+
+        private readonly List<LevelControl> _levelControls = new List<LevelControl>(Util.MaxLevel);
+        private int _gridChild;
+        private string _levelText;
+
+        private void Awake()
+        {
+            _gridChild = GridView.childCount;
+            AddToLevelList();
+        }
 
         void Start()
         {
-            GetAndLockAll();
+//          Lock all the buttons by LevelControl function
+            SetUnlock();
+            AddButtonListener();
+        }
+
+        private void AddToLevelList()
+        {
+            for (var i = 0; i < _gridChild; i++)
+            {
+                var l = GridView.GetChild(i).GetComponent<LevelControl>();
+                _levelControls.Add(l);
+            }
+        }
+
+        private void SetUnlock()
+        {
+            // so sánh với GetMaxLevelUnlock()
+            // set background to Unlocked và hiển thị Lable, Star
+            var maxLevel = Util.GetMaxLevelUnlock();
+            for (var i = 0; i < maxLevel; i++)
+            {
+                _levelControls[i].Main.sprite = Unlocked;
+                _levelControls[i].Main.raycastTarget = true;
+                _levelControls[i].Label.gameObject.SetActive(true);
+                _levelText = (i + 1).ToString();
+                _levelControls[i].Label.text = _levelText;
+                _levelControls[i].LButton.interactable = true;
+                _levelControls[i].LevelByUser = (i + 1);
+            }
+        }
+
+        private void AddButtonListener()
+        {
+            HomeButton.onClick.AddListener(HomePressed);
+            ShopButton.onClick.AddListener(ShopPress);
+        }
+
+        private void HomePressed()
+        {
+            mainMenuController.HomePressed();
+        }
+
+        private void ShopPress()
+        {
+            print("shop pressed");
         }
 
         void Update()
         {
         }
-
-        public void GoToLevel(int level) // start from 0
-        {
-            Util.ChooseLevelBool = true;
-            Util.SetLevelByChoosing(level);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
-
-        private void GetAndLockAll()
-        {
-            var gridChild = GridView.childCount; // gridChild =100 if there are 100 levels
-            for (var i = 0; i < gridChild; i++)
-            {
-                var l = GridView.GetChild(i).GetComponent<LevelControl>();
-                _levelControls.Add(l);
-                l.Main.sprite = Locked;
-                l.Label.gameObject.SetActive(false);
-                l.Star.gameObject.SetActive(false);
-            }
-        }
-
     }
 }

@@ -64,19 +64,28 @@ namespace KnifeGame
             }
         }
 
-//        private Transform _targetCenter;
-//
-//        protected Transform targetCenter
-//        {
-//            get
-//            {
-//                if (_targetCenter == null)
-//                {
-//                    _targetCenter = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_TARGET).transform;
-//                }
-//
-//                return _targetCenter;
-//            }
-//        }
+        private ChooseLevelController _chooseLevelController;
+
+        public ChooseLevelController chooseLevelController
+        {
+            get
+            {
+                if (_chooseLevelController == null)
+                    _chooseLevelController = FindObjectOfType<ChooseLevelController>();
+                return _chooseLevelController;
+            }
+        }
+
+        private MainMenuController _mainMenu;
+
+        public MainMenuController mainMenuController
+        {
+            get
+            {
+                if (_mainMenu == null)
+                    _mainMenu = FindObjectOfType<MainMenuController>();
+                return _mainMenu;
+            }
+        }
     }
 }

@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\KnifeGame\TargetController.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\TargetFlyAppart.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\TargetSeperated.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\TestKnife.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\Util.cs" />
     <Compile Include="Assets\Scripts\ObjectPooling\CakeController.cs" />
     <Compile Include="Assets\Scripts\ObjectPooling\K.cs" />

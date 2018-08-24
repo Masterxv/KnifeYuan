@@ -6,28 +6,68 @@ namespace KnifeGame
 {
     public class MainMenuController : MonoBehaviourHelper
     {
-        [SerializeField] private GameObject _chooseLevelPrefab;
-        [SerializeField] private GameObject _mainMenuGroup;
+        public GameObject ChooseLevelPrefab;
+        public GameObject MainMenuGroup;
+
+        public Button PlayButton;
+        public Button ChooseButton;
+        public Button ShopButton;
+        public Button SettingButton;
+
+        private GameObject _chooseLevelObject;
+
+        private void Awake()
+        {
+            Application.targetFrameRate = Application.isMobilePlatform ? 30 : 60;
+        }
 
         void Start()
         {
-            
+            ButtonAddListener();
         }
 
-        void Update()
-        {
-        }
-
-        public void PlayGame()
+        private void PlayGame()
         {
             Util.ChooseLevelBool = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
-        public void GoToChooseLevel()
+        private void ChooseLevelPressed()
         {
-            Instantiate(_chooseLevelPrefab, Vector3.zero, Quaternion.identity);
-            _mainMenuGroup.SetActive(false);
+            if (_chooseLevelObject == null)
+                _chooseLevelObject = Instantiate(ChooseLevelPrefab, Vector3.zero, Quaternion.identity);
+            else
+                _chooseLevelObject.gameObject.SetActive(true);
+
+            MainMenuGroup.SetActive(false);
+        }
+
+        private void ButtonAddListener()
+        {
+            PlayButton.onClick.AddListener(PlayGame);
+            ChooseButton.onClick.AddListener(ChooseLevelPressed);
+            SettingButton.onClick.AddListener(SettingPressed);
+            ShopButton.onClick.AddListener(ShopPressed);
+        }
+
+        private void ShopPressed()
+        {
+            print("shop");
+        }
+
+        private void SettingPressed()
+        {
+            print("setting");
+        }
+
+        public void HomePressed()
+        {
+            _chooseLevelObject.SetActive(false);
+            MainMenuGroup.SetActive(true);
+        }
+
+        void Update()
+        {
         }
     }
 }

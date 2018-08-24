@@ -5,12 +5,13 @@ namespace KnifeGame
     public static class Util
     {
         public static bool ChooseLevelBool = true;
-        private static int _maxLevel = 100;
+        public static int MaxLevel = 100;
         private static string LEVEL_UNLOCKED = "LEVEL";
         private static string CHOOSE_LEVEL = "CHOOSE_LEVEL";
         private static string APPLE = "APPLE";
         private static string BEST_SCORE = "BEST_SCORE";
         private static string LAST_LEVEL_PLAYED = "LEVEL_PLAYED";
+
         private static string NUMBER_LEVEL_PLAYED = "NUMBEROFLEVELPLAYED";
 //        private static string COUNT_GAMEOVER = "COUNTGAMEOVER";
 
@@ -18,12 +19,12 @@ namespace KnifeGame
 
         public static void SetMaxLevelUnlock(int num)
         {
-            if (num > _maxLevel) num = _maxLevel;
+            if (num > MaxLevel) num = MaxLevel;
 
             var maxLevelUnlock = GetMaxLevelUnlock();
-            if (num > maxLevelUnlock)
-                PlayerPrefs.SetInt(LEVEL_UNLOCKED, num);
+            if (num < maxLevelUnlock) return;
 
+            PlayerPrefs.SetInt(LEVEL_UNLOCKED, num);
             PlayerPrefs.Save();
         }
 
@@ -69,11 +70,8 @@ namespace KnifeGame
         public static void SetBestScore(int newScore)
         {
             var currentBest = GetBestScore();
-            if (newScore > currentBest)
-            {
+            if (newScore < currentBest) return;
                 PlayerPrefs.SetInt(BEST_SCORE, newScore);
-            }
-
             PlayerPrefs.Save();
         }
 
@@ -88,7 +86,7 @@ namespace KnifeGame
 
         public static void SetLastLevelPlayed(int num)
         {
-            if (num > _maxLevel) return;
+            if (num > MaxLevel) return;
 
             PlayerPrefs.SetInt(LAST_LEVEL_PLAYED, num);
             PlayerPrefs.Save();
