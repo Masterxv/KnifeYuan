@@ -22,6 +22,10 @@ namespace KnifeGame
         [SerializeField] private GameObject _seperatedApplePrefab;
         [SerializeField] private float _nextStageDelay;
 
+        public Transform LeftSideSetup;
+        public Transform RightSideSetup;
+        public GameObject PlatformPrefab;
+        private GameObject _platformObject;
         #endregion
 
 
@@ -39,7 +43,7 @@ namespace KnifeGame
         private int _apple;
         private ParticleSystem _particle;
         private GameObject _circle;
-
+        private Quaternion _knifeRot;
         public int LevelIndex
         {
             get { return _levelIndex; }
@@ -63,13 +67,15 @@ namespace KnifeGame
         {
             GarbageCollect();
 
-//            _levelIndex = 0;
             _levelIndex = Util.ChooseLevelBool ? Util.GetLevelByChoosing() : Util.GetLastLevelPlayed();
 //            print(Util.GetMaxLevelUnlock());
 //            print("Last level: " + Util.GetLastLevelPlayed());
             Util.SetLastLevelPlayed(_levelIndex);
 
-            // if LevelManager[].KnifeDirection = right or left, set the rotation and position
+            _platformObject = Instantiate(PlatformPrefab, Vector3.zero, Quaternion.identity);
+            _platformObject.SetActive(false);
+            
+            SetupForKnifeDirection();
 
             _knifeRemain = LevelManager[_levelIndex].NumberOfKnife;
             _isReady = false;
@@ -77,9 +83,9 @@ namespace KnifeGame
 
             Camera.main.orthographicSize = 7.5f;
             GameState.SetGameState(State.Playing);
-
-            var rot = Quaternion.Euler(0, 0, Random.Range(0, 180f));
-            _circle = Instantiate(LevelManager[_levelIndex].CirclePrefab, _circleSpawnPos.position, rot);
+            
+            var circleRot = Quaternion.Euler(0, 0, Random.Range(0, 180f));
+            _circle = Instantiate(LevelManager[_levelIndex].CirclePrefab, _circleSpawnPos.position, circleRot);
 
             SpawnKnifeAndGetComponent();
 
@@ -90,6 +96,36 @@ namespace KnifeGame
             _circleController = _circle.GetComponent<CircleController>();
             var hit = Instantiate(_hitCirclePrefab, new Vector3(0, 1.74f, 0), Quaternion.identity);
             _particle = hit.GetComponent<ParticleSystem>();
+        }
+
+        void SetupForKnifeDirection()
+        {
+            var dir = LevelManager[_levelIndex].KnifeDirection;
+            switch (dir)
+            {
+                case KnifeDirection.Up:
+                    break;
+                case KnifeDirection.Left:
+                    LeftSetup();
+                    break;
+                case KnifeDirection.Right:
+                    RightSetup();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void LeftSetup()
+        {
+            _knifeSpawnPos = LeftSideSetup;
+            _platformObject.SetActive(true);
+        }
+
+        private void RightSetup()
+        {
+            _knifeSpawnPos = RightSideSetup;
+            _platformObject.SetActive(true);
         }
 
         private void AddTouchListener()
@@ -217,13 +253,13 @@ namespace KnifeGame
 
         private IEnumerator LoadNextStageRoutine()
         {
+            _platformObject.gameObject.SetActive(false);
             var tempPos = _circle.transform.position;
             Instantiate(LevelManager[_levelIndex].SeperatedCirclePref, tempPos, Quaternion.identity);
             foreach (var knife in _knifeControllers)
             {
                 knife.KnifeFlyAppart();
             }
-
             _circle.SetActive(false);
             canvasManager.ShowGroup(false);
             yield return new WaitForSeconds(_nextStageDelay);
@@ -272,6 +308,7 @@ namespace KnifeGame
 
         private void GameOver()
         {
+            _platformObject.gameObject.SetActive(false);
             // try to set best score
             Util.SetBestScore(_score);
 

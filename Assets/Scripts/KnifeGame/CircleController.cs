@@ -52,6 +52,7 @@ namespace KnifeGame
             _sequence.SetLoops(1, _loopType);
             _sequence.OnStepComplete(LaunchTheRotation);
             _sequence.Play();
+            
         }
 
         private void LaunchTheRotation()

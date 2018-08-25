@@ -9,7 +9,7 @@ namespace KnifeGame
         public bool SetToLeft;
         [SerializeField] private float _rotateSpeed;
         
-        private Transform _rightSideConfigure;
+//        private Transform _rightSideConfigure;
         private Rigidbody2D _rigid;
         private Vector3 _localForward;
         private float _angle;
@@ -94,7 +94,7 @@ namespace KnifeGame
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("Platform"))
+            if (other.gameObject.CompareTag(TagAndString.PLATFORM))
             {
                 _angle = transform.position.x < 0 ? -45f : 45f;
                 var rot = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z + _angle);

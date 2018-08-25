@@ -8,5 +8,7 @@
         public const string BLACK_APPLE_TAG = "BlackApple";
         public const string KNIFE_TAG = "Knife";
         public const string CENTER_OF_CIRCLE = "CenterOfCircle";
+        public const string PLATFORM = "Platform";
+        public const string ROTATE_POINT = "RotatePoint";
     }
 }

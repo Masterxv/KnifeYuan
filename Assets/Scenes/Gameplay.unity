@@ -154,6 +154,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65593cd1c7930d346b9e7943225117ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &139552124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 139552125}
+  m_Layer: 0
+  m_Name: Knife Setup Group
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &139552125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 139552124}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1420465149}
+  - {fileID: 1844368782}
+  - {fileID: 1075497278}
+  - {fileID: 1788893867}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &259934018
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,7 +471,7 @@ RectTransform:
   - {fileID: 1910557033}
   - {fileID: 1202302946}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -888,52 +920,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65593cd1c7930d346b9e7943225117ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &718561148
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4726757187298090, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4726757187298090, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4726757187298090, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4726757187298090, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4726757187298090, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4726757187298090, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4726757187298090, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4726757187298090, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1523591878055596, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c8e4e4702c4fd7e43824e62fde520503, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &836117615
 GameObject:
   m_ObjectHideFlags: 0
@@ -1494,6 +1480,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1014325093}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1075497277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1075497278}
+  m_Layer: 0
+  m_Name: Right Side Setup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1075497278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1075497277}
+  m_LocalRotation: {x: -0, y: -0, z: -0.26441336, w: 0.9644095}
+  m_LocalPosition: {x: 0.527, y: -3.9859998, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 139552125}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1162210759
 GameObject:
   m_ObjectHideFlags: 0
@@ -1716,12 +1730,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1420465148}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -4.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 139552125}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1533468533
 GameObject:
@@ -1750,7 +1764,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1533468536
 MonoBehaviour:
@@ -1808,7 +1822,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1708012427
 GameObject:
@@ -1852,7 +1866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelManager:
   - LevelId: 1
-    KnifeDirection: 0
+    KnifeDirection: 1
     NumberOfKnife: 6
     CirclePrefab: {fileID: 1992356901033934, guid: e10b2e866e22b1a46a52fcf83a7bb236,
       type: 2}
@@ -1886,6 +1900,20 @@ MonoBehaviour:
       type: 2}
     SeperatedCirclePref: {fileID: 1908785733927898, guid: a353f0bf45dd77e4489c85c35e997a8c,
       type: 2}
+  - LevelId: 6
+    KnifeDirection: 0
+    NumberOfKnife: 6
+    CirclePrefab: {fileID: 1992356901033934, guid: 4ffe11f541e104046b37ff5854082272,
+      type: 2}
+    SeperatedCirclePref: {fileID: 1908785733927898, guid: a353f0bf45dd77e4489c85c35e997a8c,
+      type: 2}
+  - LevelId: 7
+    KnifeDirection: 0
+    NumberOfKnife: 7
+    CirclePrefab: {fileID: 1992356901033934, guid: 4ffe11f541e104046b37ff5854082272,
+      type: 2}
+    SeperatedCirclePref: {fileID: 1908785733927898, guid: a353f0bf45dd77e4489c85c35e997a8c,
+      type: 2}
   ShopManager:
   - KnifeId: 1
     KnifePrefab: {fileID: 1523591878055596, guid: c8e4e4702c4fd7e43824e62fde520503,
@@ -1900,6 +1928,10 @@ MonoBehaviour:
   _seperatedApplePrefab: {fileID: 1535517819281734, guid: a7287b1a23387a944b987e1d4d5b3e32,
     type: 2}
   _nextStageDelay: 1
+  LeftSideSetup: {fileID: 1844368782}
+  RightSideSetup: {fileID: 1075497278}
+  PlatformPrefab: {fileID: 1092257422905910, guid: d560267d4837bb44399fb6c05df913a9,
+    type: 2}
   winLevel: 1
 --- !u!1 &1781974584
 GameObject:
@@ -2042,6 +2074,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65593cd1c7930d346b9e7943225117ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1788893866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1788893867}
+  m_Layer: 0
+  m_Name: Rotate Point
+  m_TagString: RotatePoint
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1788893867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1788893866}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -4.98, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 139552125}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1813833015
 GameObject:
   m_ObjectHideFlags: 0
@@ -2083,6 +2143,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65593cd1c7930d346b9e7943225117ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1844368781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1844368782}
+  m_Layer: 0
+  m_Name: Left Side Setup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1844368782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1844368781}
+  m_LocalRotation: {x: -0, y: -0, z: 0.27120686, w: 0.96252114}
+  m_LocalPosition: {x: -0.646, y: -4.011, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 139552125}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1888000256
 GameObject:
   m_ObjectHideFlags: 0
