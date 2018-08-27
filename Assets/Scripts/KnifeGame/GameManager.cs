@@ -22,10 +22,12 @@ namespace KnifeGame
         [SerializeField] private GameObject _seperatedApplePrefab;
         [SerializeField] private float _nextStageDelay;
 
+        public Transform UpSideSetup;
         public Transform LeftSideSetup;
         public Transform RightSideSetup;
         public GameObject PlatformPrefab;
         private GameObject _platformObject;
+
         #endregion
 
 
@@ -41,9 +43,11 @@ namespace KnifeGame
         [HideInInspector] public bool winLevel = true; // use this to change the color of fill-level image
         private int _score;
         private int _apple;
-        private ParticleSystem _particle;
+        private ParticleSystem _hitCircleParticle;
+        private ParticleSystem _hitAppleParticle;
         private GameObject _circle;
         private Quaternion _knifeRot;
+
         public int LevelIndex
         {
             get { return _levelIndex; }
@@ -61,6 +65,11 @@ namespace KnifeGame
         private void Start()
         {
             AddTouchListener();
+
+            var hitAppleFx = Instantiate(_hitApplePrefab, new Vector3(0, 1.74f, 0), Quaternion.identity);
+            _hitAppleParticle = hitAppleFx.GetComponent<ParticleSystem>();
+            var hitCircleFx = Instantiate(_hitCirclePrefab, new Vector3(0, 1.74f, 0), Quaternion.identity);
+            _hitCircleParticle = hitCircleFx.GetComponent<ParticleSystem>();
         }
 
         public void CreateGame()
@@ -72,9 +81,10 @@ namespace KnifeGame
 //            print("Last level: " + Util.GetLastLevelPlayed());
             Util.SetLastLevelPlayed(_levelIndex);
 
-            _platformObject = Instantiate(PlatformPrefab, Vector3.zero, Quaternion.identity);
+            if (_platformObject == null)
+                _platformObject = Instantiate(PlatformPrefab, Vector3.zero, Quaternion.identity);
             _platformObject.SetActive(false);
-            
+
             SetupForKnifeDirection();
 
             _knifeRemain = LevelManager[_levelIndex].NumberOfKnife;
@@ -83,7 +93,7 @@ namespace KnifeGame
 
             Camera.main.orthographicSize = 7.5f;
             GameState.SetGameState(State.Playing);
-            
+
             var circleRot = Quaternion.Euler(0, 0, Random.Range(0, 180f));
             _circle = Instantiate(LevelManager[_levelIndex].CirclePrefab, _circleSpawnPos.position, circleRot);
 
@@ -94,8 +104,6 @@ namespace KnifeGame
 
             _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
             _circleController = _circle.GetComponent<CircleController>();
-            var hit = Instantiate(_hitCirclePrefab, new Vector3(0, 1.74f, 0), Quaternion.identity);
-            _particle = hit.GetComponent<ParticleSystem>();
         }
 
         void SetupForKnifeDirection()
@@ -104,6 +112,7 @@ namespace KnifeGame
             switch (dir)
             {
                 case KnifeDirection.Up:
+                    UpSetup();
                     break;
                 case KnifeDirection.Left:
                     LeftSetup();
@@ -114,6 +123,11 @@ namespace KnifeGame
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void UpSetup()
+        {
+            _knifeSpawnPos = UpSideSetup;
         }
 
         private void LeftSetup()
@@ -182,7 +196,7 @@ namespace KnifeGame
             switch (hitTransform.tag)
             {
                 case TagAndString.CIRCLE_TAG: // "Target"
-                    KnifeHitTarget();
+                    KnifeHitCircle();
                     break;
                 case TagAndString.APPLE_TAG: // "Apple"
                     KnifeHitApple(hitTransform);
@@ -222,19 +236,20 @@ namespace KnifeGame
 
         private void KnifeHitApple(Transform hitTransform)
         {
-            Instantiate(_hitApplePrefab, hitTransform.position, Quaternion.identity);
+//            Instantiate(_hitApplePrefab, hitTransform.position, Quaternion.identity);
+            _hitAppleParticle.Play();
             Instantiate(_seperatedApplePrefab, hitTransform.position, Quaternion.identity);
             UpdateApple(); // update for apple text
         }
 
-        private void KnifeHitTarget()
+        private void KnifeHitCircle()
         {
             _knifeControllers[_currentKnifeIndex].OnHit -= OnKnifeHit;
             if (_knifeRemain == 0)
             {
                 ShakerCamera();
                 UpdateScore();
-                _particle.Play();
+                _hitCircleParticle.Play();
 
                 StartCoroutine(LoadNextStageRoutine());
                 winLevel = true;
@@ -247,7 +262,7 @@ namespace KnifeGame
             _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
             UpdateScore();
 
-            _particle.Play();
+            _hitCircleParticle.Play();
             _isReady = true;
         }
 
@@ -260,6 +275,7 @@ namespace KnifeGame
             {
                 knife.KnifeFlyAppart();
             }
+
             _circle.SetActive(false);
             canvasManager.ShowGroup(false);
             yield return new WaitForSeconds(_nextStageDelay);
@@ -366,13 +382,11 @@ namespace KnifeGame
             var knifeImpact = FindObjectOfType<KnifeImpactCircle>();
             if (knifeImpact != null)
             {
-                Destroy(knifeImpact.gameObject);
             }
 
             var appleImpact = FindObjectOfType<AppleImpact>();
             if (appleImpact != null)
             {
-                Destroy(appleImpact.gameObject);
             }
 
 
