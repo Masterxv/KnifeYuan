@@ -77,10 +77,11 @@ namespace KnifeGame
 
         private void ZoomImageOut()
         {
+            var scale = new Vector3(1, 1, 1);
             _sequence?.Kill();
             _sequence = DOTween.Sequence();
-            _sequence.Append(FillTheScene.rectTransform.DOScale(new Vector3(1, 1, 1), 1.2f).SetEase(Ease.InExpo));
-            _sequence.PrependInterval(0.1f); // add interval time at the begining of sequence 
+            _sequence.Append(FillTheScene.rectTransform.DOScale(scale, 1f).SetEase(Ease.InCirc));
+            _sequence.PrependInterval(0.01f); // add interval time at the begining of sequence 
             _sequence.SetLoops(1);
             _sequence.OnStepComplete(gameManager.CreateGame);
             _sequence.Play();

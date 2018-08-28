@@ -154,34 +154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65593cd1c7930d346b9e7943225117ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &106045535
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 106045536}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &106045536
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 106045535}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &139552124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1529,8 +1501,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1075497277}
-  m_LocalRotation: {x: -0, y: -0, z: -0.26441336, w: 0.9644095}
-  m_LocalPosition: {x: 0.527, y: -3.9859998, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.1790942, w: 0.983832}
+  m_LocalPosition: {x: 0.35, y: -3.897, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 139552125}
@@ -1894,21 +1866,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelManager:
   - LevelId: 1
-    KnifeDirection: 1
+    KnifeDirection: 0
     NumberOfKnife: 10
     CirclePrefab: {fileID: 1992356901033934, guid: e10b2e866e22b1a46a52fcf83a7bb236,
       type: 2}
     SeperatedCirclePref: {fileID: 1908785733927898, guid: a353f0bf45dd77e4489c85c35e997a8c,
       type: 2}
   - LevelId: 2
-    KnifeDirection: 0
+    KnifeDirection: 1
     NumberOfKnife: 5
     CirclePrefab: {fileID: 1992356901033934, guid: 9f7983ee94f5b6d4d91765e6b1022468,
       type: 2}
     SeperatedCirclePref: {fileID: 1908785733927898, guid: a353f0bf45dd77e4489c85c35e997a8c,
       type: 2}
   - LevelId: 3
-    KnifeDirection: 0
+    KnifeDirection: 2
     NumberOfKnife: 5
     CirclePrefab: {fileID: 1992356901033934, guid: ec6ed8fc0cc664a4fb4d28b68c19f397,
       type: 2}
@@ -1952,10 +1924,11 @@ MonoBehaviour:
     type: 2}
   _hitApplePrefab: {fileID: 4850846331586164, guid: a7fd002fdf76e6a46a84338c7e0c7d0a,
     type: 2}
+  _hitBlackApplePrefab: {fileID: 0}
   _knifeRemainController: {fileID: 841346517}
   _seperatedApplePrefab: {fileID: 1535517819281734, guid: a7287b1a23387a944b987e1d4d5b3e32,
     type: 2}
-  _nextStageDelay: 2
+  _nextStageDelay: 1.5
   UpSideSetup: {fileID: 1420465149}
   LeftSideSetup: {fileID: 1844368782}
   RightSideSetup: {fileID: 1075497278}

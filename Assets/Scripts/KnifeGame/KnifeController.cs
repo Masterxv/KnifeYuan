@@ -19,21 +19,20 @@ namespace KnifeGame
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private BoxCollider2D _collider;
         [SerializeField] private float _rotationSpeed;
+        [SerializeField] float _distance = 2.2f; // make the distance between knife and centerOfCircle is fixed
+        [HideInInspector] public Vector3 HitPosition; 
+            
 
         private Transform _centerOfCircle;
-
-//        private bool _becameChildAlready;
         private Vector3 _localForward;
-        private Vector3 _axis = new Vector3(0, 0, 1);
+        private readonly Vector3 _axis = new Vector3(0, 0, 1);
         private float _zE;
         private bool _standBy = true;
         private KnifeDirection _knifeDir;
         private float _rotDirection;
         private Transform _rotatePoint;
         private bool _reverse = true;
-
         private float _angle;
-//        private ContactPoint2D[] _contacts = new ContactPoint2D[2];
 
         private void Awake()
         {
@@ -51,48 +50,16 @@ namespace KnifeGame
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-//            if (other.gameObject.CompareTag(TagAndString.CIRCLE_TAG))
-//            {
-//                _rigidbody.GetContacts(_contacts);
-//                var p = _contacts[0].point;
-//                print(p);
-//            }
-
-//            if (!other.gameObject.CompareTag(TagAndString.APPLE_TAG))
-//            {
-//                _rigidbody.bodyType = RigidbodyType2D.Static;
-//                _collider.isTrigger = true;
-//                if (!_becameChildAlready)
-//                {
-//                    var localForward = transform.TransformDirection(Vector3.up);
-//                    transform.position += localForward * 0.8f;
-//                    _becameChildAlready = true;
-//                }
-//            }
-//            if (other.gameObject.CompareTag(TagAndString.CIRCLE_TAG))
-//            {
-//                _rigidbody.bodyType = RigidbodyType2D.Static;
-//                _collider.isTrigger = true;
-//                var localForward = transform.TransformDirection(Vector3.up);
-//                transform.position += localForward * 1f;
-//                transform.rotation = Quaternion.identity;
-//            }
-//            if (other.gameObject.CompareTag(TagAndString.APPLE_TAG))
-//                other.gameObject.SetActive(false);
-//            OnHit?.Invoke(other.transform);
-        }
-
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.CompareTag(TagAndString.KNIFE_TAG))
+            if (other.gameObject.CompareTag(TagAndString.CIRCLE_TAG))
             {
-//                print("hit knife");
-            }
+                transform.parent = other.transform;
+                _rigidbody.bodyType = RigidbodyType2D.Static;
+                _collider.isTrigger = true;
+                var dirFromPointToCenter = _centerOfCircle.position - transform.position;
+                transform.up = dirFromPointToCenter.normalized;
 
-            if (other.gameObject.CompareTag(TagAndString.APPLE_TAG))
-            {
-                other.gameObject.SetActive(false);
-//                print("hit apple");
+                transform.position = (transform.position - _centerOfCircle.position).normalized * _distance + _centerOfCircle.position;
+                HitPosition = transform.position;
             }
 
             if (other.gameObject.CompareTag(TagAndString.PLATFORM))
@@ -104,22 +71,8 @@ namespace KnifeGame
                 _rigidbody.velocity = _localForward * _speed * 0.8f;
             }
 
-            if (other.gameObject.CompareTag(TagAndString.CIRCLE_TAG))
-            {
-                var point = other.contacts[0].point;
-                print(point);
-
-                transform.parent = other.transform;
-                _rigidbody.bodyType = RigidbodyType2D.Static;
-//                _collider.isTrigger = true;
-//                print("center of circle: " + _centerOfCircle.position);
-                var dirFromPointToCenter = _centerOfCircle.position - (Vector3) point;
-                transform.up = dirFromPointToCenter.normalized;
-//                _localForward = transform.TransformDirection(Vector3.up);
-//                transform.position += _localForward * 1.2f;
-                Time.timeScale = 0;
-            }
-
+            if (other.gameObject.CompareTag(TagAndString.APPLE_TAG))
+                other.gameObject.SetActive(false);
             OnHit?.Invoke(other.transform);
         }
 
@@ -161,16 +114,16 @@ namespace KnifeGame
 
         private void KnifeRotateRightSide(float zE)
         {
-            if (zE < 330f && _reverse)
+            if (zE < 340f && _reverse)
                 _rotDirection = -_rotationSpeed; // chieu kim dong ho
 
-            if (zE < 230f)
+            if (zE < 240f)
             {
                 _reverse = false;
                 _rotDirection = _rotationSpeed;
             }
 
-            if (zE > 330.1f)
+            if (zE > 340.1f)
             {
                 _reverse = true;
                 _rotDirection = -_rotationSpeed;
@@ -179,7 +132,7 @@ namespace KnifeGame
 
         private void KnifeRotateLeftSide(float zE)
         {
-            if (zE > 30f && _reverse)
+            if (zE > 20f && _reverse)
                 _rotDirection = _rotationSpeed; // chieu nguoc kim dong ho
             if (zE > 115f)
             {
@@ -187,7 +140,7 @@ namespace KnifeGame
                 _rotDirection = -_rotationSpeed;
             }
 
-            if (zE < 29.9f)
+            if (zE < 19.9f)
             {
                 _reverse = true;
                 _rotDirection = _rotationSpeed;
@@ -196,8 +149,8 @@ namespace KnifeGame
 
         private void OnBecameInvisible()
         {
-//            _rigidbody.bodyType = RigidbodyType2D.Static;
-//            gameObject.transform.position = new Vector3(1000, 1000, 0);
+            _rigidbody.bodyType = RigidbodyType2D.Static;
+            gameObject.transform.position = new Vector3(1000, 1000, 0);
         }
     }
 }

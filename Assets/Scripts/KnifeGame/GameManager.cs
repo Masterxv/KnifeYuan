@@ -18,6 +18,7 @@ namespace KnifeGame
         [SerializeField] private Transform _circleSpawnPos;
         [SerializeField] private Transform _hitCirclePrefab;
         [SerializeField] private Transform _hitApplePrefab;
+        [SerializeField] private Transform _hitBlackApplePrefab;
         [SerializeField] private KnifeRemainController _knifeRemainController;
         [SerializeField] private GameObject _seperatedApplePrefab;
         [SerializeField] private float _nextStageDelay;
@@ -45,6 +46,7 @@ namespace KnifeGame
         private int _apple;
         private ParticleSystem _hitCircleParticle;
         private ParticleSystem _hitAppleParticle;
+        private ParticleSystem _hitBlackAppleParticle;
         private GameObject _circle;
         private Quaternion _knifeRot;
 
@@ -66,9 +68,9 @@ namespace KnifeGame
         {
             AddTouchListener();
 
-            var hitAppleFx = Instantiate(_hitApplePrefab, new Vector3(0, 1.74f, 0), Quaternion.identity);
+            var hitAppleFx = Instantiate(_hitApplePrefab, new Vector3(100f, 100f, 0), Quaternion.identity);
             _hitAppleParticle = hitAppleFx.GetComponent<ParticleSystem>();
-            var hitCircleFx = Instantiate(_hitCirclePrefab, new Vector3(0, 1.74f, 0), Quaternion.identity);
+            var hitCircleFx = Instantiate(_hitCirclePrefab, new Vector3(100, 100f, 0), Quaternion.identity);
             _hitCircleParticle = hitCircleFx.GetComponent<ParticleSystem>();
         }
 
@@ -207,7 +209,6 @@ namespace KnifeGame
                 case TagAndString.KNIFE_TAG: // "Knife"
                     KnifeHitOtherKnife();
                     break;
-                default: break;
             }
         }
 
@@ -236,7 +237,7 @@ namespace KnifeGame
 
         private void KnifeHitApple(Transform hitTransform)
         {
-//            Instantiate(_hitApplePrefab, hitTransform.position, Quaternion.identity);
+            _hitAppleParticle.transform.position = hitTransform.position;
             _hitAppleParticle.Play();
             Instantiate(_seperatedApplePrefab, hitTransform.position, Quaternion.identity);
             UpdateApple(); // update for apple text
@@ -249,6 +250,7 @@ namespace KnifeGame
             {
                 ShakerCamera();
                 UpdateScore();
+                _hitCircleParticle.transform.position = _knifeControllers[_currentKnifeIndex].HitPosition;
                 _hitCircleParticle.Play();
 
                 StartCoroutine(LoadNextStageRoutine());
@@ -256,13 +258,15 @@ namespace KnifeGame
                 return;
             }
 
+            _hitCircleParticle.transform.position = _knifeControllers[_currentKnifeIndex].HitPosition;
+            _hitCircleParticle.Play();
+            
             _circleController.PlayKnifeHitTarget();
             _currentKnifeIndex++;
             _knifes[_currentKnifeIndex].gameObject.SetActive(true);
             _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
             UpdateScore();
-
-            _hitCircleParticle.Play();
+            
             _isReady = true;
         }
 

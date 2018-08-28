@@ -75,7 +75,7 @@ namespace KnifeGame
 
         private void KnifeRotateRightSide(float zE)
         {
-            if (zE < 330f)
+            if (zE < 340f)
                 if (_reverse)
                     _rotDirection = -_rotateSpeed; // chieu kim dong ho
 
@@ -85,7 +85,7 @@ namespace KnifeGame
                 _rotDirection = _rotateSpeed;
             }
 
-            if (zE > 330.1f)
+            if (zE > 340.1f)
             {
                 _reverse = true;
                 _rotDirection = -_rotateSpeed;

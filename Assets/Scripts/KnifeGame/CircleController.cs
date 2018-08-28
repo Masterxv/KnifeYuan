@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System.Runtime.Serialization.Formatters;
+using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,8 +15,18 @@ namespace KnifeGame
         LEFT_RIGHT_SHAKE
     }
 
+    public enum MoveType
+    {
+        NONE,
+        VERTICLE,
+        HORIZONTAL,
+        BOTH
+    }
+
     public class CircleController : MonoBehaviourHelper
     {
+        #region PUBLIC
+
         [SerializeField] private float _stopTimeMin = 2;
         [SerializeField] private float _stopTimeMax = 5;
 
@@ -31,9 +42,11 @@ namespace KnifeGame
         [Tooltip("The circle appears with this type")] [SerializeField]
         private Ease _circleEaseType = Ease.OutBounce;
 
-        /// <summary>
-        /// private parameters, variables
-        /// </summary>
+        [SerializeField] private MoveType _moveType = MoveType.NONE;
+        #endregion
+
+        #region PRIVATE
+
         private float _interval; // time to add between tween loop
         private Ease _shakeEaseType;
         private Sequence _sequence;
@@ -41,7 +54,10 @@ namespace KnifeGame
         private float _angle;
         private float _timeToStop; // this is MAIN parameter to rotate the target
         private Vector3 _rotateVector = new Vector3(0, 0, 1);
-        
+
+        #endregion
+
+
         private void Awake()
         {
             transform.localScale *= 0.5f;
@@ -52,7 +68,11 @@ namespace KnifeGame
             _sequence.SetLoops(1, _loopType);
             _sequence.OnStepComplete(LaunchTheRotation);
             _sequence.Play();
-            
+
+            if (_moveType != MoveType.NONE)
+            {
+//                MoveTheCircle();
+            }
         }
 
         private void LaunchTheRotation()
@@ -242,7 +262,8 @@ namespace KnifeGame
                 return;
             _sequenceImpact?.Kill();
             _sequenceImpact = DOTween.Sequence();
-            _sequenceImpact.Append(transform.DOShakeScale(duration: 0.1f, strength: 0.1f, vibrato: 10, randomness: 1, fadeOut: true)
+            _sequenceImpact.Append(transform
+                .DOShakeScale(duration: 0.1f, strength: 0.1f, vibrato: 10, randomness: 1, fadeOut: true)
                 .SetEase(Ease.InSine));
         }
 
