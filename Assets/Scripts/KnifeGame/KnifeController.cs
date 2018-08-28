@@ -20,10 +20,11 @@ namespace KnifeGame
         [SerializeField] private BoxCollider2D _collider;
         [SerializeField] private float _rotationSpeed;
         [SerializeField] float _distance = 2.2f; // make the distance between knife and centerOfCircle is fixed
-        [HideInInspector] public Vector3 HitPosition; 
-            
+        [HideInInspector] public Vector3 HitPosition;
 
-        private Transform _centerOfCircle;
+
+//        private Transform _centerOfCircle;
+        private CircleController _circleController;
         private Vector3 _localForward;
         private readonly Vector3 _axis = new Vector3(0, 0, 1);
         private float _zE;
@@ -36,7 +37,10 @@ namespace KnifeGame
 
         private void Awake()
         {
-            _centerOfCircle = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_CIRCLE).transform;
+//            _centerOfCircle = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_CIRCLE).transform;
+            _circleController = GameObject.FindGameObjectWithTag(TagAndString.CIRCLE_TAG)
+                .GetComponent<CircleController>();
+
             _knifeDir = gameManager.LevelManager[gameManager.LevelIndex].KnifeDirection;
             _rotatePoint = GameObject.FindGameObjectWithTag(TagAndString.ROTATE_POINT).transform;
         }
@@ -55,11 +59,15 @@ namespace KnifeGame
                 transform.parent = other.transform;
                 _rigidbody.bodyType = RigidbodyType2D.Static;
                 _collider.isTrigger = true;
-                var dirFromPointToCenter = _centerOfCircle.position - transform.position;
+
+                var dirFromPointToCenter = _circleController.CenterOfCircle - transform.position;
                 transform.up = dirFromPointToCenter.normalized;
 
-                transform.position = (transform.position - _centerOfCircle.position).normalized * _distance + _centerOfCircle.position;
+                transform.position = (transform.position - _circleController.CenterOfCircle).normalized * _distance +
+                                     _circleController.CenterOfCircle;
                 HitPosition = transform.position;
+
+                SetColliderForKnife();
             }
 
             if (other.gameObject.CompareTag(TagAndString.PLATFORM))
@@ -71,16 +79,23 @@ namespace KnifeGame
                 _rigidbody.velocity = _localForward * _speed * 0.8f;
             }
 
-            if (other.gameObject.CompareTag(TagAndString.APPLE_TAG))
+            if (other.gameObject.CompareTag(TagAndString.APPLE_TAG) ||
+                other.gameObject.CompareTag(TagAndString.BLACK_APPLE_TAG))
                 other.gameObject.SetActive(false);
             OnHit?.Invoke(other.transform);
+        }
+
+        private void SetColliderForKnife()
+        {
+            _collider.offset = new Vector2(0, -0.6f);
+            _collider.size = new Vector2(0.3f, 1.3f);
         }
 
         public void KnifeBound()
         {
             _collider.enabled = false;
             _rigidbody.bodyType = RigidbodyType2D.Dynamic;
-            var direction = transform.position - _centerOfCircle.position;
+            var direction = transform.position - _circleController.CenterOfCircle;
             _rigidbody.mass = _mass;
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);
@@ -93,7 +108,7 @@ namespace KnifeGame
 
             transform.SetParent(null);
             gameObject.SetActive(true);
-            var direction = transform.position - _centerOfCircle.position;
+            var direction = transform.position - _circleController.CenterOfCircle;
             _rigidbody.mass = _mass;
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);

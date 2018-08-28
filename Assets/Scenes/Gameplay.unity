@@ -1924,7 +1924,8 @@ MonoBehaviour:
     type: 2}
   _hitApplePrefab: {fileID: 4850846331586164, guid: a7fd002fdf76e6a46a84338c7e0c7d0a,
     type: 2}
-  _hitBlackApplePrefab: {fileID: 0}
+  _hitBlackApplePrefab: {fileID: 4661903664680018, guid: f70bc7d72518a194f85fb73c8b88ad8e,
+    type: 2}
   _knifeRemainController: {fileID: 841346517}
   _seperatedApplePrefab: {fileID: 1535517819281734, guid: a7287b1a23387a944b987e1d4d5b3e32,
     type: 2}

@@ -28,7 +28,7 @@ namespace KnifeGame
         public Transform RightSideSetup;
         public GameObject PlatformPrefab;
         private GameObject _platformObject;
-
+        public bool WaitToMove { get; set; }
         #endregion
 
 
@@ -55,6 +55,8 @@ namespace KnifeGame
             get { return _levelIndex; }
         }
 
+        
+
         #endregion
 
         private void Awake()
@@ -68,10 +70,28 @@ namespace KnifeGame
         {
             AddTouchListener();
 
-            var hitAppleFx = Instantiate(_hitApplePrefab, new Vector3(100f, 100f, 0), Quaternion.identity);
-            _hitAppleParticle = hitAppleFx.GetComponent<ParticleSystem>();
-            var hitCircleFx = Instantiate(_hitCirclePrefab, new Vector3(100, 100f, 0), Quaternion.identity);
-            _hitCircleParticle = hitCircleFx.GetComponent<ParticleSystem>();
+            CreateFx();
+        }
+
+        private void CreateFx()
+        {
+            if (_hitAppleParticle == null)
+            {
+                var hitAppleFx = Instantiate(_hitApplePrefab, new Vector3(100f, 100f, 0), Quaternion.identity);
+                _hitAppleParticle = hitAppleFx.GetComponent<ParticleSystem>();
+            }
+
+            if (_hitCircleParticle == null)
+            {
+                var hitCircleFx = Instantiate(_hitCirclePrefab, new Vector3(100, 100f, 0), Quaternion.identity);
+                _hitCircleParticle = hitCircleFx.GetComponent<ParticleSystem>();
+            }
+
+            if (_hitBlackAppleParticle == null)
+            {
+                var hitBlackAppleFx = Instantiate(_hitBlackApplePrefab, new Vector3(100, 100, 0), Quaternion.identity);
+                _hitBlackAppleParticle = hitBlackAppleFx.GetComponent<ParticleSystem>();
+            }
         }
 
         public void CreateGame()
@@ -204,7 +224,7 @@ namespace KnifeGame
                     KnifeHitApple(hitTransform);
                     break;
                 case TagAndString.BLACK_APPLE_TAG:
-                    KnifeHitBlackApple();
+                    KnifeHitBlackApple(hitTransform);
                     break;
                 case TagAndString.KNIFE_TAG: // "Knife"
                     KnifeHitOtherKnife();
@@ -224,8 +244,11 @@ namespace KnifeGame
             GameState.SetGameState(State.GameOver);
         }
 
-        private void KnifeHitBlackApple()
+        private void KnifeHitBlackApple(Transform hitTransform)
         {
+//            print("hit black apple");
+            _hitBlackAppleParticle.transform.position = hitTransform.position;
+            _hitBlackAppleParticle.Play();
             _knifeControllers[_currentKnifeIndex].OnHit -= OnKnifeHit;
             _circleController.PlayHitImpact();
 
@@ -260,13 +283,13 @@ namespace KnifeGame
 
             _hitCircleParticle.transform.position = _knifeControllers[_currentKnifeIndex].HitPosition;
             _hitCircleParticle.Play();
-            
+
             _circleController.PlayKnifeHitTarget();
             _currentKnifeIndex++;
             _knifes[_currentKnifeIndex].gameObject.SetActive(true);
             _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
             UpdateScore();
-            
+
             _isReady = true;
         }
 

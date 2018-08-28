@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization.Formatters;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -43,23 +44,30 @@ namespace KnifeGame
         private Ease _circleEaseType = Ease.OutBounce;
 
         [SerializeField] private MoveType _moveType = MoveType.NONE;
+        [SerializeField] private float _moveXValue;
+        [HideInInspector] public Vector3 CenterOfCircle;
+
         #endregion
 
         #region PRIVATE
 
+        private Collider2D _collider2D;
         private float _interval; // time to add between tween loop
         private Ease _shakeEaseType;
         private Sequence _sequence;
         private Sequence _sequenceImpact;
+        private Sequence _sequenceMoving;
         private float _angle;
         private float _timeToStop; // this is MAIN parameter to rotate the target
         private Vector3 _rotateVector = new Vector3(0, 0, 1);
+        private float _xMoving;
 
         #endregion
 
 
         private void Awake()
         {
+            _collider2D = GetComponent<Collider2D>();
             transform.localScale *= 0.5f;
             _sequence?.Kill();
             _sequence = DOTween.Sequence();
@@ -71,8 +79,42 @@ namespace KnifeGame
 
             if (_moveType != MoveType.NONE)
             {
-//                MoveTheCircle();
+                MoveTheCircle();
             }
+        }
+
+        private void MoveTheCircle()
+        {
+            if (_moveType == MoveType.HORIZONTAL)
+                MoveHorizontalStart();
+            if (_moveType == MoveType.VERTICLE)
+                MoveVerticalStart();
+        }
+
+        private void MoveVerticalStart()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void MoveHorizontalStart()
+        {
+            _xMoving = -_moveXValue;
+            _sequenceMoving?.Kill();
+            _sequenceMoving = DOTween.Sequence();
+            if (!gameManager.WaitToMove) _sequenceMoving.SetDelay(3f);
+            _sequenceMoving.Append(transform.DOMoveX(_xMoving, 2)).SetLoops(1, LoopType.Incremental)
+                .OnStepComplete(MoveHorizontalEnd);
+        }
+
+        private void MoveHorizontalEnd()
+        {
+            gameManager.WaitToMove = true;
+            _xMoving = _moveXValue;
+            _sequenceMoving?.Kill();
+            _sequenceMoving = DOTween.Sequence();
+            _sequenceMoving.SetDelay(0.1f);
+            _sequenceMoving.Append(transform.DOMoveX(_xMoving, 4)).SetLoops(1, LoopType.Incremental)
+                .OnStepComplete(MoveHorizontalStart);
         }
 
         private void LaunchTheRotation()
@@ -111,7 +153,7 @@ namespace KnifeGame
             _sequence.Append(transform.DOLocalRotate(_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360)
                 .SetEase(_easeType));
 
-            _sequence.PrependInterval(_interval);
+            _sequence.SetDelay(_interval);
             _sequence.SetLoops(1, _loopType);
             _sequence.OnStepComplete(ShakeLR);
             _sequence.Play();
@@ -124,7 +166,7 @@ namespace KnifeGame
             _sequence.Append(transform.DOLocalRotate(_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360)
                 .SetEase(_shakeEaseType));
 
-            _sequence.PrependInterval(_interval);
+            _sequence.SetDelay(_interval);
             _sequence.SetLoops(1, _loopType);
             _sequence.OnStepComplete(RotateLRShake);
             _sequence.Play();
@@ -137,7 +179,7 @@ namespace KnifeGame
             _sequence.Append(transform.DOLocalRotate(-_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360)
                 .SetEase(_easeType));
 
-            _sequence.PrependInterval(_interval);
+            _sequence.SetDelay(_interval);
             _sequence.SetLoops(1, _loopType);
             _sequence.OnStepComplete(ShakerRight);
             _sequence.Play();
@@ -149,7 +191,7 @@ namespace KnifeGame
             _sequence.Append(transform.DOLocalRotate(-_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360)
                 .SetEase(_shakeEaseType));
 
-            _sequence.PrependInterval(_interval);
+            _sequence.SetDelay(_interval);
             _sequence.SetLoops(1, _loopType);
             _sequence.OnStepComplete(RotateRightAndShake);
             _sequence.Play();
@@ -162,7 +204,7 @@ namespace KnifeGame
             _sequence.Append(transform.DOLocalRotate(_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360)
                 .SetEase(_easeType));
 
-            _sequence.PrependInterval(_interval);
+            _sequence.SetDelay(_interval);
             _sequence.SetLoops(1, _loopType);
             _sequence.OnStepComplete(ShakerLeft);
             _sequence.Play();
@@ -175,7 +217,7 @@ namespace KnifeGame
             _sequence.Append(transform.DOLocalRotate(_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360)
                 .SetEase(_shakeEaseType));
 
-            _sequence.PrependInterval(_interval);
+            _sequence.SetDelay(_interval);
             _sequence.SetLoops(1, _loopType);
             _sequence.OnStepComplete(RotateLeftAndShake);
             _sequence.Play();
@@ -204,7 +246,7 @@ namespace KnifeGame
             _sequence.Append(transform.DOLocalRotate(_rotateVector * _angle, _timeToStop,
                 RotateMode.FastBeyond360).SetEase(_easeType));
 
-            _sequence.PrependInterval(_interval);
+            _sequence.SetDelay(_interval);
             _sequence.SetLoops(1, _loopType);
             _sequence.OnStepComplete(RotateLeftRight);
             _sequence.Play();
@@ -216,7 +258,7 @@ namespace KnifeGame
             _sequence.Append(transform.DOLocalRotate(-_rotateVector * _angle, _timeToStop,
                 RotateMode.FastBeyond360).SetEase(_easeType));
 
-            _sequence.PrependInterval(_interval);
+            _sequence.SetDelay(_interval);
             _sequence.SetLoops(1, _loopType);
             _sequence.OnStepComplete(RotateToRight);
             _sequence.Play();
@@ -228,7 +270,7 @@ namespace KnifeGame
             _sequence.Append(transform.DOLocalRotate(_rotateVector * _angle, _timeToStop,
                 RotateMode.FastBeyond360).SetEase(_easeType));
 
-            _sequence.PrependInterval(_interval);
+            _sequence.SetDelay(_interval);
             _sequence.SetLoops(1, _loopType);
             _sequence.OnStepComplete(RotateToLeft);
             _sequence.Play();
@@ -267,10 +309,16 @@ namespace KnifeGame
                 .SetEase(Ease.InSine));
         }
 
+        private void Update()
+        {
+            CenterOfCircle = _collider2D.bounds.center;
+        }
+
         private void OnDestroy()
         {
             _sequence.Kill();
             _sequenceImpact.Kill();
+            _sequenceMoving.Kill();
         }
     }
 }

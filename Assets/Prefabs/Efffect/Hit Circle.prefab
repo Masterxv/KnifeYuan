@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4485901702839708}
   - component: {fileID: 198311532076162916}
   - component: {fileID: 199735144674450544}
-  - component: {fileID: 114584314176822232}
   m_Layer: 0
   m_Name: Hit Circle
   m_TagString: Untagged
@@ -42,17 +41,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114584314176822232
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1570341392054006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4c1ef2a12464fabbff83fab4fe3ae4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!198 &198311532076162916
 ParticleSystem:
   m_ObjectHideFlags: 1
