@@ -8,9 +8,9 @@ TagManager:
   - Knife
   - BlackApple
   - Platform
-  - CenterOfCircle
   - Circle
   - RotatePoint
+  - Border
   layers:
   - Default
   - TransparentFX

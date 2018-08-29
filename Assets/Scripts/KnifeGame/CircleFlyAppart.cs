@@ -13,8 +13,6 @@ namespace KnifeGame
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            if (_centerOfCircle == null)
-                _centerOfCircle = GameObject.FindGameObjectWithTag(TagAndString.CENTER_OF_CIRCLE).transform;
         }
 
         private void Start()

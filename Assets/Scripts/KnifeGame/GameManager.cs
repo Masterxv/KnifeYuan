@@ -27,8 +27,9 @@ namespace KnifeGame
         public Transform LeftSideSetup;
         public Transform RightSideSetup;
         public GameObject PlatformPrefab;
-        private GameObject _platformObject;
-        public bool WaitToMove { get; set; }
+        public GameObject BorderPrefab;
+//        public bool WaitToMove { get; set; }
+
         #endregion
 
 
@@ -49,13 +50,13 @@ namespace KnifeGame
         private ParticleSystem _hitBlackAppleParticle;
         private GameObject _circle;
         private Quaternion _knifeRot;
+        private GameObject _platformObject;
+        private GameObject _borderObject;
 
         public int LevelIndex
         {
             get { return _levelIndex; }
         }
-
-        
 
         #endregion
 
@@ -103,9 +104,7 @@ namespace KnifeGame
 //            print("Last level: " + Util.GetLastLevelPlayed());
             Util.SetLastLevelPlayed(_levelIndex);
 
-            if (_platformObject == null)
-                _platformObject = Instantiate(PlatformPrefab, Vector3.zero, Quaternion.identity);
-            _platformObject.SetActive(false);
+            SetupPlatformAndBorder();
 
             SetupForKnifeDirection();
 
@@ -124,8 +123,21 @@ namespace KnifeGame
             _knifeRemainController.KnifeNumber = _knifeRemain;
             _knifeRemainController.CreateKnifeRemain();
 
-            _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
+//            _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
             _circleController = _circle.GetComponent<CircleController>();
+        }
+
+        private void SetupPlatformAndBorder()
+        {
+            if (_platformObject == null)
+                _platformObject = Instantiate(PlatformPrefab, Vector3.zero, Quaternion.identity);
+            _platformObject.SetActive(false);
+
+            if (_borderObject == null)
+                _borderObject = Instantiate(BorderPrefab, Vector3.zero, Quaternion.identity);
+
+            if (!_borderObject.activeSelf)
+                _borderObject.SetActive(true);
         }
 
         void SetupForKnifeDirection()
@@ -213,52 +225,37 @@ namespace KnifeGame
             _knifeControllers.Clear();
         }
 
-        private void OnKnifeHit(Transform hitTransform)
+        public void KnifeHitBorder()
         {
-            switch (hitTransform.tag)
-            {
-                case TagAndString.CIRCLE_TAG: // "Target"
-                    KnifeHitCircle();
-                    break;
-                case TagAndString.APPLE_TAG: // "Apple"
-                    KnifeHitApple(hitTransform);
-                    break;
-                case TagAndString.BLACK_APPLE_TAG:
-                    KnifeHitBlackApple(hitTransform);
-                    break;
-                case TagAndString.KNIFE_TAG: // "Knife"
-                    KnifeHitOtherKnife();
-                    break;
-            }
+//            _knifeControllers[_currentKnifeIndex].OnHit -= OnKnifeHit;
+            _circleController.enabled = false;
+            winLevel = false;
+            GameState.SetGameState(State.GameOver);
         }
 
-        private void KnifeHitOtherKnife()
+        public void KnifeHitOtherKnife()
         {
-            _knifeControllers[_currentKnifeIndex].OnHit -= OnKnifeHit;
+//            _knifeControllers[_currentKnifeIndex].OnHit -= OnKnifeHit;
+//            _knifeControllers[_currentKnifeIndex].KnifeBound();
             _circleController.PlayHitImpact(); // play hit effect
             _circleController.enabled = false;
-            _knifeControllers[_currentKnifeIndex].KnifeBound();
-
             winLevel = false;
-            // set game start to GAME OVER
             GameState.SetGameState(State.GameOver);
         }
 
-        private void KnifeHitBlackApple(Transform hitTransform)
+        public void KnifeHitBlackApple(Transform hitTransform)
         {
-//            print("hit black apple");
+//            _knifeControllers[_currentKnifeIndex].OnHit -= OnKnifeHit;
             _hitBlackAppleParticle.transform.position = hitTransform.position;
             _hitBlackAppleParticle.Play();
-            _knifeControllers[_currentKnifeIndex].OnHit -= OnKnifeHit;
             _circleController.PlayHitImpact();
-
-            _knifeControllers[_currentKnifeIndex].KnifeBound();
+//            _knifeControllers[_currentKnifeIndex].KnifeBound();
 
             winLevel = false;
             GameState.SetGameState(State.GameOver);
         }
 
-        private void KnifeHitApple(Transform hitTransform)
+        public void KnifeHitApple(Transform hitTransform)
         {
             _hitAppleParticle.transform.position = hitTransform.position;
             _hitAppleParticle.Play();
@@ -266,36 +263,34 @@ namespace KnifeGame
             UpdateApple(); // update for apple text
         }
 
-        private void KnifeHitCircle()
+        public void KnifeHitCircle()
         {
-            _knifeControllers[_currentKnifeIndex].OnHit -= OnKnifeHit;
+//            _knifeControllers[_currentKnifeIndex].OnHit -= OnKnifeHit;
             if (_knifeRemain == 0)
             {
                 ShakerCamera();
                 UpdateScore();
                 _hitCircleParticle.transform.position = _knifeControllers[_currentKnifeIndex].HitPosition;
                 _hitCircleParticle.Play();
-
                 StartCoroutine(LoadNextStageRoutine());
                 winLevel = true;
                 return;
             }
-
             _hitCircleParticle.transform.position = _knifeControllers[_currentKnifeIndex].HitPosition;
             _hitCircleParticle.Play();
 
             _circleController.PlayKnifeHitTarget();
             _currentKnifeIndex++;
             _knifes[_currentKnifeIndex].gameObject.SetActive(true);
-            _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
+//            _knifeControllers[_currentKnifeIndex].OnHit += OnKnifeHit;
             UpdateScore();
-
             _isReady = true;
         }
 
         private IEnumerator LoadNextStageRoutine()
         {
-            _platformObject.gameObject.SetActive(false);
+            _platformObject.SetActive(false);
+            _borderObject.SetActive(false);
             var tempPos = _circle.transform.position;
             Instantiate(LevelManager[_levelIndex].SeperatedCirclePref, tempPos, Quaternion.identity);
             foreach (var knife in _knifeControllers)
@@ -340,8 +335,11 @@ namespace KnifeGame
 
         private void OnDisable()
         {
+            // ReSharper disable once DelegateSubtraction
             GameState.OnPaused -= Paused;
+            // ReSharper disable once DelegateSubtraction
             PlayerInput.PausePress -= PausePressed;
+            // ReSharper disable once DelegateSubtraction
             GameState.OnPlaying -= Playing;
         }
 
@@ -351,7 +349,8 @@ namespace KnifeGame
 
         private void GameOver()
         {
-            _platformObject.gameObject.SetActive(false);
+            _platformObject.SetActive(false);
+            _borderObject.SetActive(false);
             // try to set best score
             Util.SetBestScore(_score);
 

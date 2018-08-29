@@ -100,9 +100,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 40
-  _mass: 1
+  _mass: 1.2
   _torque: 10
-  _forceMultiplier: 149.54
+  _forceMultiplier: 150
   _rigidbody: {fileID: 50839619998730990}
   _collider: {fileID: 61810056756396316}
   _rotationSpeed: 90

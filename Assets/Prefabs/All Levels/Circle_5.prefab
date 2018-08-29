@@ -280,6 +280,10 @@ MonoBehaviour:
   _easeType: 9
   _loopType: 2
   _circleEaseType: 30
+  _collider2D: {fileID: 58650699956022000}
+  _moveType: 0
+  _moveXValue: 0
+  _moveYValue: 0
 --- !u!212 &212104595318785096
 SpriteRenderer:
   m_ObjectHideFlags: 1

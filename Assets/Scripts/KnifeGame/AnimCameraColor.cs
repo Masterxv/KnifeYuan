@@ -12,10 +12,9 @@ namespace KnifeGame
 
         void AnimColor()
         {
-            DOTween.Kill(Camera.main);
-            
             var c = constant.RandomBrightColor();
-            Camera.main.DOColor(c, Random.Range(3, 10)).OnComplete(AnimColor);
+            Camera.main.DOColor(c, Random.Range(3, 10)).OnComplete(AnimColor); // time is less than under line
+//            Camera.main.DOColor(c, Random.Range(3, 10)).SetLoops(-1, LoopType.Incremental);
         }
     }
 }

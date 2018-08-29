@@ -30,6 +30,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1238240726332722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4094721298571400}
+  m_Layer: 0
+  m_Name: Center Of Circle
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1296919520629586
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,8 +93,8 @@ GameObject:
   - component: {fileID: 4012767247868328}
   - component: {fileID: 212580703895982206}
   - component: {fileID: 50799995064069980}
-  - component: {fileID: 114359454858283862}
   - component: {fileID: 61328959401627788}
+  - component: {fileID: 114359454858283862}
   m_Layer: 0
   m_Name: 2
   m_TagString: Untagged
@@ -167,6 +182,19 @@ Transform:
   m_Father: {fileID: 4097461961515066}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4094721298571400
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238240726332722}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.598, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4097461961515066}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4097461961515066
 Transform:
   m_ObjectHideFlags: 1
@@ -174,7 +202,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1908785733927898}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.6, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4792285762886464}
@@ -183,6 +211,7 @@ Transform:
   - {fileID: 4629413721055088}
   - {fileID: 4978434324032954}
   - {fileID: 4011273465138692}
+  - {fileID: 4094721298571400}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -519,6 +548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _centerOfCircle: {fileID: 4094721298571400}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200
@@ -533,6 +563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _centerOfCircle: {fileID: 4094721298571400}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200
@@ -547,6 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _centerOfCircle: {fileID: 4094721298571400}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200
@@ -561,6 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _centerOfCircle: {fileID: 4094721298571400}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200
@@ -575,6 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _centerOfCircle: {fileID: 4094721298571400}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200
@@ -589,6 +623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d835526bdd2496fa71124297df778c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _centerOfCircle: {fileID: 4094721298571400}
   _mass: 1
   _torque: 10
   _forceMultiplier: 200

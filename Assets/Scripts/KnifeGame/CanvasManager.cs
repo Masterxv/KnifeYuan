@@ -24,8 +24,8 @@ namespace KnifeGame
         public Button NextButton;
         public Image HeadBackground;
 
-        private Sequence _sequence;
-        private Sequence _blinkSequence;
+//        private Sequence _sequence;
+//        private Sequence _blinkSequence;
 
         private void Start()
         {
@@ -57,85 +57,55 @@ namespace KnifeGame
         {
             gameManager.GarbageCollect();
             BlinkBackground.color = new Color(0, 0, 0, 0); // set blick background's color to 0
-
-            var endColor = Color.white;
             var startColor = constant.RandomBrightColor();
             startColor.a = 1;
-
             FillTheScene.color = gameManager.winLevel ? startColor : Color.black;
+            FillTheScene.rectTransform.DOScale(transform.localScale * 6, 0.7f).SetEase(Ease.InCirc).OnComplete(ChangeColor);
+        }
 
-            _sequence?.Kill();
-            _blinkSequence?.Kill();
-            _sequence = DOTween.Sequence();
-            _sequence.Append(FillTheScene.rectTransform.DOScale(transform.localScale * 6, 0.7f).SetEase(Ease.InCirc));
-            _sequence.SetLoops(1);
-
-            _sequence.Append(FillTheScene.DOColor(endColor, 0.5f).SetEase(Ease.InCirc));
-            _sequence.OnStepComplete(ZoomImageOut);
-            _sequence.Play();
+        private void ChangeColor()
+        {
+            var endColor = Color.white;
+            FillTheScene.DOColor(endColor, 0.5f).SetEase(Ease.InCirc).OnComplete(ZoomImageOut);
         }
 
         private void ZoomImageOut()
         {
             var scale = new Vector3(1, 1, 1);
-            _sequence?.Kill();
-            _sequence = DOTween.Sequence();
-            _sequence.Append(FillTheScene.rectTransform.DOScale(scale, 1f).SetEase(Ease.InCirc));
-            _sequence.PrependInterval(0.01f); // add interval time at the begining of sequence 
-            _sequence.SetLoops(1);
-            _sequence.OnStepComplete(gameManager.CreateGame);
-            _sequence.Play();
+            FillTheScene.rectTransform.DOScale(scale, 1f).SetEase(Ease.InCirc).OnComplete(gameManager.CreateGame);
         }
 
         public void ShowReadyText()
         {
             ReadyText.gameObject.SetActive(true);
-            _sequence?.Kill();
-            _sequence = DOTween.Sequence();
-            _sequence.Append(ReadyText.DOColor(ReadyTextStartColor, 0.1f));
-            _sequence.SetEase(Ease.OutExpo).SetLoops(1, LoopType.Incremental);
-            _sequence.OnComplete(ShowReadyCore);
+            ReadyText.DOColor(ReadyTextStartColor, 0.1f).SetEase(Ease.OutExpo).OnComplete(ShowReadyCore);
         }
 
         private void ShowReadyCore()
         {
-            _sequence?.Kill();
-            _sequence = DOTween.Sequence();
-            _sequence.Append(ReadyText.DOColor(ReadyTextEndColor, 0.2f));
-            _sequence.SetEase(Ease.OutCirc).SetLoops(3, LoopType.Yoyo).OnComplete(DeactiveReadyText);
+            ReadyText.DOColor(ReadyTextEndColor, 0.2f).SetEase(Ease.OutCirc).SetLoops(3, LoopType.Yoyo)
+                .OnComplete(DeactiveReadyText);
         }
 
         private void DeactiveReadyText()
         {
-            _sequence?.Kill();
-            _sequence = DOTween.Sequence();
-            _sequence.Append(ReadyText.DOFade(0, 0.1f).SetEase(Ease.InBounce).OnComplete(gameManager.SetGameReady));
+            ReadyText.DOFade(0, 0.1f).SetEase(Ease.InBounce).OnComplete(gameManager.SetGameReady);
         }
 
         public void BlinkBackGround()
         {
-            _blinkSequence?.Kill();
-            _blinkSequence = DOTween.Sequence();
-
-            _blinkSequence.Append(BlinkBackground.DOColor(BlinkStartColor, 0.12f).SetEase(Ease.OutExpo));
-            _blinkSequence.SetLoops(1, LoopType.Incremental).OnComplete(BlinkCore);
+            BlinkBackground.DOColor(BlinkStartColor, 0.12f).SetEase(Ease.OutExpo).OnComplete(BlinkCore);
         }
 
         private void BlinkCore()
         {
-            _blinkSequence?.Kill();
-            _blinkSequence = DOTween.Sequence();
-
-            _blinkSequence.Append(BlinkBackground.DOColor(BlinkEndColor, 0.5f).SetEase(Ease.OutCirc));
-            _blinkSequence.SetLoops(5, LoopType.Yoyo).OnComplete(BlinkBackgroundEnd);
+            BlinkBackground.DOColor(BlinkEndColor, 0.5f).SetEase(Ease.OutCirc).SetLoops(5, LoopType.Yoyo)
+                .OnComplete(BlinkBackgroundEnd);
         }
 
         private void BlinkBackgroundEnd()
         {
-            _blinkSequence?.Kill();
-            _blinkSequence = DOTween.Sequence();
-            _blinkSequence.Append(BlinkBackground.DOFade(0, 0.1f)).SetEase(Ease.OutBounce);
-            _blinkSequence.OnComplete(ZoomImageIn);
+            BlinkBackground.DOFade(0, 0.1f).SetEase(Ease.OutBounce).OnComplete(ZoomImageIn);
         }
 
         public void ShowGroup(bool value)
@@ -185,8 +155,7 @@ namespace KnifeGame
 
         private void OnDestroy()
         {
-            _blinkSequence.Kill();
-            _sequence.Kill();
+            DOTween.Kill(transform);
         }
     }
 }
