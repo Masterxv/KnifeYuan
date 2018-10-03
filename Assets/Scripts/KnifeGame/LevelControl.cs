@@ -38,6 +38,8 @@ namespace KnifeGame
 
         private void GoToLevel()
         {
+            audioManager.PlayButtonClick();
+            audioManager.BackgroundGamePlay();
             Util.ChooseLevelBool = true;
             Util.SetLevelByChoosing(LevelByUser);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

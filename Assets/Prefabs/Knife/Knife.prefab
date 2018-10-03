@@ -72,7 +72,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.0058882833, y: 0}
@@ -106,7 +106,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 50839619998730990}
   _collider: {fileID: 61810056756396316}
   _rotationSpeed: 90
-  _distance: 2.25
+  _distance: 2.4
   HitPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212497685248526654
 SpriteRenderer:

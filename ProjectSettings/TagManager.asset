@@ -4,13 +4,16 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Apple
   - Knife
-  - BlackApple
   - Platform
   - Circle
   - RotatePoint
   - Border
+  - Fruit
+  - DeathFruit
+  - Obstacle
+  - ObstacleShape
+  - BigObstacleShape
   layers:
   - Default
   - TransparentFX

@@ -57,6 +57,9 @@
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\AnimCameraColor.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\AppleImpact.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\BackgroundFade.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\BigObstacleShape.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\CanvasManager.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\ChangeMaterialColor.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\ChooseLevelController.cs" />
@@ -66,7 +69,7 @@
     <Compile Include="Assets\Scripts\KnifeGame\Destroyer.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\GameManager.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\GameState.cs" />
-    <Compile Include="Assets\Scripts\KnifeGame\HalfAppleGroup.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\HalfFruitGroup.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\InputTouch.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\KnifeController.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\KnifeImpactCircle.cs" />
@@ -75,6 +78,8 @@
     <Compile Include="Assets\Scripts\KnifeGame\LevelManager.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\MainMenuController.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\MonoBehaviourHelper.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\ObstacleController.cs" />
+    <Compile Include="Assets\Scripts\KnifeGame\ObstacleShape.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\PoolSystem.cs" />
     <Compile Include="Assets\Scripts\KnifeGame\RotateBackgroundRandom.cs" />

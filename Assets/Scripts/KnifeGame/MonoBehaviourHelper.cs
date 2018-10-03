@@ -76,6 +76,16 @@ namespace KnifeGame
             }
         }
 
+        private AudioManager _audioManager;
+        protected AudioManager audioManager
+        {
+            get {
+                if (_audioManager == null)
+                    _audioManager = FindObjectOfType<AudioManager>();
+                return _audioManager;
+            }
+        }
+
         private MainMenuController _mainMenu;
 
         protected MainMenuController mainMenuController

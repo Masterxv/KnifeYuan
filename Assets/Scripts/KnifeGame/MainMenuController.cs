@@ -18,22 +18,22 @@ namespace KnifeGame
 
         private void Awake()
         {
-            Application.targetFrameRate = Application.isMobilePlatform ? 30 : 60;
-        }
-
-        void Start()
-        {
+//            Application.targetFrameRate = Application.isMobilePlatform ? 30 : 60;
             ButtonAddListener();
         }
 
         private void PlayGame()
         {
+            audioManager.PlayButtonClick();
             Util.ChooseLevelBool = false;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            var nextScene = SceneManager.GetActiveScene().buildIndex + 1;
+            SceneManager.LoadScene(nextScene);
+            audioManager.BackgroundGamePlay();
         }
 
         private void ChooseLevelPressed()
         {
+            audioManager.PlayButtonClick();
             if (_chooseLevelObject == null)
                 _chooseLevelObject = Instantiate(ChooseLevelPrefab, Vector3.zero, Quaternion.identity);
             else
@@ -52,16 +52,19 @@ namespace KnifeGame
 
         private void ShopPressed()
         {
-            print("shop");
+            audioManager.PlayButtonClick();
+//            print("shop");
         }
 
         private void SettingPressed()
         {
-            print("setting");
+            audioManager.PlayButtonClick();
+//            print("setting");
         }
 
         public void HomePressed()
         {
+            audioManager.PlayButtonClick();
             _chooseLevelObject.SetActive(false);
             MainMenuCanvas.SetActive(true);
         }

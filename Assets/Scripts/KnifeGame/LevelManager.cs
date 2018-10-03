@@ -18,5 +18,9 @@ namespace KnifeGame
         public int NumberOfKnife;
         public GameObject CirclePrefab;
         public GameObject SeperatedCirclePref;
+        public bool HasObstacle;
+        public float RepeatRate;
+        public bool HasTimer;
+        public float TimeInMin;
     }
 }

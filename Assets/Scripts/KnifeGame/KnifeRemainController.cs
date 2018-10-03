@@ -22,6 +22,7 @@ namespace KnifeGame
                 instance.SetParent(transform);
 
                 _knifes.Add(instance);
+                instance.localScale = Vector3.one;
             }
 
             ResetColor();

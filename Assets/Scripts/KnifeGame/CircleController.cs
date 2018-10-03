@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization.Formatters;
+﻿using System.IO;
+using System.Runtime.Serialization.Formatters;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -11,9 +12,12 @@ namespace KnifeGame
         LEFT,
         RIGHT,
         BOTH,
+        CUSTOM_BOTH,
         LEFT_SHAKE,
         RIGHT_SHAKE,
-        LEFT_RIGHT_SHAKE
+        LEFT_RIGHT_SHAKE,
+        CUSTOM,
+        DOLL
     }
 
     public enum MoveType
@@ -36,8 +40,9 @@ namespace KnifeGame
 
         [SerializeField] private float _delayTime;
         [SerializeField] private RotateType _rotateType = RotateType.LEFT;
-        [SerializeField] private Ease _easeType = Ease.Linear;
-        [SerializeField] private LoopType _loopType = LoopType.Incremental;
+        [SerializeField] private Ease _rotateEaseType = Ease.Linear;
+        private Ease _shakeEaseType; // only 2 types: InBounce and OutBounce
+
 
         [Tooltip("The circle appears with this type")] [SerializeField]
         private Ease _circleEaseType = Ease.OutBounce;
@@ -46,8 +51,13 @@ namespace KnifeGame
         [SerializeField] private MoveType _moveType = MoveType.NONE;
         [SerializeField] private float _moveXValue;
         [SerializeField] private float _moveYValue;
+        [SerializeField] private float _moveVel;
         public Ease HorizontalEase = Ease.Linear;
         public Ease VerticalEase = Ease.Linear;
+        [SerializeField] private int _dollLoopRate = 2; // how many time to rotate the doll style
+        [SerializeField] private float _dollAngle = 60f;
+        [SerializeField] private float _dollRotateTime = 0.5f; // time for 1 rotation with  dollAngle
+
         public Vector3 CenterOfCircle { get; private set; }
 
         #endregion
@@ -55,13 +65,14 @@ namespace KnifeGame
         #region PRIVATE
 
         private float _interval; // time to add between tween loop
-        private Ease _shakeEaseType;
         private float _angle;
         private float _timeToStop; // this is MAIN parameter to rotate the target
 
         private Vector3 _rotateVector = new Vector3(0, 0, 1);
         private float _targetPos;
         private Vector3 _beginPosition;
+        private LoopType _loopType = LoopType.Incremental;
+        private Sequence _animCircleSeq;
 
         #endregion
 
@@ -69,13 +80,15 @@ namespace KnifeGame
         private void Awake()
         {
             _beginPosition = transform.position;
+            transform.localScale *= 0.5f;
+            transform.DOScale(Vector3.one, 1.5f).SetEase(_circleEaseType).OnComplete(LaunchTheRotation);
+
             if (_moveType == MoveType.NONE)
                 CenterOfCircle = _collider2D.bounds.center;
             else
-                MoveTheCircle();
-
-            transform.localScale *= 0.5f;
-            transform.DOScale(Vector3.one, 1f).SetDelay(0.5f).SetEase(_circleEaseType).OnComplete(LaunchTheRotation);
+            {
+                Invoke(nameof(MoveTheCircle), 3f);
+            }
         }
 
         private void MoveTheCircle()
@@ -88,19 +101,21 @@ namespace KnifeGame
 
         private void MoveVertical()
         {
-            transform.DOMoveY(transform.position.y - _moveYValue, 2).SetLoops(-1, LoopType.Yoyo).SetEase(VerticalEase);
+            transform.DOMoveY(transform.position.y - _moveYValue, _moveYValue * _moveVel).SetLoops(-1, LoopType.Yoyo)
+                .SetEase(VerticalEase);
         }
 
         private void MoveHorizontalStart()
         {
             _targetPos = _beginPosition.x - _moveXValue;
-            transform.DOMoveX(_targetPos, 2).SetEase(HorizontalEase).OnComplete(MoveHorizontalEnd);
+            transform.DOMoveX(_targetPos, _moveXValue * _moveVel).SetEase(HorizontalEase).OnComplete(MoveHorizontalEnd);
         }
 
         private void MoveHorizontalEnd()
         {
             _targetPos = _beginPosition.x + _moveXValue;
-            transform.DOMoveX(_targetPos, 4).SetEase(HorizontalEase).OnComplete(MoveHorizontalStart);
+            transform.DOMoveX(_targetPos, _moveXValue * _moveVel * 2f).SetEase(HorizontalEase)
+                .OnComplete(MoveHorizontalStart);
         }
 
         private void LaunchTheRotation()
@@ -126,6 +141,79 @@ namespace KnifeGame
                 case RotateType.LEFT_RIGHT_SHAKE:
                     RotateLRShake();
                     break;
+                case RotateType.CUSTOM:
+                    RotateCustom();
+                    break;
+                case RotateType.CUSTOM_BOTH:
+                    CustomBoth(); // random to left or right
+                    break;
+                case RotateType.DOLL:
+                    DollRotateBegin();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void DollRotateBegin()
+        {
+            var startAngle = transform.localEulerAngles;
+            var ran = Random.value;
+            if (ran > 0.5f)
+                startAngle.z -= _dollAngle;
+            else
+                startAngle.z += _dollAngle;
+            var nextAngle = startAngle;
+
+            transform.DOLocalRotate(nextAngle, _dollRotateTime, RotateMode.FastBeyond360)
+                .SetLoops(_dollLoopRate, LoopType.Yoyo)
+                .SetEase(_rotateEaseType).OnComplete(DollRotateEnd);
+        }
+
+        private void DollRotateEnd()
+        {
+            var startAngle = transform.localEulerAngles;
+            var ran = Random.value;
+            if (ran > 0.5f)
+                startAngle.z += 180f;
+            else
+                startAngle.z -= 180f;
+
+            startAngle.z += Random.Range(-12f, 12f);
+            var nextAngle = startAngle;
+
+            transform.DOLocalRotate(nextAngle, 0.6f, RotateMode.FastBeyond360).SetEase(_rotateEaseType)
+                .OnComplete(DollRotateBegin);
+        }
+
+        private void CustomBoth()
+        {
+            var ran = Random.value;
+            if (ran > 0.5f)
+            {
+                // left
+                ConfigureRotate();
+                transform.DOLocalRotate(_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360)
+                    .SetEase(_rotateEaseType).SetDelay(_interval).OnComplete(CustomBoth);
+            }
+            else
+            {
+                // right
+                ConfigureRotate();
+                transform.DOLocalRotate(-_rotateVector * _angle, _timeToStop,
+                    RotateMode.FastBeyond360).SetEase(_rotateEaseType).SetDelay(_interval).OnComplete(CustomBoth);
+            }
+        }
+
+        private void RotateCustom()
+        {
+            if (Random.value > 0.5f)
+            {
+                ShakerLeft();
+            }
+            else
+            {
+                ShakerRight();
             }
         }
 
@@ -135,7 +223,7 @@ namespace KnifeGame
             _rotateVector *= -1;
 
             transform.DOLocalRotate(_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360)
-                .SetEase(_easeType).SetDelay(_interval).OnComplete(ShakeLR);
+                .SetEase(_rotateEaseType).SetDelay(_interval).OnComplete(ShakeLR);
         }
 
         private void ShakeLR()
@@ -150,7 +238,7 @@ namespace KnifeGame
         {
             ConfigureRotate();
             transform.DOLocalRotate(-_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360)
-                .SetEase(_easeType).SetDelay(_interval).OnComplete(ShakerRight);
+                .SetEase(_rotateEaseType).SetDelay(_interval).OnComplete(ShakerRight);
         }
 
         private void ShakerRight()
@@ -164,7 +252,7 @@ namespace KnifeGame
         {
             ConfigureRotate();
             transform.DOLocalRotate(_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360)
-                .SetEase(_easeType).SetDelay(_interval).OnComplete(ShakerLeft);
+                .SetEase(_rotateEaseType).SetDelay(_interval).OnComplete(ShakerLeft);
         }
 
         private void ShakerLeft()
@@ -176,14 +264,15 @@ namespace KnifeGame
 
         private void ConfigureShake()
         {
-            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
-                return;
+//            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
+//                return;
             _timeToStop = Random.Range(_stopTimeMin, _stopTimeMax * 0.6f);
             _angle = 360f * _velocity * _timeToStop;
-            _angle += Random.Range(0f, 15f);
+            _angle += Random.Range(0f, 7f);
 
-            _interval = Random.Range(0f, _delayTime * 0.5f);
-            _shakeEaseType = Random.value > 0.5f ? Ease.InBounce : Ease.OutBounce;
+            _interval = Random.Range(0f, _delayTime);
+            var ran = Random.value;
+            _shakeEaseType = ran > 0.5f ? Ease.InBounce : Ease.OutBounce;
         }
 
         private void RotateLeftRight()
@@ -192,27 +281,28 @@ namespace KnifeGame
             _rotateVector *= -1;
 
             transform.DOLocalRotate(_rotateVector * _angle, _timeToStop,
-                RotateMode.FastBeyond360).SetEase(_easeType).SetDelay(_interval).OnComplete(RotateLeftRight);
+                RotateMode.FastBeyond360).SetEase(_rotateEaseType).SetDelay(_interval).OnComplete(RotateLeftRight);
         }
 
         private void RotateToRight()
         {
             ConfigureRotate();
             transform.DOLocalRotate(-_rotateVector * _angle, _timeToStop,
-                RotateMode.FastBeyond360).SetEase(_easeType).SetDelay(_interval).OnComplete(RotateToRight);
+                RotateMode.FastBeyond360).SetEase(_rotateEaseType).SetDelay(_interval).OnComplete(RotateToRight);
         }
 
         private void RotateToLeft()
         {
             ConfigureRotate();
-            transform.DOLocalRotate(_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360).SetEase(_easeType)
+            transform.DOLocalRotate(_rotateVector * _angle, _timeToStop, RotateMode.FastBeyond360)
+                .SetEase(_rotateEaseType)
                 .SetDelay(_interval).SetLoops(1, _loopType).OnComplete(RotateToLeft);
         }
 
         private void ConfigureRotate()
         {
-            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
-                return;
+//            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
+//                return;
             _timeToStop = Random.Range(_stopTimeMin, _stopTimeMax);
             _angle = 360f * _velocity * _timeToStop;
             _angle += Random.Range(0f, 30f);
@@ -221,16 +311,21 @@ namespace KnifeGame
 
         public void PlayHitImpact()
         {
-            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
-                return;
-            transform.DOPunchScale(new Vector3(1, 1, 1), 0.2f, 5).SetEase(Ease.InElastic);
+//            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
+//                return;
+            _animCircleSeq = DOTween.Sequence();
+            _animCircleSeq.Append(transform.DOPunchScale(new Vector3(1, 1, 1), 0.2f, 5).SetEase(Ease.InElastic))
+                .OnComplete((() => _animCircleSeq.Kill()));
         }
 
-        public void PlayKnifeHitTarget()
+        public void PlayKnifeHitCircle()
         {
-            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
-                return;
-            transform.DOShakeScale(0.1f, 0.1f, 10, 1, true).SetEase(Ease.InSine);
+//            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
+//                return;
+
+            _animCircleSeq = DOTween.Sequence();
+            _animCircleSeq.Append(transform.DOShakeScale(0.1f, 0.1f, 5, 1).SetEase(Ease.InSine))
+                .OnComplete((() => _animCircleSeq.Kill()));
         }
 
         private void Update()

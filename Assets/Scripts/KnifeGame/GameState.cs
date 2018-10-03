@@ -7,7 +7,8 @@ namespace KnifeGame
     {
         Playing,
         Paused,
-        GameOver
+        GameOver,
+        WinLevel
     }
 
     public class GameState : MonoBehaviour
@@ -35,7 +36,15 @@ namespace KnifeGame
                 case State.GameOver:
                     SetStateOver();
                     break;
+                case State.WinLevel:
+                    SetStateWinLevel();
+                    break;
             }
+        }
+
+        private static void SetStateWinLevel()
+        {
+            _gameState = State.WinLevel;
         }
 
         private static void SetStatePlaying()

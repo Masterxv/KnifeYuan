@@ -37,8 +37,9 @@ namespace KnifeGame
         private float _rotDirection;
         private Transform _rotatePoint;
         private bool _reverse = true;
+
         private float _angle;
-        private bool _hit;
+        private bool _isInsideCircle;
 
         #endregion
 
@@ -68,57 +69,75 @@ namespace KnifeGame
                     TriggerHitPlatform();
                     break;
                 case TagAndString.CIRCLE_TAG:
-                    if (!_hit)
-                        TriggerHitCircle(other);
+                    TriggerHitCircle(other);
+                    audioManager.PlayHitCircleSound();
                     break;
                 case TagAndString.KNIFE_TAG:
-                    if (!_hit)
-                        TriggerHitKnife();
+                    TriggerHitKnife();
+                    audioManager.PlayHitKnifeSound();
                     break;
                 case TagAndString.BORDER_TAG:
                     gameManager.KnifeHitBorder();
                     break;
-                case TagAndString.APPLE_TAG:
+                case TagAndString.FRUIT_TAG:
                     other.gameObject.SetActive(false);
-                    gameManager.KnifeHitApple(other.transform);
+                    audioManager.PlayHitFruitSound();
+                    gameManager.KnifeHitFruit(other.transform);
                     break;
-                case TagAndString.BLACK_APPLE_TAG:
-                    if (!_hit)
-                    {
-                        other.gameObject.SetActive(false);
-                        KnifeBound();
-                        gameManager.KnifeHitBlackApple(other.transform);
-                        _hit = true;
-                    }
+                case TagAndString.DEATH_FRUIT_TAG:
+                    other.gameObject.SetActive(false);
+                    KnifeBound();
+                    gameManager.KnifeHitDeathFruit(other.transform);
 
+                    audioManager.PlayHitDeathFruitSound();
                     break;
+                case TagAndString.OBSTACLE_TAG:
+                    other.gameObject.GetComponent<ObstacleController>().ObstacleHitKnife();
+                    HitObstacle(other.transform.position);
+                    audioManager.PlayObstacleSound();
+                    break;
+                case TagAndString.OBSTACLE_SHAPE_TAG:
+                    other.gameObject.SetActive(false);
+                    HitObstacle(other.transform.position);
+                    audioManager.PlayObstacleShapeSound();
+                    break;
+                case TagAndString.BIG_OBSTACLE_SHAPE_TAG:
+                    other.gameObject.SetActive(false);
+                    other.transform.parent.gameObject.SetActive(false);
+                    HitObstacle(transform.position);
+                    audioManager.PlayObstacleShapeSound();
+                    break;
+                default: break;
             }
+        }
+
+        private void HitObstacle(Vector3 hitPoint)
+        {
+            KnifeBound();
+            gameManager.KnifeHitObstacle(hitPoint);
         }
 
         private void TriggerHitKnife()
         {
             KnifeBound();
             gameManager.KnifeHitOtherKnife();
-            _hit = true;
         }
 
         private void TriggerHitCircle(Component other)
         {
+            _isInsideCircle = true;
             transform.parent = other.transform;
             _rigidbody.bodyType = RigidbodyType2D.Static;
-            _collider.isTrigger = true;
 
             var dirFromPointToCenter = _circleController.CenterOfCircle - transform.position;
             transform.up = dirFromPointToCenter.normalized;
-
-            transform.position =
-                (transform.position - _circleController.CenterOfCircle).normalized * _distance +
-                _circleController.CenterOfCircle;
+            var dir = transform.position - _circleController.CenterOfCircle;
+            dir = dir.normalized;
+            transform.position = dir * _distance + _circleController.CenterOfCircle;
             HitPosition = transform.position;
-
+            transform.localScale = Vector3.one;
             SetColliderForKnife();
             gameManager.KnifeHitCircle();
-            _hit = true;
         }
 
         private void TriggerHitPlatform()
@@ -132,12 +151,13 @@ namespace KnifeGame
 
         private void SetColliderForKnife()
         {
-            _collider.offset = new Vector2(0, -0.6f);
-            _collider.size = new Vector2(0.4f, 1.3f);
+            _collider.offset = new Vector2(0, -0.7f);
+            _collider.size = new Vector2(0.4f, 1.1f);
         }
 
         private void KnifeBound()
         {
+            if(_isInsideCircle) return;
             _collider.enabled = false;
             _rigidbody.bodyType = RigidbodyType2D.Dynamic;
             _rigidbody.velocity = Vector2.zero;
@@ -145,6 +165,7 @@ namespace KnifeGame
             _rigidbody.mass = _mass;
             _rigidbody.AddTorque(_torque, ForceMode2D.Impulse);
             _rigidbody.AddForce(direction.normalized * _forceMultiplier);
+            transform.parent = null;
         }
 
         public void KnifeFlyAppart()

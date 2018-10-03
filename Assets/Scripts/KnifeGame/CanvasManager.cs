@@ -1,4 +1,7 @@
-﻿using DG.Tweening;
+﻿using System;
+using System.Collections;
+using System.Threading;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +11,7 @@ namespace KnifeGame
     public class CanvasManager : MonoBehaviourHelper
     {
         public Text PauseText;
-        public Text AppleText;
+        public TextMeshProUGUI AppleText;
         public Text ScoreText;
         public Image FillTheScene;
         public Image BlinkBackground;
@@ -23,9 +26,11 @@ namespace KnifeGame
         public Button PreviousButton;
         public Button NextButton;
         public Image HeadBackground;
+        public GameObject TimerGroup;
+        public Text Timer;
 
-//        private Sequence _sequence;
-//        private Sequence _blinkSequence;
+        private float _timeLeft;
+        private float _min, _sec;
 
         private void Start()
         {
@@ -44,6 +49,7 @@ namespace KnifeGame
             ReadyText.gameObject.SetActive(false);
             PreviousButton.GetComponent<Image>().enabled = false;
             NextButton.GetComponent<Image>().enabled = false;
+            TimerGroup.SetActive(false);
 
             AddButtonListener();
         }
@@ -59,8 +65,10 @@ namespace KnifeGame
             BlinkBackground.color = new Color(0, 0, 0, 0); // set blick background's color to 0
             var startColor = constant.RandomBrightColor();
             startColor.a = 1;
-            FillTheScene.color = gameManager.winLevel ? startColor : Color.black;
-            FillTheScene.rectTransform.DOScale(transform.localScale * 6, 0.7f).SetEase(Ease.InCirc).OnComplete(ChangeColor);
+            var looseColor = new Color(0.5f, 0.5f, 0.5f);
+            FillTheScene.color = gameManager.winLevel ? startColor : looseColor;
+            FillTheScene.rectTransform.DOScale(transform.localScale * 10, 0.8f).SetEase(Ease.InCirc)
+                .OnComplete(ChangeColor);
         }
 
         private void ChangeColor()
@@ -72,7 +80,7 @@ namespace KnifeGame
         private void ZoomImageOut()
         {
             var scale = new Vector3(1, 1, 1);
-            FillTheScene.rectTransform.DOScale(scale, 1f).SetEase(Ease.InCirc).OnComplete(gameManager.CreateGame);
+            FillTheScene.rectTransform.DOScale(scale, 1f).SetEase(Ease.OutCirc).OnComplete(gameManager.CreateGame);
         }
 
         public void ShowReadyText()
@@ -121,6 +129,44 @@ namespace KnifeGame
             LevelName.text = "Level " + (gameManager.LevelIndex + 1);
         }
 
+        public void StartClock(float t)
+        {
+            TimerGroup.SetActive(true);
+            _timeLeft = t * 60;
+            CalculateTime(t);
+            StartCoroutine(CountDown(t));
+        }
+
+        public void StopClock()
+        {
+            StopAllCoroutines();
+            TimerGroup.SetActive(false);
+        }
+
+        private void CalculateTime(float t)
+        {
+            _min = Mathf.FloorToInt(_timeLeft / 60);
+            _sec = Mathf.FloorToInt(_timeLeft % 60);
+            Timer.text = _min.ToString("00") + ":" + _sec.ToString("00");
+        }
+
+        private IEnumerator CountDown(float t)
+        {
+            _timeLeft = t * 60;
+            _timeLeft++;
+            while (_timeLeft > 0)
+            {
+                _timeLeft--;
+                CalculateTime(_timeLeft);
+                yield return new WaitForSeconds(1);
+            }
+
+            if (Math.Abs(_timeLeft) < 1)
+            {
+                gameManager.GameOver();
+            }
+        }
+
         public void CheckToShowButton()
         {
             PreviousButton.GetComponent<Image>().enabled = Util.ActiveButtonPrevious();
@@ -139,6 +185,7 @@ namespace KnifeGame
             level++;
             Util.SetLastLevelPlayed(level);
             gameManager.winLevel = true;
+            canvasManager.StopClock();
             canvasManager.ShowGroup(false);
             canvasManager.ZoomImageIn();
         }
@@ -149,6 +196,7 @@ namespace KnifeGame
             level--;
             Util.SetLastLevelPlayed(level);
             gameManager.winLevel = true;
+            canvasManager.StopClock();
             canvasManager.ShowGroup(false);
             canvasManager.ZoomImageIn();
         }

@@ -523,13 +523,40 @@ GameObject:
   - component: {fileID: 1730743337}
   - component: {fileID: 1730743336}
   - component: {fileID: 1730743335}
+  - component: {fileID: 1730743334}
   m_Layer: 0
-  m_Name: Level_8
+  m_Name: Level_9
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1730743334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1730743333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ed3921d8d15c940a9283f7f0a461aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stopTimeMin: 2
+  _stopTimeMax: 5
+  _velocity: 0.5
+  _delayTime: 1
+  _rotateType: 0
+  _easeType: 1
+  _loopType: 2
+  _circleEaseType: 30
+  _collider2D: {fileID: 1730743335}
+  _moveType: 0
+  _moveXValue: 0
+  _moveYValue: 0
+  _moveVel: 0
+  HorizontalEase: 1
+  VerticalEase: 1
 --- !u!58 &1730743335
 CircleCollider2D:
   m_ObjectHideFlags: 0

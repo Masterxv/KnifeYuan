@@ -44,7 +44,7 @@ namespace KnifeGame
             // so sánh với GetMaxLevelUnlock()
             // set background to Unlocked và hiển thị Lable, Star
             var maxLevel = Util.GetMaxLevelUnlock();
-            for (var i = 0; i < maxLevel; i++)
+            for (var i = 0; i <= maxLevel; i++)
             {
                 _levelControls[i].Main.sprite = Unlocked;
                 _levelControls[i].Main.raycastTarget = true;
@@ -64,12 +64,14 @@ namespace KnifeGame
 
         private void HomePressed()
         {
+            audioManager.PlayButtonClick();
             mainMenuController.HomePressed();
         }
 
         private void ShopPress()
         {
-            print("shop pressed");
+            audioManager.PlayButtonClick();
+            print("press shop");
         }
 
         void Update()
