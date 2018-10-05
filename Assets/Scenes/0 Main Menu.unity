@@ -1455,6 +1455,11 @@ Prefab:
       propertyPath: m_MaxValue
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 224482181521972428, guid: 2bb6cef4418975444b06445eb61e367f,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bb6cef4418975444b06445eb61e367f, type: 2}
   m_IsPrefabAsset: 0

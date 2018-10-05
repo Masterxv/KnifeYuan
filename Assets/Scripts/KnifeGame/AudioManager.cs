@@ -100,7 +100,6 @@ namespace KnifeGame
         {
             var res = 0.0f;
             _audioMixer.GetFloat(volName, out res);
-//            Util.SetLastMusicVolume(res);
         }
 
         #region AUDIO_MIXER_CONTROLLER

@@ -145,9 +145,20 @@ namespace KnifeGame
             PlayerPrefs.Save();
         }
 
+        public static void SetLastSoundVolume(float num)
+        {
+            PlayerPrefs.SetFloat(SOUND_VOLUME, num);
+            PlayerPrefs.Save();
+        }
+
         public static float GetLastMusicVolume()
         {
             return PlayerPrefs.GetFloat(MUSIC_VOLUME, 0);
+        }
+
+        public static float GetLastSoundVolume()
+        {
+            return PlayerPrefs.GetFloat(SOUND_VOLUME, 0);
         }
 
         #endregion

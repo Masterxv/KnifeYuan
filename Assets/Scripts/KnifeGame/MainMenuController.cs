@@ -18,6 +18,7 @@ namespace KnifeGame
 
         private GameObject _chooseLevelObject;
         private bool _musicIsMuted;
+        private bool _soundIsMuted;
 
         private void Awake()
         {
@@ -58,7 +59,6 @@ namespace KnifeGame
         private void ShopPressed()
         {
             audioManager.PlayButtonClick();
-//            print("shop");
         }
 
         private void SettingPressed()
@@ -113,19 +113,31 @@ namespace KnifeGame
 
         public void SoundFxToggle(Toggle t)
         {
-            var res = t.isOn;
-            if (res)
+            _soundIsMuted = t.isOn;
+            if (_soundIsMuted)
             {
-//                float v ;
-//                var volumeBeforeMute = audioManager.GetVolume(TagAndString.SOUND_VOLUME, v);
                 audioManager.ChangeVolume(TagAndString.SOUND_VOLUME, -80);
+            }
+            else
+            {
+                var v = Util.GetLastSoundVolume();
+                audioManager.ChangeVolume(TagAndString.SOUND_VOLUME, v);
             }
         }
 
         public void SoundFxSlider(Slider s)
         {
             var res = s.value;
-            audioManager.ChangeVolume(TagAndString.SOUND_VOLUME, res);
+            if (_soundIsMuted)
+            {
+                Util.SetLastSoundVolume(res);
+                audioManager.ChangeVolume(TagAndString.SOUND_VOLUME, -80);
+            }
+            else
+            {
+                Util.SetLastSoundVolume(res);
+                audioManager.ChangeVolume(TagAndString.SOUND_VOLUME, res);
+            }
         }
 
         void Update()
