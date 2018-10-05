@@ -15,6 +15,9 @@ namespace KnifeGame
         private static string NUMBER_LEVEL_PLAYED = "NUMBEROFLEVELPLAYED";
 //        private static string COUNT_GAMEOVER = "COUNTGAMEOVER";
 
+        private static string MUSIC_VOLUME = "MusicVol";
+        private static string SOUND_VOLUME = "SoundVol";
+
         #region LEVEL UNLOCK
 
         public static void SetMaxLevelUnlock(int num)
@@ -134,6 +137,20 @@ namespace KnifeGame
 
         #endregion
 
+        #region VOLUME
+
+        public static void SetLastMusicVolume(float num)
+        {
+            PlayerPrefs.SetFloat(MUSIC_VOLUME, num);
+            PlayerPrefs.Save();
+        }
+
+        public static float GetLastMusicVolume()
+        {
+            return PlayerPrefs.GetFloat(MUSIC_VOLUME, 0);
+        }
+
+        #endregion
 
 //        public static void SetCountGameOver(int count)
 //        {

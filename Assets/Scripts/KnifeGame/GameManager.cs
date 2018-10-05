@@ -431,6 +431,7 @@ namespace KnifeGame
                 _hitCircleParticle.Play();
                 StartCoroutine(LoadNextStageRoutine());
                 winLevel = true;
+                GameState.SetGameState(State.WinLevel);
                 return;
             }
 
@@ -514,12 +515,12 @@ namespace KnifeGame
 
         public void GameOver()
         {
-            if (GameState.GetGameState() == State.WinLevel) return;
             CancelInvoke();
             canvasManager.StopClock();
             _platformRight.SetActive(false);
             _platformLeft.SetActive(false);
             _borderObject.SetActive(false);
+            if (GameState.GetGameState() == State.WinLevel) return;
 
             _knifeRemainController.gameObject.SetActive(false);
             // try to set best score
@@ -564,7 +565,7 @@ namespace KnifeGame
 
         private static void ShakerCamera()
         {
-            Camera.main.DOShakePosition(duration: 0.2f, strength: 0.1f, vibrato: 1, randomness: 2.0f)
+            Camera.main.DOShakePosition(0.2f, 0.1f, 1, 2.0f)
                 .SetEase(Ease.OutExpo).OnComplete(() => DOTween.Kill(Camera.main));
         }
 
@@ -575,17 +576,6 @@ namespace KnifeGame
             {
                 Destroy(targetController.gameObject);
             }
-
-//            var knifeImpact = FindObjectOfType<KnifeImpactCircle>();
-//            if (knifeImpact != null)
-//            {
-//            }
-//
-//            var appleImpact = FindObjectOfType<AppleImpact>();
-//            if (appleImpact != null)
-//            {
-//            }
-
 
             // if game over and there are some knives still remain, knives can throw, they are child of game manager
             var children = transform.childCount;

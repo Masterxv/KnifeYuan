@@ -2542,7 +2542,7 @@ MonoBehaviour:
     TimeInMin: 0
   - LevelId: 18
     KnifeDirection: 1
-    NumberOfKnife: 7
+    NumberOfKnife: 6
     CirclePrefab: {fileID: 1330006985596908, guid: e9fd98b3f88998e48bb34e86969e4802,
       type: 2}
     SeperatedCirclePref: {fileID: 1908785733927898, guid: a353f0bf45dd77e4489c85c35e997a8c,

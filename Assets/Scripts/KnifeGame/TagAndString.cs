@@ -14,5 +14,9 @@
         public const string OBSTACLE_SHAPE_TAG = "ObstacleShape";
         public const string BIG_OBSTACLE_SHAPE_TAG = "BigObstacleShape";
         
+        // audio's exposed params
+        public const string MUSIC_VOLUME = "MusicVol";
+        public const string SOUND_VOLUME = "SoundVol";
+
     }
 }

@@ -44,7 +44,7 @@ namespace KnifeGame
         #endregion
 
 
-        private void Awake()
+        private void Start()
         {
             _circleController = GameObject.FindGameObjectWithTag(TagAndString.CIRCLE_TAG)
                 .GetComponent<CircleController>();
@@ -128,12 +128,14 @@ namespace KnifeGame
             _isInsideCircle = true;
             transform.parent = other.transform;
             _rigidbody.bodyType = RigidbodyType2D.Static;
-
-            var dirFromPointToCenter = _circleController.CenterOfCircle - transform.position;
+            var center = other.GetComponent<Collider2D>().bounds.center;
+            var dirFromPointToCenter = center - transform.position;
             transform.up = dirFromPointToCenter.normalized;
-            var dir = transform.position - _circleController.CenterOfCircle;
+
+            var dir = transform.position - center;
             dir = dir.normalized;
-            transform.position = dir * _distance + _circleController.CenterOfCircle;
+            transform.position = dir * _distance + center;
+
             HitPosition = transform.position;
             transform.localScale = Vector3.one;
             SetColliderForKnife();
@@ -157,7 +159,7 @@ namespace KnifeGame
 
         private void KnifeBound()
         {
-            if(_isInsideCircle) return;
+            if (_isInsideCircle) return;
             _collider.enabled = false;
             _rigidbody.bodyType = RigidbodyType2D.Dynamic;
             _rigidbody.velocity = Vector2.zero;

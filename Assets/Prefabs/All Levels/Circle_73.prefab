@@ -660,11 +660,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stopTimeMin: 2
   _stopTimeMax: 7
-  _velocity: 0.57
+  _velocity: 0.53
   _delayTime: 0.2
   _rotateType: 4
   _rotateEaseType: 34
-  _shakeEaseType: 34
   _circleEaseType: 28
   _collider2D: {fileID: 60140912754298186}
   _moveType: 1

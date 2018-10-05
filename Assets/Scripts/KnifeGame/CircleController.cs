@@ -311,18 +311,12 @@ namespace KnifeGame
 
         public void PlayHitImpact()
         {
-//            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
-//                return;
             _animCircleSeq = DOTween.Sequence();
-            _animCircleSeq.Append(transform.DOPunchScale(new Vector3(1, 1, 1), 0.2f, 5).SetEase(Ease.InElastic))
-                .OnComplete((() => _animCircleSeq.Kill()));
+            _animCircleSeq.Append(transform.DOPunchScale(new Vector3(1, 1, 1), 0.2f, 5).SetEase(Ease.InElastic))                .OnComplete((() => _animCircleSeq.Kill()));
         }
 
         public void PlayKnifeHitCircle()
         {
-//            if (GameState.GetGameState() == State.Paused || GameState.GetGameState() == State.GameOver)
-//                return;
-
             _animCircleSeq = DOTween.Sequence();
             _animCircleSeq.Append(transform.DOShakeScale(0.1f, 0.1f, 5, 1).SetEase(Ease.InSine))
                 .OnComplete((() => _animCircleSeq.Kill()));

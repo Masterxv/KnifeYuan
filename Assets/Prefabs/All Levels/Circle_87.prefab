@@ -826,7 +826,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stopTimeMin: 1.5
   _stopTimeMax: 5
-  _velocity: 0.6
+  _velocity: 0.55
   _delayTime: 0.2
   _rotateType: 5
   _rotateEaseType: 35

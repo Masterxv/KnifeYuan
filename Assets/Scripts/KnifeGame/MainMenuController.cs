@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ namespace KnifeGame
     {
         public GameObject ChooseLevelPrefab;
         public GameObject MainMenuCanvas;
+        public GameObject SettingCanvas;
 
         public Button PlayButton;
         public Button ChooseButton;
@@ -15,10 +17,13 @@ namespace KnifeGame
         public Button SettingButton;
 
         private GameObject _chooseLevelObject;
+        private bool _musicIsMuted;
 
         private void Awake()
         {
 //            Application.targetFrameRate = Application.isMobilePlatform ? 30 : 60;
+            MainMenuCanvas.SetActive(true);
+            SettingCanvas.SetActive(false);
             ButtonAddListener();
         }
 
@@ -59,7 +64,8 @@ namespace KnifeGame
         private void SettingPressed()
         {
             audioManager.PlayButtonClick();
-//            print("setting");
+            MainMenuCanvas.SetActive(false);
+            SettingCanvas.SetActive(true);
         }
 
         public void HomePressed()
@@ -67,6 +73,59 @@ namespace KnifeGame
             audioManager.PlayButtonClick();
             _chooseLevelObject.SetActive(false);
             MainMenuCanvas.SetActive(true);
+        }
+
+        public void SettingBackHome()
+        {
+            audioManager.PlayButtonClick();
+            MainMenuCanvas.SetActive(true);
+            SettingCanvas.SetActive(false);
+        }
+
+        public void MusicToggle(Toggle t)
+        {
+            _musicIsMuted = t.isOn;
+            if (_musicIsMuted)
+            {
+                audioManager.ChangeVolume(TagAndString.MUSIC_VOLUME, -80);
+            }
+            else
+            {
+                var v = Util.GetLastMusicVolume();
+                audioManager.ChangeVolume(TagAndString.MUSIC_VOLUME, v);
+            }
+        }
+
+        public void MusicSlider(Slider s)
+        {
+            var res = s.value;
+            if (_musicIsMuted)
+            {
+                Util.SetLastMusicVolume(res);
+                audioManager.ChangeVolume(TagAndString.MUSIC_VOLUME, -80);
+            }
+            else
+            {
+                Util.SetLastMusicVolume(res);
+                audioManager.ChangeVolume(TagAndString.MUSIC_VOLUME, res);
+            }
+        }
+
+        public void SoundFxToggle(Toggle t)
+        {
+            var res = t.isOn;
+            if (res)
+            {
+//                float v ;
+//                var volumeBeforeMute = audioManager.GetVolume(TagAndString.SOUND_VOLUME, v);
+                audioManager.ChangeVolume(TagAndString.SOUND_VOLUME, -80);
+            }
+        }
+
+        public void SoundFxSlider(Slider s)
+        {
+            var res = s.value;
+            audioManager.ChangeVolume(TagAndString.SOUND_VOLUME, res);
         }
 
         void Update()
